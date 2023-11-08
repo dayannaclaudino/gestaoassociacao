@@ -1,6 +1,8 @@
 package com.api.gestaoassociacao.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -28,16 +30,15 @@ public class Associado implements Serializable{
     private String tituloEleitor;
 
     private String nomeMae;
-
     private String nomePai;
 
     @Temporal(TemporalType.DATE)
-    private Date dataNascimento;
+    private LocalDate dataNascimento;
     private String celular;
     @Temporal(TemporalType.DATE)
-    private Date dataCadastro;
+    private Date dataInicio=new Date();
     @Temporal(TemporalType.DATE)
-    private Date socioDesde;
+    private LocalDate socioDesde;
     private String observacao;
 
     @OneToMany(mappedBy = "associado", cascade = CascadeType.ALL)

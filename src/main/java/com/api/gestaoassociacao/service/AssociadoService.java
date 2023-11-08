@@ -3,6 +3,7 @@ package com.api.gestaoassociacao.service;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.api.gestaoassociacao.model.Associado;
@@ -11,15 +12,15 @@ import com.api.gestaoassociacao.repository.AssociadoRepository;
 @Service
 public class AssociadoService {
 
+    @Autowired
     private AssociadoRepository associadoRepository;
 
     public List<Associado> buscarTodosAssociados(){
         return associadoRepository.findAll();
     }
 
-    public Associado inserir(Associado associado){
-        associado.setDataCadastro(new Date());
-        return associadoRepository.save(associado);
+    public void inserir(Associado associado){
+        associadoRepository.save(associado);
     }
 
     public Associado alterar(Associado associado){

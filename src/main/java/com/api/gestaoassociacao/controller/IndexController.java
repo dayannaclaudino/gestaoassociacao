@@ -10,7 +10,7 @@ public class IndexController {
 
     @GetMapping("/home")
     String index(Principal principal) {
-        return principal != null ? "index" : "index";
+        return principal != null ? "associado" : "associado";
     }
 
 }

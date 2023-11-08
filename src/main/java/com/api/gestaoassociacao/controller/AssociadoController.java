@@ -13,31 +13,31 @@ import com.api.gestaoassociacao.model.Associado;
 import com.api.gestaoassociacao.service.AssociadoService;
 
 @Controller
-@RequestMapping("/api/")
+@RequestMapping("/api")
 public class AssociadoController {
+
+    private static final String VIEW = "/associado";
 
     @Autowired
     private AssociadoService associadoService;
-
-    private static final String VIEW = "CadastroAssociado";
-
-    @GetMapping("/associados")
-    public List<Associado> buscarAssociados(){
-        return associadoService.buscarTodosAssociados();
-
-    }
 
     @RequestMapping("/associado")
     public ModelAndView novo(Associado associado) {
         return new ModelAndView(VIEW);
     }
 
-    @PostMapping("/associado")
-    public ModelAndView salvar(@RequestBody Associado associado, RedirectAttributes attributes){
+    @RequestMapping(value = "/associado", method = RequestMethod.POST)
+    public ModelAndView salvar(Associado associado, RedirectAttributes attributes){
          associadoService.inserir(associado);
-
+    
         attributes.addFlashAttribute("mensagem", "Entidade salva com sucesso.");
-        return new ModelAndView("redirect/api/associado");
+        return new ModelAndView("redirect:/api/associado");
+    }
+
+   /*   @GetMapping("/associados")
+    public List<Associado> buscarAssociados(){
+        return associadoService.buscarTodosAssociados();
+
     }
 
     @PutMapping("{id}")
@@ -58,6 +58,6 @@ public class AssociadoController {
 
         attributes.addFlashAttribute("mensagem", "Associado excluído com sucesso.");
         return "redirect:/associados";
-    }
+    }*/
 }
 
