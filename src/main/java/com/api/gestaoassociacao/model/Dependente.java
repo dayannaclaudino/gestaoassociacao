@@ -17,10 +17,12 @@ public class Dependente implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private String nome;
     private String parentesco;
 
     @ManyToOne(cascade = CascadeType.ALL)
     private Associado associado;
+
+    
 }

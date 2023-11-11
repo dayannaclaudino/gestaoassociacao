@@ -1,12 +1,12 @@
 package com.api.gestaoassociacao.service;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.api.gestaoassociacao.model.Associado;
+import com.api.gestaoassociacao.model.Dependente;
 import com.api.gestaoassociacao.repository.AssociadoRepository;
 
 @Service
@@ -15,7 +15,7 @@ public class AssociadoService {
     @Autowired
     private AssociadoRepository associadoRepository;
 
-    public List<Associado> buscarTodosAssociados(){
+    public List<Associado> getAssociados(){
         return associadoRepository.findAll();
     }
 
@@ -27,9 +27,14 @@ public class AssociadoService {
         return associadoRepository.saveAndFlush(associado);
     }
 
-    public void excluir(Long id){
+    public void remover(Long id){
         Associado associado = associadoRepository.findById(id).get();
         associadoRepository.delete(associado);
+    }
+
+
+    public Associado findById(Long associadoId) {
+        return associadoRepository.findById(associadoId).get();
     }
 
 }

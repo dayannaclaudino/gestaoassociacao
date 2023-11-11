@@ -3577,6 +3577,7 @@ fieldset:disabled .btn {
   z-index: 1;
 }
 .btn-toolbar {
+  background-color: #38B43A;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
@@ -3654,7 +3655,7 @@ fieldset:disabled .btn {
 .nav-link {
   display: block;
   padding: 0.5rem 1rem;
-  color: #0d6efd;
+  color: #38B43A;
   text-decoration: none;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
     border-color 0.15s ease-in-out;
@@ -3666,7 +3667,7 @@ fieldset:disabled .btn {
 }
 .nav-link:focus,
 .nav-link:hover {
-  color: #0a58ca;
+  color: #6AC76B;
 }
 .nav-link.disabled {
   color: #6c757d;
@@ -3674,7 +3675,7 @@ fieldset:disabled .btn {
   cursor: default;
 }
 .nav-tabs {
-  border-bottom: 1px solid #dee2e6;
+  border-bottom: 1px solid #e7eaec;
 }
 .nav-tabs .nav-link {
   margin-bottom: -1px;
@@ -3685,19 +3686,19 @@ fieldset:disabled .btn {
 }
 .nav-tabs .nav-link:focus,
 .nav-tabs .nav-link:hover {
-  border-color: #e9ecef #e9ecef #dee2e6;
+  border-color: #e9ecef #e9ecef #b0b4b8;
   isolation: isolate;
 }
 .nav-tabs .nav-link.disabled {
-  color: #6c757d;
+  color: #6af76c;
   background-color: transparent;
   border-color: transparent;
 }
 .nav-tabs .nav-item.show .nav-link,
 .nav-tabs .nav-link.active {
-  color: #495057;
+  color: #2c2e30;
   background-color: #fff;
-  border-color: #dee2e6 #dee2e6 #fff;
+  border-color: #dee2e6 #b0b4b8 #fff;
 }
 .nav-tabs .dropdown-menu {
   margin-top: -1px;
