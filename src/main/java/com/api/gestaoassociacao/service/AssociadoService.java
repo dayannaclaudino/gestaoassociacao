@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.api.gestaoassociacao.model.Associado;
-import com.api.gestaoassociacao.model.Dependente;
 import com.api.gestaoassociacao.repository.AssociadoRepository;
+import com.api.gestaoassociacao.repository.filter.AssociadoFilter;
 
 @Service
 public class AssociadoService {
@@ -36,6 +36,11 @@ public class AssociadoService {
     public Associado findById(Long associadoId) {
         return associadoRepository.findById(associadoId).get();
     }
+
+    public List<Associado> filtrar(AssociadoFilter filtro) {
+        String nomeAssociado = filtro.getNome() == null ? "%" : filtro.getNome();
+		return associadoRepository.findByNomeContaining(nomeAssociado);
+	}
 
 }
 

@@ -10,12 +10,14 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.api.gestaoassociacao.model.Associado;
+import com.api.gestaoassociacao.Exception.*;
+import com.api.gestaoassociacao.repository.filter.AssociadoFilter;
 import com.api.gestaoassociacao.service.AssociadoService;
 
 import jakarta.validation.Valid;
 
 @Controller
-@RequestMapping("/api-associado")
+@RequestMapping("/api")
 public class AssociadoController {
 
     private static final String VIEW = "cadastroAssociado";
@@ -23,47 +25,51 @@ public class AssociadoController {
     @Autowired
     private AssociadoService associadoService;
 
+
     @RequestMapping("/novo")
     public ModelAndView clicaNovoAssociado(Associado associado) {
         return new ModelAndView(VIEW);
     }
 
     @RequestMapping(value = "/salvar", method = RequestMethod.POST)
-    public ModelAndView salvar(@Valid Associado associado, BindingResult result, RedirectAttributes attributes){
+    public ModelAndView salvar(@Valid Associado associado, BindingResult result){
         if (result.hasErrors()) {
             return clicaNovoAssociado(associado);
         } 
          associadoService.inserir(associado);
-    
-        attributes.addFlashAttribute("mensagem", "Associado salvo com sucesso.");
-        return new ModelAndView("redirect:/api-associado/novo");
+        return new ModelAndView("redirect:/api/novo");
     }
 
-    @GetMapping("/associados")
-    public ModelAndView getAssociados(){
-        ModelAndView mv = new ModelAndView("VIEW");
-         mv.addObject("associados", associadoService.getAssociados()); 
-         return mv;
-    }
- /* 
-    @PutMapping("{id}")
-    public ModelAndView adicao(@PathVariable("id") Associado associado){
-        ModelAndView mv = new ModelAndView(VIEW);
-        mv.addObject(associado);
+
+
+    @RequestMapping
+    public ModelAndView adicao(@PathVariable Long id){
+        System.out.println("peguei o id..." + id);
+        ModelAndView mv = new ModelAndView("redirect:/api/novo");
+      
         return mv;
     }
 
     @DeleteMapping(value = "{id}")
     public String excluir(@PathVariable("id") Long id, RedirectAttributes attributes){
         try {
-            associadoService.excluir(id);
+            associadoService.remover(id);
         }catch (NegocioException e){
             attributes.addFlashAttribute("mensagemErro", e.getMessage());
-            return "redirect:/associados";
+            return "redirect:/api/pesquisar";
         }
 
         attributes.addFlashAttribute("mensagem", "Associado excluído com sucesso.");
-        return "redirect:/associados";
-    }*/
+        return "redirect:/api/pesquisar";
+    }    
+
+    @RequestMapping("/pesquisar")
+	public ModelAndView pesquisar(@ModelAttribute("filtro") AssociadoFilter filtro) {
+ 		List<Associado> todosAssociados = associadoService.filtrar(filtro);
+		
+		ModelAndView mv = new ModelAndView("listaAssociados");
+		mv.addObject("associados", todosAssociados);
+		return mv;
+	}
 }
 

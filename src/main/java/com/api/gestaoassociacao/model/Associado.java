@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.hibernate.validator.constraints.br.CPF;
 import org.hibernate.validator.constraints.br.TituloEleitoral;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -30,6 +31,7 @@ public class Associado implements Serializable{
     private String apelido;
 
     @CPF
+    @NotBlank(message="Esse campo é obrigatório!")
     private String cpf;
 
     private String rg;
@@ -40,12 +42,12 @@ public class Associado implements Serializable{
     private String nomeMae;
     private String nomePai;
 
-    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataNascimento;
     private String celular;
-    @Temporal(TemporalType.DATE)
-    private Date dataInicio=new Date();
-    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private LocalDate dataInicio;
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate socioDesde;
     private String observacao;
 

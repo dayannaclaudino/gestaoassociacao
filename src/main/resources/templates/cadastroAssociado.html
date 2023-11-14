@@ -21,23 +21,26 @@
       <a class="btn btn-sm me-md-2 text-white fw-bold"  style="background-color: #F2994A;" 
                 role="button" type="button" href="/dependentes">Adicionar Dependentes</a>
       <a class="btn btn-sm text-white fw-bold"  style="background-color: #F2994A;" 
-                role="button" type="button" href="">Listar</a>
+                role="button" type="button" href="/api/pesquisar">Listar</a>
     </div>
   </div>
     
 <div class="container">  
-<form  method="POST"  th:action="@{api-associado/salvar}" th:object="${associado}">
-  <input type="hidden" th:field="*{id}"/>  
+<form  method="POST"  th:action="@{/api/salvar}" th:object="${associado}">
+  <input type="hidden" th:field="*{id}"/> 
     <div class="card">
       <div class="card-header fw-bold">     
           <h6 class="card-title">Cadastro de Associado</h6>
       </div>
+
+      
             <div class="card-body">
               <div class="row g-2">
                   <div class="col-md-8">
                     <label for="inputNome" class="form-label">Nome do Associado</label>
                     <input type="text" class="form-control" id="inputNome" th:field="*{nome}" 
-                            placeholder="Digite o nome do associado..."  name="nome" required>
+                            placeholder="Digite o nome do associado..." >
+                            <span class="text-danger" ></span>
                   </div>
                   <div class="col-md-4">
                     <label for="inputApelido" class="form-label">Apelido</label>
@@ -48,6 +51,7 @@
                       <label for="inputCPF" class="form-label">CPF</label>
                       <input type="text" class="form-control" id="inputCPF" th:field="*{cpf}"
                             placeholder="00.000.000-00">
+                            <span class="text-danger" ></span>
                     </div>
                   <div class="col-md-3">
                         <label for="inputRG" class="form-label">RG</label>
@@ -69,7 +73,7 @@
             
                     <div class="col-md-3">
                       <label for="inputDataNasc" class="form-label">Data de Nascimento</label>
-                      <input type="date" class="form-control" id="inputDataNasc" th:field="*{dataNascimento}"
+                      <input type="text" class="form-control" id="inputDataNasc" th:field="*{dataNascimento}"
                             placeholder="dd/mm/aaaa">
                     </div>
                     <div class="col-md-3">
@@ -84,7 +88,7 @@
                     </div>
                     <div class="col-md-3">
                       <label for="inputSocioDesde" class="form-label">Sócio Desde</label>
-                      <input type="date" class="form-control" id="inputSocioDesde" th:field="*{socioDesde}"
+                      <input type="text" class="form-control" id="inputSocioDesde" th:field="*{socioDesde}"
                             placeholder="dd/mm/aaaa">
                     </div>
                   <!--linha 4 -->
