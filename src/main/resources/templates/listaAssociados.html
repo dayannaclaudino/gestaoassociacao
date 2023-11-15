@@ -28,7 +28,7 @@
 <div class="container">  
 
       <div class="panel-body">
-        <form method="GET" class="form-horizontal" th:action="@{/associados/pesquisar}" th:object="${filtro}">
+        <form method="GET" class="form-horizontal" th:action="@{/associados/listar}" th:object="${filtro}">
             <div class="form-group">
                 <div class="col-sm-6">
                     <div class="input-group">
@@ -74,9 +74,8 @@
                             </a>
                         </td>
                         <td>
-                            <a class="btn btn-link btn-xs" data-toggle="modal" data-target="#confirmacaoExclusaoModal"
-                                    th:attr="data-codigo=${associado.id}, data-nome=${associado.nome}"
-                                    title="Excluir" rel="tooltip" data-placement="top" >
+                            <a class="btn btn-link btn-xs" 
+                            th:href="@{/associados/{associadoId}/delete(associadoId = ${associado.id})}">
                                 <span class="fa-sharp fa-solid fa-xmark" style="color: #38b43a;"></span>
                             </a>
                         </td>
@@ -87,11 +86,14 @@
                 </tbody>
             </table>
         </div>
+    
       </div>
   </div> <!-- container end-->
-        
+   
+  
 </div> </main>
 </section>
+    <script src="script.js"></script>
     <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -3,7 +3,9 @@ package com.api.gestaoassociacao.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -33,9 +35,9 @@ public class AssociadoController {
     }
 
     @RequestMapping(value = "/salvar", method = RequestMethod.POST)
-    public ModelAndView salvar(@Valid Associado associado, Errors errors, RedirectAttributes attributes) {
+    public ModelAndView salvar(@Valid Associado associado, BindingResult result, RedirectAttributes attributes) {
        
-        if (errors.hasErrors()) {
+        if (result.hasErrors()) {
             return novo(associado);
         }
         try {
@@ -43,11 +45,20 @@ public class AssociadoController {
             return new ModelAndView("redirect:/associados/novo");
 
         } catch (IllegalArgumentException e) {
-            errors.rejectValue("dataNascimento", null, e.getMessage());
+            result.rejectValue("dataNascimento", null, e.getMessage());
             attributes.addFlashAttribute("mensagem", "Associado salvo com sucesso.");
             return new ModelAndView("redirect:/associados/novo");
 
         }
+    }
+
+     @RequestMapping("/listar")
+    public ModelAndView listar(@ModelAttribute("filtro") AssociadoFilter filtro) {
+        List<Associado> todosAssociados = associadoService.filtrar(filtro);
+
+        ModelAndView mv = new ModelAndView("listaAssociados");
+        mv.addObject("associados", todosAssociados);
+        return mv;
     }
 
 
@@ -58,27 +69,18 @@ public class AssociadoController {
         return mv;
     }
 
-    @DeleteMapping(value = "{id}")
-    public String excluir(@PathVariable Long id, RedirectAttributes attributes) {
-        try {
+    @GetMapping(value="/{id}/delete")
+	public String excluir(@PathVariable Long id, RedirectAttributes attributes) {
+        try{
             associadoService.remover(id);
-        } catch (NegocioException e) {
+		return "redirect:/associados/listar";
+        }catch (EmptyResultDataAccessException e){
             attributes.addFlashAttribute("mensagemErro", e.getMessage());
-            return "redirect:/associados/pesquisar";
+            return "redirect:/associados/listar";
         }
+	}
 
-        attributes.addFlashAttribute("mensagem", "Associado excluído com sucesso.");
-        return "redirect:/associados/pesquisar";
-    }
-
-    @RequestMapping("/pesquisar")
-    public ModelAndView pesquisar(@ModelAttribute("filtro") AssociadoFilter filtro) {
-        List<Associado> todosAssociados = associadoService.filtrar(filtro);
-
-        ModelAndView mv = new ModelAndView("listaAssociados");
-        mv.addObject("associados", todosAssociados);
-        return mv;
-    }
+   
 
     /*
      * @GetMapping("/associados")

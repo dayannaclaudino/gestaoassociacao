@@ -21,7 +21,7 @@
       <a class="btn btn-sm me-md-2 text-white fw-bold"  style="background-color: #F2994A;" 
                 role="button" type="button" href="/dependentes">Adicionar Dependentes</a>
       <a class="btn btn-sm text-white fw-bold"  style="background-color: #F2994A;" 
-                role="button" type="button" href="/associados/pesquisar">Listar</a>
+                role="button" type="button" href="/associados/listar">Listar</a>
     </div>
   </div>
     
@@ -39,7 +39,7 @@
                     <label for="inputNome" class="form-label">Nome do Associado</label>
                     <input type="text" class="form-control" id="inputNome" th:field="*{nome}" 
                             placeholder="Digite o nome do associado..." >
-                            <span class="text-danger" ></span>
+                            <small class="form-text text-danger" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></small>
                   </div>
                   <div class="col-md-4">
                     <label for="inputApelido" class="form-label">Apelido</label>
@@ -50,8 +50,9 @@
                       <label for="inputCPF" class="form-label">CPF</label>
                       <input type="text" class="form-control" id="inputCPF" th:field="*{cpf}"
                             placeholder="00.000.000-00">
-                            <span class="text-danger" ></span>
+                            <small class="form-text text-danger" th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}"></small>
                     </div>
+                    
                   <div class="col-md-3">
                         <label for="inputRG" class="form-label">RG</label>
                         <input type="text" class="form-control" id="inputRG" th:field="*{rg}"
