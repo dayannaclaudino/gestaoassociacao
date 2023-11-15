@@ -19,7 +19,7 @@
     <h1 class="h2">Lista de Associados</h1>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
       <a class="btn btn-sm me-md-2 text-white fw-bold"  style="background-color: #F2994A;" 
-                role="button" type="button" href="/api/novo">Adicionar Associado</a>
+                role="button" type="button" href="/associados/novo">Adicionar Associado</a>
       <a class="btn btn-sm text-white fw-bold"  style="background-color: #F2994A;" 
                 role="button" type="button" href="">Listar</a>
     </div>
@@ -28,7 +28,7 @@
 <div class="container">  
 
       <div class="panel-body">
-        <form method="GET" class="form-horizontal" action="/api/pesquisar" th:object="${filtro}">
+        <form method="GET" class="form-horizontal" th:action="@{/associados/pesquisar}" th:object="${filtro}">
             <div class="form-group">
                 <div class="col-sm-6">
                     <div class="input-group">

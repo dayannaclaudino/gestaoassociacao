@@ -13,7 +13,7 @@
 </head>
 
 <body>
-  <section layout:fragment="content">
+<section layout:fragment="content">
   <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">    
     <h1 class="h2">Associado</h1>
@@ -21,20 +21,19 @@
       <a class="btn btn-sm me-md-2 text-white fw-bold"  style="background-color: #F2994A;" 
                 role="button" type="button" href="/dependentes">Adicionar Dependentes</a>
       <a class="btn btn-sm text-white fw-bold"  style="background-color: #F2994A;" 
-                role="button" type="button" href="/api/pesquisar">Listar</a>
+                role="button" type="button" href="/associados/pesquisar">Listar</a>
     </div>
   </div>
     
 <div class="container">  
-<form  method="POST"  th:action="@{/api/salvar}" th:object="${associado}">
-  <input type="hidden" th:field="*{id}"/> 
+<form  method="POST"  th:action="@{/associados/salvar}" th:object="${associado}">
     <div class="card">
       <div class="card-header fw-bold">     
           <h6 class="card-title">Cadastro de Associado</h6>
       </div>
-
       
             <div class="card-body">
+              <input type="hidden" th:field="*{id}"/> 
               <div class="row g-2">
                   <div class="col-md-8">
                     <label for="inputNome" class="form-label">Nome do Associado</label>
