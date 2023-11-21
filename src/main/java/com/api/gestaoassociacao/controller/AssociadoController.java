@@ -4,15 +4,16 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.api.gestaoassociacao.model.Associado;
-import com.api.gestaoassociacao.Exception.*;
 import com.api.gestaoassociacao.repository.filter.AssociadoFilter;
 import com.api.gestaoassociacao.service.AssociadoService;
 
@@ -26,6 +27,8 @@ public class AssociadoController {
 
     @Autowired
     private AssociadoService associadoService;
+
+   
 
     @RequestMapping("/novo")
     public ModelAndView novo(Associado associado) {
@@ -42,21 +45,27 @@ public class AssociadoController {
         }
         try {
             associadoService.salvar(associado);
+            attributes.addFlashAttribute("success", "Associado salvo com sucesso.");
             return new ModelAndView("redirect:/associados/novo");
+            
 
         } catch (IllegalArgumentException e) {
             result.rejectValue("dataNascimento", null, e.getMessage());
-            attributes.addFlashAttribute("mensagem", "Associado salvo com sucesso.");
+            attributes.addFlashAttribute("error", "Erro Data de nascimento ou formato errado.");
             return new ModelAndView("redirect:/associados/novo");
 
         }
     }
 
-     @RequestMapping("/listar")
-    public ModelAndView listar(@ModelAttribute("filtro") AssociadoFilter filtro) {
-        List<Associado> todosAssociados = associadoService.filtrar(filtro);
+    @RequestMapping("/listar")
+    public ModelAndView listar(@ModelAttribute("filtro") AssociadoFilter filtro, @PageableDefault(size = 6) Pageable pageable) {
 
         ModelAndView mv = new ModelAndView("listaAssociados");
+
+        Page<Associado> page = associadoService.findAllPageable(pageable);
+        List<Associado> todosAssociados = associadoService.filtrar(filtro);
+  
+        mv.addObject("page", page);
         mv.addObject("associados", todosAssociados);
         return mv;
     }

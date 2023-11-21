@@ -13,6 +13,7 @@
 </head>
 
 <body>
+  
 <section layout:fragment="content">
   <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">    
@@ -24,8 +25,13 @@
                 role="button" type="button" href="/associados/listar">Listar</a>
     </div>
   </div>
+
+  
+
+  <div class="alert alert-success" role="alert" th:text="${success}" th:if="${success}"></div>
+  <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}"></div>
+
     
-<div class="container">  
 <form  method="POST"  th:action="@{/associados/salvar}" th:object="${associado}">
     <div class="card">
       <div class="card-header fw-bold">     
@@ -38,7 +44,7 @@
                   <div class="col-md-8">
                     <label for="inputNome" class="form-label">Nome do Associado</label>
                     <input type="text" class="form-control" id="inputNome" th:field="*{nome}" 
-                            placeholder="Digite o nome do associado..." >
+                           autofocus="autofocus" placeholder="Digite o nome do associado..." >
                             <small class="form-text text-danger" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></small>
                   </div>
                   <div class="col-md-4">
@@ -117,7 +123,6 @@
           </div>
     </form>
   </div> <!-- container end-->
-        
 </div> </main>
 </section>
     <script src="/js/bootstrap.bundle.min.js"></script>

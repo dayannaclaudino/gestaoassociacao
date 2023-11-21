@@ -16,5 +16,5 @@ public interface AssociadoRepository extends JpaRepository<Associado, Long>{
 
     @Query("select a from Associado a where a.nome like %?1% ")
     public List<Associado> findByNomeContaining(String nome);
-    
+   
 }
