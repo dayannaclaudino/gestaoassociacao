@@ -13,10 +13,10 @@
 </head>
 
 <body>
-  <section layout:fragment="content">
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+<section layout:fragment="content">
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">    
-          <h1 class="h2">Detalhes Associado</h1>
+          <h1 class="h2">Incluir Dependentes</h1>
           <div class="d-grid gap-2 d-md-flex justify-content-md-end">
             <a class="btn btn-orange btn-sm me-md-2 fw-bold"
                       role="button" type="button" href="/associados/novo">Adicionar Associado</a>
@@ -25,38 +25,71 @@
           </div>
         </div>
     
+<div th:replace="~{fragments/alert}"></div>     
+  
 <div class="container">  
-    <div class="container px-4" id="featured-3" th:each="a : ${associado}">
+  <form  method="POST" th:action="@{/dependentes/addDepenAssociado/{codigo}(codigo=${associado.id})}">
+    <div class="card">
+      <div class="card-header fw-bold">     
+          <h6 class="card-title">Incluir Dependentes ao Associado</h6>
+      </div>        
+            <div class="card-body">
+              <div class="row row-cols-lg-auto g-3 align-items-center">
+                  <div class="col-md-6">
+                    <label for="inputNome" class="form-label">Nome do Dependente</label>
+                    <input type="text" class="form-control" id="inputNome" name="nome" required
+                           autofocus="autofocus" placeholder="Digite o nome do associado..." >
+                  </div>
+                  <div class="col-md-4">
+                    <label for="inputParentesco" class="form-label">Parentesco</label>
+                    <input type="text" class="form-control" id="inputParentesco" name="parentesco"
+                          placeholder="Digite o parentesco...">
+                  </div>
+                
+                  <div class="col-2">         
+                    <button type="submit" class="btn btn-success fw-semibold">Incluir</button>
+                  </div>
+               
+              </div>
+            </div>
+          </div>
+    </form>
+        
 
+
+    <div class="container px-4" id="featured-3" th:each="a : ${associado}">
         <div class="d-grid gap-2">
-          <button type="button" class="btn btn-light" disabled>
+          <button type="button" class="btn btn-light" disabled >
             <i class="fa-solid fa-hashtag" style="color: #38b43a;"></i>
             <span class="text-dark fw-bold" th:text="${a.id}"></span>
             <span class="text-dark fw-bold" th:text="' - ' + ${a.nome}"></span>
           </button>
-        </div>          
-         
+        </div>              
 
         <div class="row g-4 row-cols-1 row-cols-lg-3">           
           <div class="feature col">
             <p th:text="'Apelido: ' + ${a.apelido}" ></p>
             <p th:text="'Cpf: ' + ${a.cpf}" ></p>
-            <p th:text="'RG: ' + ${a.rg}" ></p>
+            <p th:text="'Sócio Desde: ' + ${a.socioDesde}" ></p>
           </div>
           <div class="feature col">
-            <p th:text="'Apelido: ' + ${a.apelido}" ></p>
-            <p th:text="'Cpf: ' + ${a.cpf}" ></p>
             <p th:text="'RG: ' + ${a.rg}" ></p>
+            <p th:text="'NIS: ' + ${a.nis}" ></p>
+            <p th:text="'Título do Eleitor: ' + ${a.tituloEleitor}" ></p>
+            <p th:text="'Data de Nascimento: ' + ${a.dataNascimento}" ></p>
           </div>
           <div class="feature col">
-            <p th:text="'Apelido: ' + ${a.apelido}" ></p>
-            <p th:text="'Cpf: ' + ${a.cpf}" ></p>
-            <p th:text="'RG: ' + ${a.rg}" ></p>
+            <p th:text="'Data de Nascimento: ' + ${a.dataNascimento}"></p>
+            <p th:text="'Telefone : ' + ${a.celular}" ></p>
+            <p th:text="'Nome da Mãe: ' + ${a.nomeMae}" ></p>
+            <p th:text="'Nome da Pai: ' + ${a.nomePai}" ></p>
           </div>
         </div>
-      </div>
-            
-                    
+    </div>
+      <h2 class="pb-2 border-bottom"></h2>
+
+      
+               
 </div>
 </div> <!-- container end-->
         

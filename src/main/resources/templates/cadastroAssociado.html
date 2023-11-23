@@ -26,12 +26,9 @@
     </div>
   </div>
 
-
- <!-- <div class="alert alert-success" role="alert" th:text="${success}" th:if="${success}"></div>
-  <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}"></div> -->
 <div th:replace="~{fragments/alert}"></div>
     
-    <form  method="POST"  th:action="@{/associados/salvar}" th:object="${associado}">
+  <form  method="POST"  th:action="@{/associados/salvar}" th:object="${associado}">
     <div class="card">
       <div class="card-header fw-bold">     
           <h6 class="card-title">Cadastro de Associado</h6>
