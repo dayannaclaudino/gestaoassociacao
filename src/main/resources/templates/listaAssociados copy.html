@@ -19,10 +19,10 @@
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">    
     <h1 class="h2">Lista de Associados</h1>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <a class="btn btn-orange btn-sm me-md-2 fw-bold"
+      <a class="btn btn-sm me-md-2 text-white fw-bold"  style="background-color: #F2994A;" 
                 role="button" type="button" href="/associados/novo">Adicionar Associado</a>
-        <a class="btn btn-orange btn-sm fw-bold"   
-                role="button" type="button" href="/associados/listar">Listar</a>
+      <a class="btn btn-sm text-white fw-bold"  style="background-color: #F2994A;" 
+                role="button" type="button" href="">Listar</a>
     </div>
   </div>
     
@@ -34,9 +34,9 @@
                 <div class="col-sm-6">
                     <div class="input-group">
                         <input class="form-control" placeholder="Digite aqui o nome do associado para buscar..."
-                               autofocus="autofocus" th:field="*{nome}"></input>
+                            autofocus="autofocus" th:field="*{nome}"></input>
                         <span class="input-group-btn">
-                            <button class="btn btn-success" type="submit">Buscar
+                            <button class="btn btn-outline-success" type="submit">Buscar
                                 <i class="fa-solid fa-magnifying-glass"></i>
                             </button>
                         </span>
@@ -45,43 +45,39 @@
             </div>
         </form>
         <br>
-      <div class="table-wrapper">  
-          <div class="table-responsive">
-            <table class="table table-sm table-striped table-hover table-bordered">
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered table-sm">
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Nome</th>
-                        <th>Apelido</th>
-                        <th>Data Nascimento</th>
-                        <th>Cpf</th>
-                        <th>celular</th>
-                        <th>Sócio Desde</th>
-                        <th>Acões</th>
+                        <th class="text-center col-md-1">#</th>
+                        <th class="col-md-4">Nome</th>
+                        <th class="col-md-2">Apelido</th>
+                        <th class="text-center col-md-2">Data Nascimento</th>
+                        <th class="text-center col-md-1">Rg</th>
+                        <th class="text-center col-md-2">celular</th>
+                        <th class="text-center col-md-2">Sócio Desde</th>
+                        <th class="text-center col-md-2"> Ações </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:each="associado: ${page.content}">
                         <td class="text-center" th:text="${associado.id}">1</td>
-                        <td><a th:href="@{/associados/details/{codigo}(codigo=${associado.id})}" class="text-decoration-none text-success">
-                            <span th:text="${associado.nome}"></span></a></td>
+                        <td th:text="${associado.nome}"></td>
                         <td th:text="${associado.apelido}"></td>
                         <td class="text-center" th:text="${{associado.dataNascimento}}"></td>
-                        <td th:text="${associado.cpf}"></td>
+                        <td th:text="${associado.rg}"></td>
                         <td th:text="${associado.celular}"></td>
                         <td class="text-center" th:text="${{associado.socioDesde}}"></td>
+                        <td class="text-center"> 
+                            <a class="btn btn-link btn-xs" th:href="@{/associados/{codigo}(codigo=${associado.id})}" 
+                                    title="Editar" rel="tooltip" data-placement="top">
+                                <span class="fa-sharp fa-solid fa-pencil" style="color: #38b43a;"></span>
+                            </a>
+                        </td>
                         <td>
-                            <a href="#" class="view" title="Mostrar Associado" data-toggle="tooltip"
-                               th:href="@{/associados/details/{codigo}(codigo=${associado.id})}">
-                                <i class="fa-solid fa-eye" style="color: #03a9f4;"></i>
-                            </a>
-                            <a class="edit" title="Editar" data-toggle="tooltip"
-                               th:href="@{/associados/{codigo}(codigo=${associado.id})}">
-                                <i class="fa-regular fa-pen-to-square" style="color: #ffc104;"></i>
-                            </a>
-                            <a class="delete" title="Excluir" data-toggle="tooltip"
-                               th:href="@{/associados/{associadoId}/delete(associadoId = ${associado.id})}">
-                                <i class="fa-solid fa-trash-can" style="color: #fa0000;"></i>
+                            <a class="btn btn-link btn-xs" 
+                            th:href="@{/associados/{associadoId}/delete(associadoId = ${associado.id})}">
+                                <span class="fa-sharp fa-solid fa-xmark" style="color: #38b43a;"></span>
                             </a>
                         </td>
                     </tr>
@@ -125,6 +121,7 @@
   
 </div> </main>
 </section>
+    <script src="script.js"></script>
     <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

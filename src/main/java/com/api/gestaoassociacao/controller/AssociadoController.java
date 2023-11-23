@@ -1,6 +1,7 @@
 package com.api.gestaoassociacao.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -14,6 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.api.gestaoassociacao.model.Associado;
+import com.api.gestaoassociacao.repository.AssociadoRepository;
+import com.api.gestaoassociacao.repository.DependenteRepository;
 import com.api.gestaoassociacao.repository.filter.AssociadoFilter;
 import com.api.gestaoassociacao.service.AssociadoService;
 
@@ -27,8 +30,10 @@ public class AssociadoController {
 
     @Autowired
     private AssociadoService associadoService;
-
-   
+    @Autowired
+    private AssociadoRepository associadoRepository;
+    @Autowired
+    private DependenteRepository dependenteRepository;
 
     @RequestMapping("/novo")
     public ModelAndView novo(Associado associado) {
@@ -89,6 +94,16 @@ public class AssociadoController {
         }
 	}
 
+    @RequestMapping("/details/{codigo}")
+    public ModelAndView dependenteAssociado(@PathVariable("codigo") Long id) {
+        
+         Optional<Associado> associado = associadoRepository.findById(id);
+
+        ModelAndView mv = new ModelAndView("cadastroDependentes");
+        mv.addObject("associado", associado.get());
+        mv.addObject("dependentes", dependenteRepository.getDependentes(id));
+        return mv;
+    }
    
 
     /*

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="index">
+      layout:decorate="~{index}">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,20 +19,19 @@
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">    
     <h1 class="h2">Associado</h1>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-      <a class="btn btn-sm me-md-2 text-white fw-bold"  style="background-color: #F2994A;" 
+      <a class="btn btn-orange btn-sm me-md-2  fw-bold"  
                 role="button" type="button" href="/dependentes">Adicionar Dependentes</a>
-      <a class="btn btn-sm text-white fw-bold"  style="background-color: #F2994A;" 
+      <a class="btn btn-orange btn-sm fw-bold"   
                 role="button" type="button" href="/associados/listar">Listar</a>
     </div>
   </div>
 
-  
 
-  <div class="alert alert-success" role="alert" th:text="${success}" th:if="${success}"></div>
-  <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}"></div>
-
+ <!-- <div class="alert alert-success" role="alert" th:text="${success}" th:if="${success}"></div>
+  <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}"></div> -->
+<div th:replace="~{fragments/alert}"></div>
     
-<form  method="POST"  th:action="@{/associados/salvar}" th:object="${associado}">
+    <form  method="POST"  th:action="@{/associados/salvar}" th:object="${associado}">
     <div class="card">
       <div class="card-header fw-bold">     
           <h6 class="card-title">Cadastro de Associado</h6>
@@ -114,8 +113,7 @@
                   </div>
                 
                   <div class="col-12">
-                    <button type="submit" class="btn w-100 text-white fw-semibold" 
-                            style="background-color: #38B43A;">Salvar</button>
+                    <button type="submit" class="btn btn-success w-100 fw-semibold">Salvar</button>
                   </div>
                
               </div>

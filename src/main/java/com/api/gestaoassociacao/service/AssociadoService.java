@@ -1,6 +1,7 @@
 package com.api.gestaoassociacao.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -35,11 +36,6 @@ public class AssociadoService {
         associadoRepository.delete(associado);
     }
 
-
-    public Associado findById(Long associadoId) {
-        return associadoRepository.findById(associadoId).get();
-    }
-
     public List<Associado> filtrar(AssociadoFilter filtro){
         String nomeAssociado = filtro.getNome() == null ? "%" : filtro.getNome();
 		return associadoRepository.findByNomeContaining(nomeAssociado);
@@ -49,6 +45,12 @@ public class AssociadoService {
     public Page<Associado> findAllPageable(Pageable pageable) {
         return associadoRepository.findAll(pageable);
 
+    }
+
+    
+    public Optional<Associado> findById(Long id) {
+        Optional<Associado> associado = associadoRepository.findById(id);
+        return associado;
     }
 
 }
