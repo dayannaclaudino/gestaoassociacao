@@ -7,6 +7,8 @@ import java.util.List;
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.api.gestaoassociacao.model.enums.StatusAssociado;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
@@ -46,6 +48,8 @@ public class Associado implements Serializable{
     private LocalDate dataInicio;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate socioDesde;
+    @Enumerated(EnumType.STRING)
+    private StatusAssociado status;
     private String observacao;
 
     @OneToMany(mappedBy="associado", orphanRemoval= true, cascade = CascadeType.ALL)

@@ -36,17 +36,11 @@ public class AssociadoService {
         associadoRepository.delete(associado);
     }
 
-    public List<Associado> filtrar(AssociadoFilter filtro){
+    public Page<Associado> filtrar(AssociadoFilter filtro, Pageable pageable){
         String nomeAssociado = filtro.getNome() == null ? "%" : filtro.getNome();
-		return associadoRepository.findByNomeContaining(nomeAssociado);
+		return associadoRepository.findByNomeContaining(nomeAssociado, pageable);
 	}
 
-     
-    public Page<Associado> findAllPageable(Pageable pageable) {
-        return associadoRepository.findAll(pageable);
-
-    }
- 
     public Optional<Associado> findById(Long id) {
         Optional<Associado> associado = associadoRepository.findById(id);
         return associado;

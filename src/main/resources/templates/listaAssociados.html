@@ -61,7 +61,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="associado: ${page.content}">
+                    <tr th:each="associado: ${associados.content}">
                         <td class="text-center" th:text="${associado.id}">1</td>
                         <td><a th:href="@{/dependentes/detalheAssociado/{codigo}(codigo=${associado.id})}" class="text-decoration-none">
                             <span th:text="${associado.nome}"></span></a></td>
@@ -95,24 +95,24 @@
             <ul class="pagination pagination-sm justify-content-center font-weight-bold">
 
                 <li class="page-item">
-                    <span th:if="${page.hasPrevious()}">
-                        <a class="page-link" th:href="@{/associados/listar(page=${page.number-1},size=${page.size})}">Anterior</a>
+                    <span th:if="${associados.hasPrevious()}">
+                        <a class="page-link" th:href="@{/associados/listar(page=${associados.number-1},size=${associados.size})}">Anterior</a>
                     </span>
                 </li>
-                <th:block th:each="i: ${#numbers.sequence(0, page.totalPages - 1)}">
+                <th:block th:each="i: ${#numbers.sequence(0, associados.totalPages - 1)}">
                     <li class="page-item active">    
-                        <span th:if="${page.number == i}" class="page-link selected">[[${i}+1]]</span>
+                        <span th:if="${associados.number == i}" class="page-link selected">[[${i}+1]]</span>
                     </li>
                     <li class="page-item">
-                        <span th:unless="${page.number == i}">
-                            <a class="page-link" th:href="@{/associados/listar(page=${i},size=${page.size})}">[[${i}+1]]</a>
+                        <span th:unless="${associados.number == i}">
+                            <a class="page-link" th:href="@{/associados/listar(page=${i},size=${associados.size})}">[[${i}+1]]</a>
                         </span>
                     </li>
                 </th:block>
 
                 <li class="page-item">
-                    <span th:if="${page.hasNext()}">
-                      <a class="page-link" th:href="@{/associados/listar(page=${page.number+1},size=${page.size})}">Próximo</a>
+                    <span th:if="${associados.hasNext()}">
+                      <a class="page-link" th:href="@{/associados/listar(page=${associados.number+1},size=${associados.size})}">Próximo</a>
                     </span>
                 </li>
             </ul>

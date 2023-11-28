@@ -30,10 +30,6 @@ public class AssociadoController {
 
     @Autowired
     private AssociadoService associadoService;
-    @Autowired
-    private AssociadoRepository associadoRepository;
-    @Autowired
-    private DependenteRepository dependenteRepository;
 
     @RequestMapping("/novo")
     public ModelAndView novo(Associado associado) {
@@ -62,15 +58,13 @@ public class AssociadoController {
     }
 
     @RequestMapping("/listar")
-    public ModelAndView listar(@ModelAttribute("filtro") AssociadoFilter filtro, @PageableDefault(size = 9) Pageable pageable) {
-
+    public ModelAndView listar(@ModelAttribute("filtro") AssociadoFilter filtro, 
+                               @PageableDefault(size = 9) Pageable pageable) {
+                                
+        Page<Associado> todosAssociados = associadoService.filtrar(filtro, pageable);
         ModelAndView mv = new ModelAndView("listaAssociados");
-
-        Page<Associado> page = associadoService.findAllPageable(pageable);
-        List<Associado> todosAssociados = associadoService.filtrar(filtro);
-  
-        mv.addObject("page", page);
         mv.addObject("associados", todosAssociados);
+        
         return mv;
     }
 
@@ -93,14 +87,4 @@ public class AssociadoController {
         }
 	}
 
-   
-   
-
-    /*
-     * @GetMapping("/associados")
-     * public List<Associado> buscarAssociados(){
-     * return associadoService.buscarTodosAssociados();
-     * 
-     * }
-     */
 }
