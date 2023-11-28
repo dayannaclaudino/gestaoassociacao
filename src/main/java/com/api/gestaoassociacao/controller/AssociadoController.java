@@ -1,5 +1,6 @@
 package com.api.gestaoassociacao.controller;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.api.gestaoassociacao.model.Associado;
+import com.api.gestaoassociacao.model.enums.StatusAssociado;
 import com.api.gestaoassociacao.repository.AssociadoRepository;
 import com.api.gestaoassociacao.repository.DependenteRepository;
 import com.api.gestaoassociacao.repository.filter.AssociadoFilter;
@@ -60,10 +62,11 @@ public class AssociadoController {
     @RequestMapping("/listar")
     public ModelAndView listar(@ModelAttribute("filtro") AssociadoFilter filtro, 
                                @PageableDefault(size = 9) Pageable pageable) {
-                                
+
         Page<Associado> todosAssociados = associadoService.filtrar(filtro, pageable);
         ModelAndView mv = new ModelAndView("listaAssociados");
         mv.addObject("associados", todosAssociados);
+        mv.addObject("todosStatus", StatusAssociado.values());
         
         return mv;
     }
@@ -73,6 +76,7 @@ public class AssociadoController {
     public ModelAndView editar(@PathVariable("id") Associado associado) {
         ModelAndView mv = new ModelAndView(VIEW);
         mv.addObject(associado);
+        mv.addObject("todosStatus", StatusAssociado.values());
         return mv;
     }
 
@@ -86,5 +90,10 @@ public class AssociadoController {
             return "redirect:/associados/listar";
         }
 	}
+
+    @ModelAttribute("todosStatus")
+    public List<StatusAssociado> getStatusAssociados(){
+        return Arrays.asList(StatusAssociado.values());
+    }
 
 }

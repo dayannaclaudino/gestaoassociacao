@@ -4,7 +4,6 @@ package com.api.gestaoassociacao.controller;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.api.gestaoassociacao.model.Associado;
@@ -23,7 +21,6 @@ import com.api.gestaoassociacao.repository.DependenteRepository;
 import com.api.gestaoassociacao.service.AssociadoService;
 import com.api.gestaoassociacao.service.DependenteService;
 
-import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("dependentes")
@@ -93,4 +90,6 @@ public class DependenteController {
         return mv;
 		
 	}
+
+    
 }

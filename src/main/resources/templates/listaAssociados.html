@@ -57,6 +57,7 @@
                         <th>Cpf</th>
                         <th>celular</th>
                         <th>Sócio Desde</th>
+                        <th>Status</th>
                         <th>Acões</th>
                     </tr>
                 </thead>
@@ -70,6 +71,7 @@
                         <td th:text="${associado.cpf}"></td>
                         <td th:text="${associado.celular}"></td>
                         <td class="text-center" th:text="${{associado.socioDesde}}"></td>
+                        <td th:text="${associado.status}"></td>
                         <td>
                             <a href="#" class="view" title="Incluir Associado" data-toggle="tooltip"
                                th:href="@{/dependentes/detalheAssociado/{codigo}(codigo=${associado.id})}">
