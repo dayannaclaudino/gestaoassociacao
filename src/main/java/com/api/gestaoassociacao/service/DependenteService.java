@@ -26,8 +26,8 @@ public class DependenteService {
         return dependenteRepository.findById(id).get();
     }
 
-    public void remover(Dependente dependente){
-         dependenteRepository.delete(dependente);
+    public void remover(Long id){
+         dependenteRepository.deleteById(id);
     }
     
 }

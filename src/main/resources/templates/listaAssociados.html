@@ -63,7 +63,7 @@
                 <tbody>
                     <tr th:each="associado: ${page.content}">
                         <td class="text-center" th:text="${associado.id}">1</td>
-                        <td><a th:href="@{/associados/details/{codigo}(codigo=${associado.id})}" class="text-decoration-none text-success">
+                        <td><a th:href="@{/dependentes/detalheAssociado/{codigo}(codigo=${associado.id})}" class="text-decoration-none">
                             <span th:text="${associado.nome}"></span></a></td>
                         <td th:text="${associado.apelido}"></td>
                         <td class="text-center" th:text="${{associado.dataNascimento}}"></td>
@@ -71,8 +71,8 @@
                         <td th:text="${associado.celular}"></td>
                         <td class="text-center" th:text="${{associado.socioDesde}}"></td>
                         <td>
-                            <a href="#" class="view" title="Mostrar Associado" data-toggle="tooltip"
-                               th:href="@{/associados/details/{codigo}(codigo=${associado.id})}">
+                            <a href="#" class="view" title="Incluir Associado" data-toggle="tooltip"
+                               th:href="@{/dependentes/detalheAssociado/{codigo}(codigo=${associado.id})}">
                                 <i class="fa-solid fa-eye" style="color: #03a9f4;"></i>
                             </a>
                             <a class="edit" title="Editar" data-toggle="tooltip"
@@ -86,7 +86,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="8" th:if="${#lists.isEmpty(associados)}">Nenhum associado foi encontrado</td>
+                        <td colspan="9" th:if="${#lists.isEmpty(associados)}">Nenhum associado foi encontrado</td>
                     </tr>
                 </tbody>
             </table>

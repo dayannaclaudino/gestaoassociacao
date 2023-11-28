@@ -23,7 +23,8 @@ public class Dependente implements Serializable{
     private String nome;
     private String parentesco;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="associado_id")
+    @ManyToOne
     private Associado associado;
 
     

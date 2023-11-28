@@ -46,8 +46,7 @@ public class AssociadoService {
         return associadoRepository.findAll(pageable);
 
     }
-
-    
+ 
     public Optional<Associado> findById(Long id) {
         Optional<Associado> associado = associadoRepository.findById(id);
         return associado;

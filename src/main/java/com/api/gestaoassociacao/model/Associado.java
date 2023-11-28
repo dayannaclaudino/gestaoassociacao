@@ -48,8 +48,7 @@ public class Associado implements Serializable{
     private LocalDate socioDesde;
     private String observacao;
 
-    @OneToMany
-    @JoinColumn(name="associado_id")
+    @OneToMany(mappedBy="associado", orphanRemoval= true, cascade = CascadeType.ALL)
     private List<Dependente> dependentes;  
 }
 

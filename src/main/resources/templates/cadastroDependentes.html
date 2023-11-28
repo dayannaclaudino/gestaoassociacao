@@ -21,78 +21,111 @@
             <a class="btn btn-orange btn-sm me-md-2 fw-bold"
                       role="button" type="button" href="/associados/novo">Adicionar Associado</a>
             <a class="btn btn-orange btn-sm fw-bold"   
-                      role="button" type="button" href="/associados/listar">Listar</a>
+                      role="button" type="button" href="/associados/listar">Listar Associado</a>
           </div>
         </div>
     
 <div th:replace="~{fragments/alert}"></div>     
   
 <div class="container">  
+
+  <div class="card" th:each="a : ${associado}">
+    <div class="card-header fw-bold">     
+        <h6 class="card-title">
+          <i class="fa-solid fa-hashtag" style="color: #38b43a;"></i>
+          <span class="text-dark fw-bold" th:text="${a.id}"></span>
+          <span class="text-dark fw-bold" th:text="' - ' + ${a.nome}"></span>
+
+          <span class="text-dark fw-bold float-end" th:text="'Sócio Desde: ' + ${{a.socioDesde}}"></span>
+        </h6>
+    </div>   
+
+    <div class="card-body">
+      <div class="row g-4 row-cols-1 row-cols-lg-3" style="line-height: 40%">           
+        <div class="feature col">
+          <p><small th:text="'Apelido: ' + ${a.apelido}" ></small></p>
+          <p><small th:text="'Cpf: ' + ${a.cpf}" ></small></p>
+          <p><small th:text="'RG: ' + ${a.rg}" ></small></p>
+          <p><small th:text="'Data de Nascimento: ' + ${{a.dataNascimento}}" ></small></p>
+          <p><small th:text="'Observações: ' + ${a.observacao}" ></small></p>
+        </div>
+        <div class="feature col">
+          <p><small th:text="'RG: ' + ${a.rg}" ></small></p>
+          <p><small th:text="'NIS: ' + ${a.nis}" ></small></p>
+          <p><small th:text="'Título do Eleitor: ' + ${a.tituloEleitor}" ></small></p>
+          
+        </div>
+        <div class="feature col">
+          <p><small th:text="'Telefone : ' + ${a.celular}" ></small></p>
+          <p><small th:text="'Nome da Mãe: ' + ${a.nomeMae}" ></small></p>
+          <p><small th:text="'Nome da Pai: ' + ${a.nomePai}" ></small></p>
+        </div>
+      </div>
+    </div>
+</div>
+
+</br>   <!-- depedente --> 
   <form  method="POST" th:action="@{/dependentes/addDepenAssociado/{codigo}(codigo=${associado.id})}">
     <div class="card">
-      <div class="card-header fw-bold">     
-          <h6 class="card-title">Incluir Dependentes ao Associado</h6>
-      </div>        
+            <div class="card-header fw-bold">     
+                <h6 class="card-title">Incluir Dependentes ao Associado</h6>
+            </div>        
             <div class="card-body">
-              <div class="row row-cols-lg-auto g-3 align-items-center">
+              <div class="row">
                   <div class="col-md-6">
-                    <label for="inputNome" class="form-label">Nome do Dependente</label>
-                    <input type="text" class="form-control" id="inputNome" name="nome" required
-                           autofocus="autofocus" placeholder="Digite o nome do associado..." >
+                    <label class="visually-hidden" for="inline-form-nome">Nome do Dependente</label>
+                    <input type="text" class="form-control" autofocus="autofocus" name="nome"
+                            placeholder="Digite o nome do associado..." required>
                   </div>
                   <div class="col-md-4">
-                    <label for="inputParentesco" class="form-label">Parentesco</label>
-                    <input type="text" class="form-control" id="inputParentesco" name="parentesco"
-                          placeholder="Digite o parentesco...">
+                    <label class="visually-hidden" for="inline-form-parentesco">Parentesco</label>
+                    <input type="text" class="form-control" name="parentesco"
+                           placeholder="Digite o parentesco...">
                   </div>
-                
-                  <div class="col-2">         
-                    <button type="submit" class="btn btn-success fw-semibold">Incluir</button>
-                  </div>
-               
+                  <div class="col">
+                    <button type="submit" class="btn btn-success btn-block">Incluir</button>
+                  </div>             
               </div>
             </div>
           </div>
     </form>
-        
 
-
-    <div class="container px-4" id="featured-3" th:each="a : ${associado}">
-        <div class="d-grid gap-2">
-          <button type="button" class="btn btn-light" disabled >
-            <i class="fa-solid fa-hashtag" style="color: #38b43a;"></i>
-            <span class="text-dark fw-bold" th:text="${a.id}"></span>
-            <span class="text-dark fw-bold" th:text="' - ' + ${a.nome}"></span>
-          </button>
-        </div>              
-
-        <div class="row g-4 row-cols-1 row-cols-lg-3">           
-          <div class="feature col">
-            <p th:text="'Apelido: ' + ${a.apelido}" ></p>
-            <p th:text="'Cpf: ' + ${a.cpf}" ></p>
-            <p th:text="'Sócio Desde: ' + ${a.socioDesde}" ></p>
-          </div>
-          <div class="feature col">
-            <p th:text="'RG: ' + ${a.rg}" ></p>
-            <p th:text="'NIS: ' + ${a.nis}" ></p>
-            <p th:text="'Título do Eleitor: ' + ${a.tituloEleitor}" ></p>
-            <p th:text="'Data de Nascimento: ' + ${a.dataNascimento}" ></p>
-          </div>
-          <div class="feature col">
-            <p th:text="'Data de Nascimento: ' + ${a.dataNascimento}"></p>
-            <p th:text="'Telefone : ' + ${a.celular}" ></p>
-            <p th:text="'Nome da Mãe: ' + ${a.nomeMae}" ></p>
-            <p th:text="'Nome da Pai: ' + ${a.nomePai}" ></p>
-          </div>
-        </div>
+    <!-- table -->
+    <div class="table-wrapper">  
+      <div class="table-responsive">
+        <table class="table table-sm table-striped table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Parentesco</th>
+                    <th>Acões</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="dependente: ${dependentes}">
+                    <td><span th:text="${dependente.nome}"></span></td>
+                    <td th:text="${dependente.parentesco}"></td>
+                    <td>
+                        <a class="delete" title="Excluir" data-toggle="tooltip"
+                        th:href="@{/dependentes/{dependenteId}/excluir(dependenteId = ${dependente.id})}">
+                            <i class="fa-solid fa-trash-can" style="color: #fa0000;"></i>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="8" th:if="${#lists.isEmpty(dependentes)}">Nenhum dependente foi encontrado.</td>
+                </tr>
+            </tbody>
+        </table>
+       
     </div>
+    </div>
+    
       <h2 class="pb-2 border-bottom"></h2>
 
       
                
-</div>
-</div> <!-- container end-->
-        
+ <!-- container end-->       
 </div> </main>
 </section>
     <script src="/js/bootstrap.bundle.min.js"></script>

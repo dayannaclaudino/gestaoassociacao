@@ -58,12 +58,11 @@ public class AssociadoController {
             result.rejectValue("dataNascimento", null, e.getMessage());
             attributes.addFlashAttribute("error", "Erro Data de nascimento ou formato errado.");
             return new ModelAndView("redirect:/associados/novo");
-
         }
     }
 
     @RequestMapping("/listar")
-    public ModelAndView listar(@ModelAttribute("filtro") AssociadoFilter filtro, @PageableDefault(size = 6) Pageable pageable) {
+    public ModelAndView listar(@ModelAttribute("filtro") AssociadoFilter filtro, @PageableDefault(size = 9) Pageable pageable) {
 
         ModelAndView mv = new ModelAndView("listaAssociados");
 
@@ -77,7 +76,7 @@ public class AssociadoController {
 
 
     @RequestMapping("{id}")
-    public ModelAndView edicao(@PathVariable("id") Associado associado) {
+    public ModelAndView editar(@PathVariable("id") Associado associado) {
         ModelAndView mv = new ModelAndView(VIEW);
         mv.addObject(associado);
         return mv;
@@ -94,16 +93,7 @@ public class AssociadoController {
         }
 	}
 
-    @RequestMapping("/details/{codigo}")
-    public ModelAndView dependenteAssociado(@PathVariable("codigo") Long id) {
-        
-         Optional<Associado> associado = associadoRepository.findById(id);
-
-        ModelAndView mv = new ModelAndView("cadastroDependentes");
-        mv.addObject("associado", associado.get());
-        mv.addObject("dependentes", dependenteRepository.getDependentes(id));
-        return mv;
-    }
+   
    
 
     /*
