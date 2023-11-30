@@ -25,6 +25,9 @@
   </div>
 
 <div th:replace="~{fragments/alert}"></div>
+
+       <span> <strong th:text="${mensagemErro}"></strong></span>
+  
     
   <form  method="POST"  th:action="@{/associados/salvar}" th:object="${associado}">
     <div class="card">
@@ -51,11 +54,12 @@
                     <select class="form-select" name="status" th:field="*{status}" aria-label="Default">
                       <option th:each="status : ${todosStatus}" th:value="${status}" th:text="${status.descricao}"></option>
                     </select>
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></small>
                   </div>
                   <div class="col-md-3">
                       <label for="inputCPF" class="form-label">CPF</label>
-                      <input type="text" class="form-control" id="inputCPF" th:field="*{cpf}"
-                            placeholder="00.000.000-00">
+                      <input type="text" class="form-control" id="inputCPF"  th:field="*{cpf}"
+                             placeholder="Somente números">
                             <small class="form-text text-danger" th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}"></small>
                     </div>
                     
@@ -78,23 +82,23 @@
                   <!--linha 3 -->
             
                     <div class="col-md-3">
-                      <label for="inputDataNasc" class="form-label">Data de Nascimento</label>
-                      <input type="text" class="form-control" id="inputDataNasc" th:field="*{dataNascimento}"
-                            placeholder="dd/mm/aaaa">
+                      <label for="date" class="form-label">Data de Nascimento</label>
+                      <input type="date" class="form-control" id="date" th:field="*{dataNascimento}"
+                             placeholder="dd/mm/aaaa">
                     </div>
                     <div class="col-md-3">
-                        <label for="inputTelefone1" class="form-label">Telefone 1</label>
-                        <input type="text" class="form-control" id="inputTelefone1" th:field="*{celular}"
-                                placeholder="(00)00000-0000">
+                        <label for="inputTelefone" class="form-label">Telefone 1</label>
+                        <input type="text" class="form-control" id="inputTelefone" th:field="*{celular}"
+                               placeholder="(00)00000-0000">
                       </div>
                     <div class="col-md-3">
-                        <label for="inputTelefone2" class="form-label">Telefone 2</label>
-                        <input type="text" class="form-control" id="inputTelefone2" 
+                        <label for="inputTelefone" class="form-label">Telefone 2</label>
+                        <input type="text" class="form-control phone" id="inputTelefone" 
                               placeholder="(00)00000-0000">
                     </div>
                     <div class="col-md-3">
-                      <label for="inputSocioDesde" class="form-label">Sócio Desde</label>
-                      <input type="text" class="form-control" id="inputSocioDesde" th:field="*{socioDesde}"
+                      <label for="date" class="form-label">Sócio Desde</label>
+                      <input type="date" class="form-control" id="date" th:field="*{socioDesde}"
                             placeholder="dd/mm/aaaa">
                     </div>
                   <!--linha 4 -->
@@ -125,5 +129,11 @@
 </div> </main>
 </section>
     <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/jquery.mask.min.js"></script>
+    <script src="/js/jquery.mask.js"></script>
+    <script src="/js/jquery.min.js"></script>
+  
+    
+
 </body>
 </html>

@@ -30,8 +30,9 @@ public class Associado implements Serializable{
     private String nome;
     private String apelido;
 
-    @CPF
+
     @NotBlank(message="Esse campo é obrigatório!")
+    @CPF
     private String cpf;
 
     private String rg;
@@ -48,7 +49,7 @@ public class Associado implements Serializable{
     private LocalDate dataInicio;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate socioDesde;
-    @NotBlank(message="Esse campo é obrigatório!")
+    @NotNull(message="Esse campo é obrigatório!")
     @Enumerated(EnumType.STRING)
     private StatusAssociado status;
     private String observacao;

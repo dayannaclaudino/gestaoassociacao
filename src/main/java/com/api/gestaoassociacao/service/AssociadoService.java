@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.api.gestaoassociacao.Exception.NegocioException;
 import com.api.gestaoassociacao.model.Associado;
 import com.api.gestaoassociacao.repository.AssociadoRepository;
 import com.api.gestaoassociacao.repository.filter.AssociadoFilter;
@@ -24,11 +25,15 @@ public class AssociadoService {
     }
 
     public void salvar(Associado associado){
+        Optional<Associado> buscaPorCpf = associadoRepository.findByCpf(associado.getCpf());
+        if (buscaPorCpf.isPresent()) {
+            throw new NegocioException("CPF já cadastrado no sistema.");
+        }
         try {
-            associadoRepository.save(associado);
-        } catch (DataIntegrityViolationException  e) {
-            throw new IllegalArgumentException("Formato de data inválido");
-        }     
+        associadoRepository.save(associado);
+        } catch (NegocioException e) {
+            throw new NegocioException("Não foi possível concluir o cadastro.");
+        }
     }
 
     public void remover(Long id){

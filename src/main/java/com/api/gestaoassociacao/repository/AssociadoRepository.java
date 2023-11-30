@@ -20,5 +20,6 @@ public interface AssociadoRepository extends JpaRepository<Associado, Long>{
 
     @Query("select a from Associado a where a.nome like %?1% ")
     public Page<Associado> findByNomeContaining(String nome, Pageable pageable);
-   
+
+    public Optional<Associado> findByCpf(String cpf);
 }
