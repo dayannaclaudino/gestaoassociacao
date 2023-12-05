@@ -12,6 +12,8 @@
     
     <!-- Bootstrap core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
+     <!-- Custom styles for this template -->
+     <link href="/css/dashboard.css" rel="stylesheet">
     
     <!-- Favicons -->
     <link rel="apple-touch-icon" href="/img/favicons/apple-touch-icon.png" sizes="180x180">
@@ -20,73 +22,72 @@
     <link rel="icon" href="/img/favicons/android-chrome-512x512.png" sizes="512x512" type="image/png">
     <link rel="icon" href="/img/favicons/android-chrome-192x192.png" sizes="192x192" type="image/png">
     <link rel="icon" href="/img/favicons/favicon.ico">
-    <meta name="theme-color" content="#546D29">
-       
-      
-        
-        <!-- Custom styles for this template -->
-        <link href="/css/dashboard.css" rel="stylesheet">
+    <meta name="theme-color" content="#546D29">  
     
  </head>
 <body>
  
   
-<header class="navbar navbar-dark sticky-top flex-md-nowrap p-0 shadow" style="background-color: #546D29;">
-    <a class="navbar-brand col-md-3 col-lg-3 me-0 px-3 fs-6 text" style="margin-left: 230px;"
-        href="https://getbootstrap.com/docs/5.0/examples/dashboard/#">
-        Seja Bem Vindo ao sistema de Gestão</a>
-    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" 
-            data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" 
-            aria-label="Toggle navigation">
+<header class="navbar navbar-dark sticky-top flex-md-nowrap p-1 shadow" style="background-color: #546D29;">
+   <!-- <h6 class="col-md-6 col-lg-4 me-0 px-3 text-white" >Seja Bem Vindo ao Sistema </h6> -->
+   <a type="button" class="btn btn-success btn-sm text-white fw-bold col-md-3 col-lg-2 me-0 mx-2" 
+               >Associação Castainho</a>
+    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" 
+            data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="navbar-nav">
-    <div class="nav-item text-nowrap">
-        <a class="nav-link px-3" href="https://getbootstrap.com/docs/5.0/examples/dashboard/#">Sair</a>
-    </div>
-    </div>
+    
+    <div class="nav nav-pills align-items-center">
+      <div class="nav-item px-3">
+          <span class="text-white">Usuário: Admin</span>
+      </div>
+      <div class="nav-item">
+        <a class="nav-link px-3 text-white" th:href="@{/logout}">sair 
+          <i class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i>
+        </a>
+      </div>
+    </div>   
 </header>
-
 
 <div class="container-fluid">
 <div class="row"> 
-  <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse" data-image="/img/menu.jpg" style="background-color: #546D29;">
-    <div class="position-sticky pt-3">
+  <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse" style="background-color: #546D29;">
+    <div class="position-sticky pt-4">
       <ul class="nav flex-column">
-        <button type="button" class="btn mb-4 btn-md text-white fw-bold" 
-                style="background-color: #38B43A;">Associação Quilombola Castainho</button>
         <li class="nav-item">
-          <a class="nav-link active text-white fw-semibold" aria-current="page" href="https://getbootstrap.com/docs/5.0/examples/dashboard/#">
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          <a class="nav-link active text-white fw-semibold" aria-current="page" href="/home">
+            <i class="fa-solid fa-house"></i>
             Página Inicial
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link text-white fw-semibold" href="/associados/novo">
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> 
+            <i class="fa-solid fa-file-lines"></i> 
             Associado
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link text-white fw-semibold" href="https://getbootstrap.com/docs/5.0/examples/dashboard/#">
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-dollar-sign"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> 
+            <i class="fa-solid fa-circle-dollar-to-slot"></i> 
             Mensalidades
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link text-white fw-semibold" href="https://getbootstrap.com/docs/5.0/examples/dashboard/#">
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            <i class="fa-solid fa-user" ></i>
             Usuário
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link text-white fw-semibold" href="https://getbootstrap.com/docs/5.0/examples/dashboard/#">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              <i class="fa-solid fa-right-from-bracket"></i>
             Sair
           </a>
         </li>
-      </ul>     
+      </ul>  
     </div>
+    <br/><br/><br/><br/>
+    <img src="/img/logo.png" class="img-fluid pt-5" alt="logo" >
   </nav>
   <section layout:fragment="content">
   </section>

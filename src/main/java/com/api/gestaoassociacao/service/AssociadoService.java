@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -13,6 +12,8 @@ import com.api.gestaoassociacao.Exception.NegocioException;
 import com.api.gestaoassociacao.model.Associado;
 import com.api.gestaoassociacao.repository.AssociadoRepository;
 import com.api.gestaoassociacao.repository.filter.AssociadoFilter;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class AssociadoService {
@@ -23,11 +24,12 @@ public class AssociadoService {
     public List<Associado> getAssociados(){
         return associadoRepository.findAll();
     }
-
+    
+    @Transactional
     public void salvar(Associado associado){
         Optional<Associado> buscaPorCpf = associadoRepository.findByCpf(associado.getCpf());
         if (buscaPorCpf.isPresent()) {
-            throw new NegocioException("CPF já cadastrado no sistema.");
+            throw new NegocioException("O CPF já está cadastrado no sistema.");
         }
         try {
         associadoRepository.save(associado);

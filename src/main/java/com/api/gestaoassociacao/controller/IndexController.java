@@ -9,8 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class IndexController {
 
     @GetMapping("/home")
-    String index(Principal principal) {
-        return principal != null ? "index" : "index";
+    public String index(Principal principal) {
+        return "index";
     }
-
+    
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
 }
