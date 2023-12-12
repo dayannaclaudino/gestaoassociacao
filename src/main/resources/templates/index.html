@@ -27,76 +27,20 @@
  </head>
 <body>
  
-  
-<header class="navbar navbar-dark sticky-top flex-md-nowrap p-1 shadow" style="background-color: #546D29;">
-   <!-- <h6 class="col-md-6 col-lg-4 me-0 px-3 text-white" >Seja Bem Vindo ao Sistema </h6> -->
-   <a type="button" class="btn btn-success btn-sm text-white fw-bold col-md-3 col-lg-2 me-0 mx-2" 
-               >Associação Castainho</a>
-    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" 
-            data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    
-    <div class="nav nav-pills align-items-center">
-      <div class="nav-item px-3">
-          <span class="text-white">Usuário: Admin</span>
-      </div>
-      <div class="nav-item">
-        <a class="nav-link px-3 text-white" th:href="@{/logout}">sair 
-          <i class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i>
-        </a>
-      </div>
-    </div>   
-</header>
+<header th:insert="~{fragments/header.html :: header}"></header>  
 
 <div class="container-fluid">
 <div class="row"> 
-  <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse" style="background-color: #546D29;">
-    <div class="position-sticky pt-4">
-      <ul class="nav flex-column">
-        <li class="nav-item">
-          <a class="nav-link active text-white fw-semibold" aria-current="page" href="/home">
-            <i class="fa-solid fa-house"></i>
-            Página Inicial
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white fw-semibold" href="/associados/novo">
-            <i class="fa-solid fa-file-lines"></i> 
-            Associado
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white fw-semibold" href="https://getbootstrap.com/docs/5.0/examples/dashboard/#">
-            <i class="fa-solid fa-circle-dollar-to-slot"></i> 
-            Mensalidades
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white fw-semibold" href="https://getbootstrap.com/docs/5.0/examples/dashboard/#">
-            <i class="fa-solid fa-user" ></i>
-            Usuário
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white fw-semibold" href="https://getbootstrap.com/docs/5.0/examples/dashboard/#">
-              <i class="fa-solid fa-right-from-bracket"></i>
-            Sair
-          </a>
-        </li>
-      </ul>  
-    </div>
-    <br/><br/><br/><br/>
-    <img src="/img/logo.png" class="img-fluid pt-5" alt="logo" >
-  </nav>
+  
+  <div th:insert="~{fragments/sidebar-nav.html :: nav}"></div>  
+
   <section layout:fragment="content">
   </section>
+
  </div>
 </div>
 
 <script src="https://kit.fontawesome.com/d9243cc177.js" crossorigin="anonymous"></script>
  <script src="/js/bootstrap.bundle.min.js" ></script>
- <script src="/js/feather.min.js"></script>
- <script src="/js/dashboard.js"></script>
  
 </body></html>

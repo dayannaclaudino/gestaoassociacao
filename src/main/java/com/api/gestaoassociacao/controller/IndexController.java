@@ -10,7 +10,7 @@ public class IndexController {
 
     @GetMapping("/home")
     public String index(Principal principal) {
-        return "index";
+        return "home";
     }
     
     @GetMapping("/login")

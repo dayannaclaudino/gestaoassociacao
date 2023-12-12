@@ -1,0 +1,26 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<header class="navbar navbar-dark sticky-top flex-md-nowrap p-1 shadow" style="background-color: #546D29;">
+    <!-- <h6 class="col-md-6 col-lg-4 me-0 px-3 text-white" >Seja Bem Vindo ao Sistema </h6> -->
+    <a type="button" class="btn btn-success btn-sm text-white fw-bold col-md-3 col-lg-2 me-0" 
+                >Associação Quilombola Castainho</a>
+     <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" 
+             data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+       <span class="navbar-toggler-icon"></span>
+     </button>
+     
+     <div class="nav nav-pills align-items-center">
+       <div class="nav-item px-3">
+           <span class="text-white">Usuário: Admin</span>
+       </div>
+       <div class="nav-item">
+         <a class="nav-link px-3 " th:href="@{/logout}">Sair 
+           <i class="fa-solid fa-right-from-bracket"></i>
+         </a>
+       </div>
+     </div>   
+ </header>
+</html>

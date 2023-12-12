@@ -16,7 +16,7 @@
 <section layout:fragment="content">
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">    
-          <h1 class="h2">Incluir Dependentes</h1>
+          <h3 class="h3">Incluir Dependentes</h3>
           <div class="d-grid gap-2 d-md-flex justify-content-md-end">
             <a class="btn btn-orange btn-sm me-md-2 fw-bold"
                       role="button" type="button" href="/associados/novo">Adicionar Associado</a>
@@ -35,7 +35,7 @@
           <i class="fa-solid fa-hashtag" style="color: #38b43a;"></i>
           <span class="text-dark fw-bold" th:text="${a.id}"></span>
           <span class="text-dark fw-bold" th:text="' - ' + ${a.nome}"></span>
-          <span class="text-info fw-bold position-absolute start-50" th:text="${a.status}"></span>
+          <span class="text-warning fw-bold position-absolute start-50" th:text="${a.status}"></span>
           <span class="text-dark fw-bold float-end" th:text="'Sócio Desde: ' + ${{a.socioDesde}}"></span>
         </h6>
     </div>   
