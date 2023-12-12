@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -39,8 +40,12 @@ public class AssociadoService {
     }
 
     public void remover(Long id){
-        Associado associado = associadoRepository.findById(id).get();
-        associadoRepository.delete(associado);
+        try {
+            Associado associado = associadoRepository.findById(id).get();
+            associadoRepository.delete(associado);
+         }catch (DataIntegrityViolationException e){
+            throw new NegocioException("Associado não pode ser removido, pois contém mensalidades vinculadas!");
+        }
     }
 
     public Page<Associado> filtrar(AssociadoFilter filtro, Pageable pageable){

@@ -85,7 +85,7 @@ public class AssociadoController {
         try{
             associadoService.remover(id);
 		return "redirect:/associados/listar";
-        }catch (EmptyResultDataAccessException e){
+        }catch (NegocioException  e){
             attributes.addFlashAttribute("mensagemErro", e.getMessage());
             return "redirect:/associados/listar";
         }
