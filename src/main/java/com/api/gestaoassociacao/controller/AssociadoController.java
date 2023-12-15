@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -18,7 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.api.gestaoassociacao.Exception.NegocioException;
 import com.api.gestaoassociacao.model.Associado;
 import com.api.gestaoassociacao.model.enums.StatusAssociado;
-import com.api.gestaoassociacao.repository.filter.AssociadoFilter;
+import com.api.gestaoassociacao.repository.filter.Filter;
 import com.api.gestaoassociacao.service.AssociadoService;
 
 import jakarta.validation.Valid;
@@ -60,7 +59,7 @@ public class AssociadoController {
     }
 
     @RequestMapping("/listar")
-    public ModelAndView listar(@ModelAttribute("filtro") AssociadoFilter filtro, 
+    public ModelAndView listar(@ModelAttribute("filtro") Filter filtro, 
                                @PageableDefault(size = 9) Pageable pageable) {
 
         Page<Associado> todosAssociados = associadoService.filtrar(filtro, pageable);

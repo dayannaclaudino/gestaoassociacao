@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -79,7 +78,8 @@ public class DependenteController {
     }
 
     @GetMapping("/{dependenteId}/excluir")
-	public ModelAndView excluir(@PathVariable("dependenteId") Long dependenteId) {
+	public ModelAndView excluir(@PathVariable("dependenteId") Long dependenteId, 
+                                RedirectAttributes attributes) {
 		
 		Associado associado = dependenteRepository.findById(dependenteId).get().getAssociado();
 		
@@ -87,6 +87,7 @@ public class DependenteController {
         ModelAndView mv = new ModelAndView(VIEW);
         mv.addObject("associado", associado);
         mv.addObject("dependentes", dependenteRepository.getDependentes(associado.getId()));
+        attributes.addFlashAttribute("mensagemSucesso",  "Dependente excluído com sucesso!");
         return mv;
 		
 	}

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{index}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    <!----======== CSS ======== -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <title>Gestão da Associação Quilombola Castainho</title> 
+</head>
+
+<body>
+  <section layout:fragment="content">
+  <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">    
+    <h3 class="h3">Lista de Mensalidades</h3>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <a class="btn btn-orange btn-sm me-md-2 fw-bold"
+                role="button" type="button" href="/mensalidades/novo">Adicionar Mensalidade</a>
+        <a class="btn btn-orange btn-sm fw-bold"   
+                role="button" type="button" href="/mensalidades/listar">Listar</a>
+    </div>
+  </div>
+    
+<div class="container">  
+
+      <div class="panel-body">
+        <form method="GET" class="form-horizontal" th:action="@{/mensalidades/listar}" th:object="${mensalidade}">
+            <div class="form-group">
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        <input class="form-control" placeholder="Digite aqui o nome do associado para buscar..."
+                               autofocus="autofocus" th:field="*{mensalidade.nome}"></input>
+                        <span class="input-group-btn">
+                            <button class="btn btn-success" type="submit">Buscar
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </form>
+  
+        <br>
+      <div class="table-wrapper">  
+          <div class="table-responsive">
+            <table class="table table-sm table-striped table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Código</th>
+                        <th>Nome Associado</th>
+                        <th>Data Emissão</th>
+                        <th>Parcela</th>
+                        <th>Data Vencimento</th>
+                        <th>Valor</th>
+                        <th>Situação</th>
+                        <th>Acões</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="mensalidade: ${mensalidades.content}">
+                        <td class="text-center" th:text="${mensalidade.id}">1</td>
+                        <td class="text-center" th:text="${mensalidade.associado.id}">1</td>
+                        <td th:text="${mensalidade.associado.nome}"></td>
+                        <td class="text-center" th:text="${{mensalidade.dataEmissao}}"></td>
+                        <td th:text="${mensalidade.parcela}"></td>
+                        <td class="text-center" th:text="${{mensalidade.dataVencimento}}"></td>
+                        <td th:text="|R$ ${{mensalidade.valor}}|"></td>
+                        <td class="text-center">
+                            <span class="badge" th:text="${mensalidade.situacao.descricao}"
+                            th:classappend="${#strings.toString(mensalidade.situacao) == 'Pendente' ? 'bg-warning' : 'bg-success'}"></span>
+                        </td>
+                        <td>
+                           <!--<a class="" th:if="${mensalidade.Pendente}"  
+                                        data-bs-toggle="modal" data-bs-target="#exampleModal" 
+		   								title="Receber" rel="tooltip" data-placement="top">
+                                           <i class="fa-solid fa-hand-holding-dollar text-success"></i> 
+		   					</a>-->
+                            <a class="edit" title="Editar" data-toggle="tooltip"
+                               th:href="@{/mensalidades/{id}(id=${mensalidade.id})}">
+                                <i class="fa-regular fa-pen-to-square" style="color: #ffc104;"></i>
+                            </a>
+                            <a class="delete" title="Excluir" data-toggle="tooltip"
+                               th:href="@{/mensalidades/{mensalidadeId}/delete(mensalidadeId = ${mensalidade.id})}">
+                                <i class="fa-solid fa-trash-can" style="color: #fa0000;"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="9" th:if="${#lists.isEmpty(mensalidades)}">Nenhuma mensalidade foi encontrada.</td>
+                    </tr>
+                </tbody>
+            </table>
+           <!--  pagination -->
+           <nav aria-label="Page navigation example">
+            <ul class="pagination pagination-sm justify-content-center font-weight-bold">
+
+                <li class="page-item">
+                    <span th:if="${mensalidades.hasPrevious()}">
+                        <a class="page-link" th:href="@{/mensalidades/listar(page=${mensalidades.number-1},size=${mensalidades.size})}">Anterior</a>
+                    </span>
+                </li>
+                <th:block th:each="i: ${#numbers.sequence(0, mensalidades.totalPages - 1)}">
+                    <li class="page-item active">    
+                        <span th:if="${mensalidades.number == i}" class="page-link selected">[[${i}+1]]</span>
+                    </li>
+                    <li class="page-item">
+                        <span th:unless="${mensalidades.number == i}">
+                            <a class="page-link" th:href="@{/mensalidades/listar(page=${i},size=${mensalidades.size})}">[[${i}+1]]</a>
+                        </span>
+                    </li>
+                </th:block>
+
+                <li class="page-item">
+                    <span th:if="${mensalidades.hasNext()}">
+                      <a class="page-link" th:href="@{/mensalidades/listar(page=${mensalidades.number+1},size=${mensalidades.size})}">Próximo</a>
+                    </span>
+                </li>
+            </ul>
+          </nav>
+        </div>
+    
+      </div>
+  </div> 
+  
+</div> </main>
+</section>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+
+    </script>
+</body>
+</html>

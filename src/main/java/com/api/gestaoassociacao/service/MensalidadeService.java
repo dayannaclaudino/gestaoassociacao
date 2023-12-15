@@ -2,9 +2,10 @@ package com.api.gestaoassociacao.service;
 
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.api.gestaoassociacao.Exception.NegocioException;
@@ -29,7 +30,20 @@ public class MensalidadeService {
 	}
 
 	public void remover(Long id) {
-		mensalidadeRepository.deleteById(id);
+		mensalidadeRepository.deleteById(id);		
+	}
+
+	public Mensalidade getMensalidadeById(Long id){
+		return mensalidadeRepository.findById(id).get();
+	}
+
+	 //public Page<Mensalidade> filtrar(Filter filtro, Pageable pageable){
+       // String nomeAssociado = filtro.getNome() == null ? "%" : filtro.getNome();
+	//	return mensalidadeRepository.buscaAssociadoMensalidade(nomeAssociado, pageable);
+	//}
+
+	public List<Mensalidade> getMensalidades(){
+		return mensalidadeRepository.findAll();
 	}
 
 	public String receber(Long id) {

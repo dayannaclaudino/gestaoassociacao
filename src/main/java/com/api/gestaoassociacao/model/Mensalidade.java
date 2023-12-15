@@ -1,7 +1,9 @@
 package com.api.gestaoassociacao.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
@@ -20,28 +22,26 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Mensalidade {
+public class Mensalidade implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+  
+    @JoinColumn(name="associado_id")
     @ManyToOne
-    @JoinColumn(name = "associadoId")
     private Associado associado;
 
-    @NotNull
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    @Column(name = "dataEmissao")
-    private LocalDate dataEmissao;
+    private String dataEmissao;
 
     @NotNull(message = "Date de vencimento é obrigatória")
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private LocalDate dataVencimento;
+    private String dataVencimento;
 
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private LocalDate dataPagamento;
+    private String dataPagamento;
 
     @NotNull
     @NumberFormat(pattern = "#,##0.00")
@@ -49,20 +49,19 @@ public class Mensalidade {
 	@DecimalMax(value = "9999999.99", message = "Valor não pode ser maior que 9.999.999,99") 
     private BigDecimal valor;
 
-    @NumberFormat(pattern = "#,##0.00") 
-    @DecimalMin(value = "0.01", message = "Valor não pode ser menor que 0,01")
-	@DecimalMax(value = "9999999.99", message = "Valor não pode ser maior que 9.999.999,99")
-    @Column(name = "valorPago")
-    private BigDecimal valorPago;
-
+    @NotNull(message = "Esse campo é obrigatório!")
+    @DecimalMin(value = "1", message = "Valor não pode ser zero ou menor que zero.")
     private int parcela;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     private Tipo tipo;
 
-    @NotNull
+    @NotNull(message = "Esse campo é obrigatório!")
     @Enumerated(EnumType.STRING)
     private SituacaoMensalidade situacao;
+
+    public boolean isPendente(){
+        return SituacaoMensalidade.Pendente.equals(this.situacao);
+    }
 
 }

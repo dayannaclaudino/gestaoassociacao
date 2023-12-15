@@ -2,6 +2,7 @@ package com.api.gestaoassociacao.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.validator.constraints.br.CPF;
@@ -43,12 +44,12 @@ public class Associado implements Serializable{
     private String nomePai;
 
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private LocalDate dataNascimento;
+    private String dataNascimento;
     private String celular;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private LocalDate dataInicio;
+    private String dataInicio;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private LocalDate socioDesde;
+    private String socioDesde;
     @NotNull(message="Esse campo é obrigatório!")
     @Enumerated(EnumType.STRING)
     private StatusAssociado status;
@@ -56,5 +57,8 @@ public class Associado implements Serializable{
 
     @OneToMany(mappedBy="associado", orphanRemoval= true, cascade = CascadeType.ALL)
     private List<Dependente> dependentes;  
+
+    @OneToMany(mappedBy="associado", orphanRemoval= true, cascade = CascadeType.ALL)
+    private List<Mensalidade> mensalidades;  
 }
 

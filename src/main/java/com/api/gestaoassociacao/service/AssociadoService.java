@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import com.api.gestaoassociacao.Exception.NegocioException;
 import com.api.gestaoassociacao.model.Associado;
 import com.api.gestaoassociacao.repository.AssociadoRepository;
-import com.api.gestaoassociacao.repository.filter.AssociadoFilter;
+import com.api.gestaoassociacao.repository.filter.Filter;
 
 import jakarta.transaction.Transactional;
 
@@ -34,7 +34,7 @@ public class AssociadoService {
         }
         try {
         associadoRepository.save(associado);
-        } catch (NegocioException e) {
+        } catch (DataIntegrityViolationException e) {
             throw new NegocioException("Não foi possível concluir o cadastro.");
         }
     }
@@ -48,7 +48,7 @@ public class AssociadoService {
         }
     }
 
-    public Page<Associado> filtrar(AssociadoFilter filtro, Pageable pageable){
+    public Page<Associado> filtrar(Filter filtro, Pageable pageable){
         String nomeAssociado = filtro.getNome() == null ? "%" : filtro.getNome();
 		return associadoRepository.findByNomeContaining(nomeAssociado, pageable);
 	}
@@ -57,5 +57,6 @@ public class AssociadoService {
         Optional<Associado> associado = associadoRepository.findById(id);
         return associado;
     }
+
 
 }
