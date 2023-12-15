@@ -1,5 +1,6 @@
 package com.api.gestaoassociacao.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,9 +23,6 @@ public class AssociadoService {
     @Autowired
     private AssociadoRepository associadoRepository;
 
-    public List<Associado> getAssociados(){
-        return associadoRepository.findAll();
-    }
     
     @Transactional
     public void salvar(Associado associado){
@@ -33,6 +31,7 @@ public class AssociadoService {
             throw new NegocioException("O CPF já está cadastrado no sistema.");
         }
         try {
+            associado.setDataCadastro(LocalDate.now());
         associadoRepository.save(associado);
         } catch (DataIntegrityViolationException e) {
             throw new NegocioException("Não foi possível concluir o cadastro.");
@@ -48,6 +47,10 @@ public class AssociadoService {
         }
     }
 
+    public List<Associado> getAssociados(){
+        return associadoRepository.findAll();
+    }
+    
     public Page<Associado> filtrar(Filter filtro, Pageable pageable){
         String nomeAssociado = filtro.getNome() == null ? "%" : filtro.getNome();
 		return associadoRepository.findByNomeContaining(nomeAssociado, pageable);

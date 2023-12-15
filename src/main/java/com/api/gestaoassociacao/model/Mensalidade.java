@@ -3,7 +3,6 @@ package com.api.gestaoassociacao.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
@@ -34,14 +33,14 @@ public class Mensalidade implements Serializable{
     private Associado associado;
 
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private String dataEmissao;
+    private LocalDate dataEmissao;
 
     @NotNull(message = "Date de vencimento é obrigatória")
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private String dataVencimento;
+    private LocalDate dataVencimento;
 
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private String dataPagamento;
+    private LocalDate dataPagamento;
 
     @NotNull
     @NumberFormat(pattern = "#,##0.00")

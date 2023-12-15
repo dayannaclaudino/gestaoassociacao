@@ -84,7 +84,7 @@
                  </div>
                  <div class="col-md-3">
                    <label for="date" class="form-label">Data do Vencimento</label>
-                     <input type="date" class="form-control" id="date" name="dataVencimento" 
+                     <input type="date" class="form-control" id="date" value="dataVencimento" 
                             placeholder="dd/mm/aaaa" required>
                  </div>                    
                  <div class="col-md-3">
@@ -121,7 +121,7 @@
                 <tr th:each="mensalidade: ${mensalidades}">
                     <td><span th:text="${mensalidade.parcela}"></span></td>
                     <td class="text-right" th:text="|R$ ${{mensalidade.valor}}|"></td>
-                    <td class="text-center"  th:text="${mensalidade.dataVencimento}"></td>
+                    <td class="text-center"  th:text="${{mensalidade.dataVencimento}}"></td>
                     <td th:text="${mensalidade.situacao}"></td>                    
                     <td>
                         <a class="delete" title="Excluir" data-toggle="tooltip"
@@ -142,8 +142,7 @@
        
     </div>
     </div>
-    
-      <h2 class="pb-2 border-bottom"></h2>
+  
 
       
                
@@ -151,5 +150,6 @@
 </div> </main>
 </section>
     <script src="/js/bootstrap.bundle.min.js"></script>
+    
 </body>
 </html>
