@@ -35,11 +35,8 @@
       
             <div class="card-body">
               <input type="hidden" th:field="*{id}"/> 
+              <input type="hidden" th:field="*{associado.id}"/>
               <div class="row g-2">
-                    <div class="col-md-1">
-                      <label for="associado" class="form-label">Associado</label>
-                      <input type="text" class="form-control" id="associado" th:field="*{associado.id}" disabled readonly>
-                    </div>
                     <div class="col-md-1">
                       <label for="parcela" class="form-label">Parcela</label>
                       <input type="number" class="form-control" id="parcela" th:field="*{parcela}"

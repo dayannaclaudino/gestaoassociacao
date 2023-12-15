@@ -122,17 +122,17 @@ public class MensalidadeController {
         
         Mensalidade mensalidade = mensalidadeService.getMensalidadeById(id);
         mv.addObject("mensalidade", mensalidade);
-        mv.addObject("associados", associadoService.getAssociados());
+        mv.addObject("associado", associadoService.getAssociados());
         mv.addObject("todosTipos", Tipo.values());
         mv.addObject("todasSituacoes", SituacaoMensalidade.values());
         return mv;
     }
 
     @PostMapping("/salvarMensalidade")
-    public String salvar(@ModelAttribute Mensalidade mensalidade, Associado associado){                                                                        
+    public String salvar(@ModelAttribute Mensalidade mensalidade){                                                                        
         
-        mensalidadeService.salvar(mensalidade);
-        mensalidade.setAssociado(associado);            
+   
+        mensalidadeService.salvar(mensalidade);        
                                  
         return "redirect:/associados/listar";
     }
