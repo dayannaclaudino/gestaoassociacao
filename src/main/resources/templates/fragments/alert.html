@@ -1,5 +1,6 @@
 <div th:if="${mensagemErro} != null">
-  <div class="alert alert-danger alert-dismissible alert-absolute fade show" id="alert" role="alert" data-mdb-color="danger">
+  <div class="alert alert-danger alert-dismissible alert-absolute fade show" id="alert" role="alert" 
+       data-mdb-color="danger">
     <i class="fa-solid fa-circle-exclamation"></i>
     <span>
         <strong th:text="${mensagemErro}"></strong>
@@ -10,7 +11,8 @@
 
 
 <div th:if="${mensagemSucesso} != null">
-<div class="alert alert-success mb-0 alert-dismissible alert-absolute fade show " id="alert" role="alert" data-mdb-color="success">
+<div class="alert alert-success mb-0 alert-dismissible alert-absolute fade show " id="alert" role="alert" 
+     data-mdb-color="success">
   <i class="fas fa-check-circle me-3"></i>
     <span>
       <strong th:text="${mensagemSucesso}"></strong> 

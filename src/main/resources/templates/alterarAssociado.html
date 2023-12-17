@@ -27,25 +27,32 @@
 <div th:replace="~{fragments/alert}"></div>
   
     
-  <form  method="POST"  th:action="@{/associados/salvar}" th:object="${associado}">
+  <form  method="POST"  th:action="@{/associados/editar}" th:object="${associado}">
     <div class="card">
       <div class="card-header fw-bold">     
-          <h6 class="card-title">Cadastro de Associado</h6>
+          <h6 class="card-title">Alterar Associado</h6>
       </div>
       
             <div class="card-body">
               <input type="hidden" th:field="*{id}"/> 
               <div class="row g-2">
-                  <div class="col-md-8">
+                  <div class="col-md-7">
                     <label for="inputNome" class="form-label">Nome do Associado</label>
                     <input type="text" class="form-control" id="inputNome" th:field="*{nome}" 
                            autofocus="autofocus" placeholder="Digite o nome do associado..." >
-                    <small class="form-text text-danger" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></small>
+                            <small class="form-text text-danger" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></small>
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-3">
                     <label for="inputApelido" class="form-label">Apelido</label>
                     <input type="text" class="form-control" id="inputApelido" th:field="*{apelido}"
                           placeholder="Digite o apelido...">
+                  </div>
+                  <div class="col-md-2">
+                    <label for="status" class="form-label">Status</label>
+                    <select class="form-select" name="status" th:field="*{status}" aria-label="Default">
+                      <option th:each="status : ${todosStatus}" th:value="${status}" th:text="${status.descricao}"></option>
+                    </select>
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></small>
                   </div>
                   <div class="col-md-3">
                       <label for="inputCPF" class="form-label">CPF</label>
@@ -74,7 +81,7 @@
             
                     <div class="col-md-3">
                       <label for="date" class="form-label">Data de Nascimento</label>
-                      <input type="date" class="form-control" id="date" th:field="*{dataNascimento}"
+                      <input type="date" class="form-control" id="date" th:value="*{dataNascimento}"
                              placeholder="dd/mm/aaaa">
                     </div>
                     <div class="col-md-3">
@@ -83,13 +90,13 @@
                                placeholder="(00)00000-0000">
                       </div>
                     <div class="col-md-3">
-                        <label for="fone" class="form-label">Telefone 2</label>
-                        <input type="text" class="form-control phone" id="fone" th:field="*{celular2}"
-                                placeholder="(00)00000-0000">
+                        <label for="inputTelefone" class="form-label">Telefone 2</label>
+                        <input type="text" class="form-control phone" id="inputTelefone" 
+                              placeholder="(00)00000-0000">
                     </div>
                     <div class="col-md-3">
                       <label for="date" class="form-label">Sócio Desde</label>
-                      <input type="date" class="form-control" id="date" th:field="*{socioDesde}"
+                      <input type="date" class="form-control" id="date" th:value="*{socioDesde}"
                             placeholder="dd/mm/aaaa">
                     </div>
                   <!--linha 4 -->
@@ -120,7 +127,8 @@
 </div> </main>
 </section>
     <script src="/js/bootstrap.bundle.min.js"></script>
-    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.mask.min.js"></script>
+    <script src="/js/jquery.mask.js"></script>
     
   </body>
 </html>

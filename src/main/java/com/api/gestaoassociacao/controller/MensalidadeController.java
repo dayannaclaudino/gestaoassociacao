@@ -10,16 +10,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.api.gestaoassociacao.Exception.NegocioException;
 import com.api.gestaoassociacao.model.Associado;
 import com.api.gestaoassociacao.model.Mensalidade;
 import com.api.gestaoassociacao.model.enums.SituacaoMensalidade;
-import com.api.gestaoassociacao.model.enums.StatusAssociado;
 import com.api.gestaoassociacao.model.enums.Tipo;
 import com.api.gestaoassociacao.repository.MensalidadeRepository;
 import com.api.gestaoassociacao.repository.AssociadoRepository;
@@ -27,8 +25,6 @@ import com.api.gestaoassociacao.service.AssociadoService;
 import com.api.gestaoassociacao.service.MensalidadeService;
 
 import jakarta.validation.Valid;
-
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 
@@ -64,9 +60,9 @@ public class MensalidadeController {
     }
 
     @RequestMapping("/detalheAssociado/{codigo}")
-    public ModelAndView mensalidadeAssociado(@PathVariable("codigo") Long id) {
+    public ModelAndView mensalidadeAssociado(@PathVariable("codigo") Long id, Mensalidade mensalidade) {
         
-         Optional<Associado> associado = associadoRepository.findById(id);
+        Optional<Associado> associado = associadoRepository.findById(id);
 
         ModelAndView mv = new ModelAndView("cadastroMensalidades");
         mv.addObject("associado", associado.get());
@@ -77,24 +73,29 @@ public class MensalidadeController {
     }
 
     @PostMapping("/addMensalAssociado/{codigo}")
-    public ModelAndView addMensalAssociado(@Valid Mensalidade mensalidade, @PathVariable("codigo") Long id, 
-                                          BindingResult result, RedirectAttributes attributes){
+    public ModelAndView addMensalAssociado(@Valid Mensalidade mensalidade, BindingResult result, 
+                                           @PathVariable("codigo") Long id, RedirectAttributes attributes){
         Associado associado = associadoRepository.findById(id).get();
 
         if (result.hasErrors()) {
-            return new ModelAndView("redirect:/mensalidades/detalheAssociado/"+ associado.getId());
+            return mensalidadeAssociado(id, mensalidade);
         }                                                                         
-    
-        ModelAndView mv = new ModelAndView(VIEW);
-        mensalidade.setAssociado(associado);                                        
-        mensalidadeService.salvar(mensalidade); 
+        try {
+            ModelAndView mv = new ModelAndView(VIEW);
+            mensalidade.setAssociado(associado);                                        
+            mensalidadeService.salvar(mensalidade); 
+            mv.addObject("associado", associado);
+            mv.addObject("mensalidades", mensalidadeRepository.getMensalidades(id));
+            mv.addObject("todosTipos", Tipo.values());
+            mv.addObject("todasSituacoes", SituacaoMensalidade.values());    
+            attributes.addFlashAttribute("mensagemSucesso", "Mensalidade salva com sucesso.");
+        return new ModelAndView("redirect:/mensalidades/detalheAssociado/"+ associado.getId());
 
-        mv.addObject("associado", associado);
-        mv.addObject("mensalidade", mensalidade);
-        mv.addObject("mensalidades", mensalidadeRepository.getMensalidades(id));
-        mv.addObject("todosTipos", Tipo.values());
-        mv.addObject("todasSituacoes", SituacaoMensalidade.values());                                   
-        return mv;
+        } catch (NegocioException e) {
+            attributes.addFlashAttribute("mensagemErro", e.getMessage());
+            System.out.println(e.getMessage());
+            return mensalidadeAssociado(id, mensalidade);
+        }
     }
 
    
@@ -130,11 +131,9 @@ public class MensalidadeController {
 
     @PostMapping("/salvarMensalidade")
     public String salvar(@ModelAttribute Mensalidade mensalidade){                                                                        
-        
-   
-        mensalidadeService.salvar(mensalidade);        
-                                 
-        return "redirect:/associados/listar";
+           
+        mensalidadeService.salvar(mensalidade);                                     
+        return "redirect:/mensalidades/listar";
     }
    
         

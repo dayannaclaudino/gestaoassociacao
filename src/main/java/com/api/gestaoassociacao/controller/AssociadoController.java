@@ -54,8 +54,7 @@ public class AssociadoController {
              model.addAttribute("mensagemErro", e.getMessage());
             System.out.println(e.getMessage());
             return novo(associado);
-        }
-        
+        }   
     }
 
     @RequestMapping("/listar")
@@ -71,22 +70,37 @@ public class AssociadoController {
     }
 
 
-    @RequestMapping("{id}")
-    public ModelAndView editar(@PathVariable("id") Associado associado) {
-        ModelAndView mv = new ModelAndView(VIEW);
+    @RequestMapping("/editar/{id}")
+    public ModelAndView editarView(@PathVariable("id") Associado associado) {
+        ModelAndView mv = new ModelAndView("alterarAssociado");
         mv.addObject(associado);
         mv.addObject("todosStatus", StatusAssociado.values());
         return mv;
     }
 
+    @PostMapping(value = "/editar")
+    public ModelAndView editar(@Valid Associado associado, BindingResult result, RedirectAttributes attributes, 
+                                Model model) {
+      
+        if (result.hasErrors()) {
+            return editarView(associado);
+        }
+      
+        associadoService.editar(associado);
+        attributes.addFlashAttribute("mensagemSucesso", "Associado "+ associado.getNome() + " alterado com sucesso.");
+        return new ModelAndView("redirect:/associados/novo");
+    }
+
     @GetMapping(value="/{id}/delete")
-	public String excluir(@PathVariable Long id, RedirectAttributes attributes) {
+	public ModelAndView excluir(@PathVariable Long id, RedirectAttributes attributes, Model model) {
         try{
             associadoService.remover(id);
-		return "redirect:/associados/listar";
-        }catch (NegocioException  e){
+		return new ModelAndView ("redirect:/associados/listar");
+
+        }catch (NegocioException e){
             attributes.addFlashAttribute("mensagemErro", e.getMessage());
-            return "redirect:/associados/listar";
+            System.out.println(e.getMessage());
+            return new ModelAndView ("redirect:/associados/listar");
         }
 	}
 

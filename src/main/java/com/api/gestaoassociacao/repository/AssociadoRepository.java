@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.api.gestaoassociacao.model.Associado;
+import com.api.gestaoassociacao.model.enums.StatusAssociado;
+
 
 @Repository
 @Transactional
@@ -22,4 +24,6 @@ public interface AssociadoRepository extends JpaRepository<Associado, Long>{
     public Page<Associado> findByNomeContaining(String nome, Pageable pageable);
 
     public Optional<Associado> findByCpf(String cpf);
+    
+    public Optional<Associado>  findByStatus(StatusAssociado status);
 }

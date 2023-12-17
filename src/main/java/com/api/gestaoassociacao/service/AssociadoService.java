@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.api.gestaoassociacao.Exception.NegocioException;
 import com.api.gestaoassociacao.model.Associado;
+import com.api.gestaoassociacao.model.enums.StatusAssociado;
 import com.api.gestaoassociacao.repository.AssociadoRepository;
 import com.api.gestaoassociacao.repository.filter.Filter;
 
@@ -27,23 +28,37 @@ public class AssociadoService {
     @Transactional
     public void salvar(Associado associado){
         Optional<Associado> buscaPorCpf = associadoRepository.findByCpf(associado.getCpf());
+        Optional<Associado> buscaStatus = associadoRepository.findByStatus(associado.getStatus());
+
         if (buscaPorCpf.isPresent()) {
             throw new NegocioException("O CPF já está cadastrado no sistema.");
         }
         try {
             associado.setDataCadastro(LocalDate.now());
-        associadoRepository.save(associado);
+            associado.setStatus(StatusAssociado.valueOf("Ativo"));
+            associadoRepository.save(associado);
         } catch (DataIntegrityViolationException e) {
             throw new NegocioException("Não foi possível concluir o cadastro.");
         }
     }
 
+    @Transactional
+    public void editar(Associado associado){
+       // Optional<Associado> buscaPorStatus = associadoRepository.findByStatus(associado.getStatus());
+
+             associadoRepository.save(associado);
+    }
+
     public void remover(Long id){
         try {
             Associado associado = associadoRepository.findById(id).get();
-            associadoRepository.delete(associado);
+            if (associado.getDependentes().isEmpty()) {
+                associadoRepository.delete(associado);
+                throw new NegocioException("Associado não pode ser removido, pois contém dependentes vinculados!");
+            }
+            
          }catch (DataIntegrityViolationException e){
-            throw new NegocioException("Associado não pode ser removido, pois contém mensalidades vinculadas!");
+            throw new NegocioException("Associado não pode ser removido, pois contém dependentes vinculados!");
         }
     }
 

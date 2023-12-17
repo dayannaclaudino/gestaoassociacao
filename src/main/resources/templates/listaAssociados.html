@@ -25,9 +25,10 @@
                 role="button" type="button" href="/associados/listar">Listar</a>
     </div>
   </div>
-    
-<div class="container">  
 
+<div th:replace="~{fragments/alert}"></div>    
+
+<div class="container">  
       <div class="panel-body">
         <form method="GET" class="form-horizontal" th:action="@{/associados/listar}" th:object="${filtro}">
             <div class="form-group">
@@ -71,7 +72,10 @@
                         <td th:text="${associado.cpf}"></td>
                         <td th:text="${associado.celular}"></td>
                         <td class="text-center" th:text="${{associado.socioDesde}}"></td>
-                        <td th:text="${associado.status}"></td>
+                        <td class="text-center">
+                            <span class="badge" th:text="${associado.status.descricao}"
+                            th:classappend="${#strings.toString(associado.status) == 'Ativo' ? 'bg-success' : 'bg-danger'}"></span>
+                        </td>
                         <td>
                             <a href="#" class="view" title="Incluir Mensalidades" data-toggle="tooltip"
                                th:href="@{/mensalidades/detalheAssociado/{codigo}(codigo=${associado.id})}">
@@ -82,7 +86,7 @@
                                <i class="fa-solid fa-users" style="color: #03a9f4;"></i>
                             </a>
                             <a class="edit" title="Editar" data-toggle="tooltip"
-                               th:href="@{/associados/{codigo}(codigo=${associado.id})}">
+                               th:href="@{/associados/editar/{codigo}(codigo=${associado.id})}">
                                 <i class="fa-regular fa-pen-to-square" style="color: #ffc104;"></i>
                             </a>
                             <a class="delete" title="Excluir" data-toggle="tooltip"
@@ -132,5 +136,6 @@
 </div> </main>
 </section>
     <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
 </body>
 </html>

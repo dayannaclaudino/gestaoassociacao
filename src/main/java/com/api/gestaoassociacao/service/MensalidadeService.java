@@ -12,6 +12,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.api.gestaoassociacao.Exception.NegocioException;
+import com.api.gestaoassociacao.model.Associado;
 import com.api.gestaoassociacao.model.Mensalidade;
 import com.api.gestaoassociacao.model.enums.SituacaoMensalidade;
 import com.api.gestaoassociacao.repository.MensalidadeRepository;
@@ -27,16 +28,25 @@ public class MensalidadeService {
 
 	@Transactional
 	public void salvar(Mensalidade mensalidade) {
-		try {
-			mensalidade.setDataEmissao(LocalDate.now());
-			mensalidadeRepository.save(mensalidade);
-		} catch (NegocioException e) {
-			throw new NegocioException("Formato de data inválido");
-		}
+		
+		mensalidade.setDataEmissao(LocalDate.now());
+		mensalidadeRepository.save(mensalidade);
+		
 	}
 
 	public void remover(Long id) {
-		mensalidadeRepository.deleteById(id);		
+		try {
+			Mensalidade mensalidade = mensalidadeRepository.findById(id).get();
+
+			if (mensalidade.getDataPagamento() == null) {
+				mensalidadeRepository.deleteById(id);
+				throw new NegocioException("A mensalidade não pode ser removido, pois contém mensalidades vinculadas!");
+			}
+
+		} catch (DataIntegrityViolationException e) {
+			throw new NegocioException("Associado não pode ser removido, pois contém mensalidades vinculadas!");
+		}
+			
 	}
 
 	public Mensalidade getMensalidadeById(Long id){

@@ -16,7 +16,7 @@
 <section layout:fragment="content">
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">    
-          <h3 class="h3">Incluir Mensalidades</h3>
+          <h3 class="h3">Cadastro de Mensalidades</h3>
           <div class="d-grid gap-2 d-md-flex justify-content-md-end">
             <a class="btn btn-orange btn-sm me-md-2 fw-bold"
                       role="button" type="button" href="/associados/novo">Adicionar Associado</a>
@@ -24,8 +24,7 @@
                       role="button" type="button" href="/associados/listar">Listar Associados</a>
           </div>
         </div>
-    
-<div th:replace="~{fragments/alert}"></div>     
+  
   
 <div class="container">  
 
@@ -64,9 +63,12 @@
     </div>-->
 </div>
 
+<div th:replace="~{fragments/alert}"></div>
 <!-- mensalidade --> 
+
 </br>   
-  <form  method="POST" th:action="@{/mensalidades/addMensalAssociado/{codigo}(codigo=${associado.id})}" >
+  <form  method="POST" th:action="@{/mensalidades/addMensalAssociado/{codigo}(codigo=${associado.id})}" 
+                       th:object="${mensalidade}">
     <div class="card">
             <div class="card-header fw-bold">     
                 <h6 class="card-title">Incluir Mensalidades ao Associado</h6>
@@ -75,28 +77,32 @@
               <div class="row">
                  <div class="col-md-1">
                    <label for="parcela" class="form-label">Parcela</label>
-                   <input type="number" class="form-control" id="parcela"  name="parcela" required>
+                   <input type="number" class="form-control" id="parcela"  th:field="*{parcela}">
+                   <small class="form-text text-danger" th:if="${#fields.hasErrors('parcela')}" th:errors="*{parcela}"></small>
                  </div>
                  <div class="col-md-3">
                    <label for="valor" class="form-label">Valor</label>
-                     <input type="text" class="form-control" id="valor" name="valor"
-                               placeholder="R$ 0,00" required>
+                     <input type="text" class="form-control" id="valor" th:field="*{valor}"
+                               placeholder="R$ 0,00">
+                  <small class="form-text text-danger" th:if="${#fields.hasErrors('valor')}" th:errors="*{valor}"></small>
                  </div>
                  <div class="col-md-3">
                    <label for="date" class="form-label">Data do Vencimento</label>
-                     <input type="date" class="form-control" id="date" value="dataVencimento" 
-                            placeholder="dd/mm/aaaa" required>
+                     <input type="date" class="form-control" id="date" th:field="*{dataVencimento}"
+                            placeholder="dd/mm/aaaa">
+                  <small class="form-text text-danger" th:if="${#fields.hasErrors('dataVencimento')}" th:errors="*{dataVencimento}"></small>          
                  </div>                    
                  <div class="col-md-3">
                      <label class="form-label">Selecione a situação</label>
-                       <select class="form-select" name="situacao" aria-label="Default" required>
+                       <select class="form-select" name="situacao" th:field="*{situacao}" aria-label="Default">
                          <option th:each="situacao : ${todasSituacoes}" th:value="${situacao}" 
                                  th:text="${situacao.descricao}"></option>
                        </select>
+                       <small class="form-text text-danger" th:if="${#fields.hasErrors('situacao')}" th:errors="*{situacao}"></small>     
                  </div>
                 
                  <div class="col">
-                  <button type="submit" class="btn btn-success btn-block" style="margin-top: 20%;">Incluir</button>
+                  <button type="submit" class="btn btn-success btn-block" style="margin-top: 23%;">Incluir</button>
                 </div>    
               
              </div>

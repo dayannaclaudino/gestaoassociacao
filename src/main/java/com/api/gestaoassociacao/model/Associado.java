@@ -32,7 +32,7 @@ public class Associado implements Serializable{
 
 
     @NotBlank(message="Esse campo é obrigatório!")
-    @CPF
+    @CPF(message = "Cpf inválido, tente um cpf válido.")
     private String cpf;
 
     private String rg;
@@ -41,23 +41,27 @@ public class Associado implements Serializable{
 
     private String nomeMae;
     private String nomePai;
+    private String celular;
+    private String celular2;
+
+    
+    private String observacao;
 
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataNascimento;
-    private String celular;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataCadastro;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate socioDesde;
+    
     @NotNull(message="Esse campo é obrigatório!")
     @Enumerated(EnumType.STRING)
     private StatusAssociado status;
-    private String observacao;
 
-    @OneToMany(mappedBy="associado", orphanRemoval= true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="associado", cascade = CascadeType.ALL)
     private List<Dependente> dependentes;  
 
-    @OneToMany(mappedBy="associado", orphanRemoval= true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="associado",  cascade = CascadeType.ALL)
     private List<Mensalidade> mensalidades;  
 }
 

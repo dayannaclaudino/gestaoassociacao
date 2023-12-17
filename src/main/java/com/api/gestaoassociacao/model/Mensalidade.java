@@ -48,8 +48,8 @@ public class Mensalidade implements Serializable{
 	@DecimalMax(value = "9999999.99", message = "Valor não pode ser maior que 9.999.999,99") 
     private BigDecimal valor;
 
-    @NotNull(message = "Esse campo é obrigatório!")
-    @DecimalMin(value = "1", message = "Valor não pode ser zero ou menor que zero.")
+    @NotNull(message = "Obrigatório!")
+    @DecimalMin(value = "1", message = "Valor inválido.")
     private int parcela;
 
     @Enumerated(EnumType.STRING)

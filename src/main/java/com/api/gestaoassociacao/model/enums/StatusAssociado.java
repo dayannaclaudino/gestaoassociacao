@@ -2,8 +2,8 @@ package com.api.gestaoassociacao.model.enums;
 
 public enum StatusAssociado {
 
-    ATIVO("Ativo"),
-    INATIVO("Inativo");
+    Ativo("Ativo"),
+    Inativo("Inativo");
 
     private String descricao;
 
@@ -14,4 +14,10 @@ public enum StatusAssociado {
     public String getDescricao(){
         return descricao;
     }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    
 }
