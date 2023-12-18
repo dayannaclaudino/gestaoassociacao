@@ -103,10 +103,13 @@ public class AssociadoController {
             return new ModelAndView ("redirect:/associados/listar");
         }
 	}
-
-    @ModelAttribute("todosStatus")
-    public List<StatusAssociado> getStatusAssociados(){
-        return Arrays.asList(StatusAssociado.values());
+    
+    @RequestMapping("/detalharAssociado/{id}")
+    public ModelAndView detalharAssociado(@PathVariable("id") Associado associado) {
+        ModelAndView mv = new ModelAndView("alterarAssociado");
+        mv.addObject(associado);
+        mv.addObject("todosStatus", StatusAssociado.values());
+        return mv;
     }
 
 }

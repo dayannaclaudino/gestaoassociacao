@@ -32,7 +32,7 @@
   <div class="bg-body-tertiary" th:each="a : ${associado}">
     <div class="card-header fw-bold">     
         <h6 class="card-title">
-          <i class="fa-solid fa-hashtag" style="color: #38b43a;"></i>
+          <i class="fa-solid fa-hashtag"></i>
           <span class="text-dark fw-bold" th:text="${a.id}"></span>
           <span class="text-dark fw-bold" th:text="' - ' + ${a.nome}"></span>
           <span class="text-warning fw-bold " th:text="' - Status: ' + ${a.status}"></span>
@@ -40,29 +40,32 @@
         </h6>
     </div>   
 
-    <div class="card-body">
-      <div class="row g-4 row-cols-1 row-cols-lg-3" style="line-height: 40%">           
-        <div class="feature col-4">
+ <!--   <div class="row grid-divider">
+      <div class="col-sm-4">
+        <div class="col-padding">
           <p><small th:text="'Apelido: ' + ${a.apelido}" ></small></p>
           <p><small th:text="'Cpf: ' + ${a.cpf}" ></small></p>
           <p><small th:text="'RG: ' + ${a.rg}" ></small></p>
           <p><small th:text="'Data de Nascimento: ' + ${{a.dataNascimento}}" ></small></p>
           <p><small th:text="'Observações: ' + ${a.observacao}" ></small></p>
         </div>
-        <div class="feature col-3">
+      </div>
+      <div class="col-sm-4">
+        <div class="col-padding">
           <p><small th:text="'RG: ' + ${a.rg}" ></small></p>
           <p><small th:text="'NIS: ' + ${a.nis}" ></small></p>
           <p><small th:text="'Título do Eleitor: ' + ${a.tituloEleitor}" ></small></p>
-          
         </div>
-        <div class="feature col-5">
+      </div>
+      <div class="col-sm-4">
+        <div class="col-padding">
           <p><small th:text="'Telefone : ' + ${a.celular}" ></small></p>
           <p><small th:text="'Nome da Mãe: ' + ${a.nomeMae}" ></small></p>
           <p><small th:text="'Nome da Pai: ' + ${a.nomePai}" ></small></p>
         </div>
       </div>
-    </div>
-</div>
+    </div>-->
+    
 
 </br>   <!-- depedente --> 
   <form  method="POST" th:action="@{/dependentes/addDepenAssociado/{codigo}(codigo=${associado.id})}">
