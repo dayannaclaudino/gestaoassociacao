@@ -54,7 +54,6 @@ public class Associado implements Serializable{
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate socioDesde;
     
-    @NotNull(message="Esse campo é obrigatório!")
     @Enumerated(EnumType.STRING)
     private StatusAssociado status;
 

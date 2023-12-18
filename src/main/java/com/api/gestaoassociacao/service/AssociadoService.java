@@ -33,6 +33,7 @@ public class AssociadoService {
         if (buscaPorCpf.isPresent()) {
             throw new NegocioException("O CPF já está cadastrado no sistema.");
         }
+        
         try {
             associado.setDataCadastro(LocalDate.now());
             associado.setStatus(StatusAssociado.valueOf("Ativo"));
@@ -45,15 +46,15 @@ public class AssociadoService {
     @Transactional
     public void editar(Associado associado){
        // Optional<Associado> buscaPorStatus = associadoRepository.findByStatus(associado.getStatus());
-
              associadoRepository.save(associado);
     }
 
     public void remover(Long id){
         try {
             Associado associado = associadoRepository.findById(id).get();
-            if (associado.getDependentes().isEmpty()) {
+            if (associado.getDependentes().isEmpty() && associado.getMensalidades().isEmpty()) {
                 associadoRepository.delete(associado);
+            }else{
                 throw new NegocioException("Associado não pode ser removido, pois contém dependentes vinculados!");
             }
             

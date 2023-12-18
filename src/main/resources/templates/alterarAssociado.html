@@ -2,12 +2,7 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{index}">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   
-    <!----======== CSS ======== -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+  
     
     <title>Gestão da Associação Quilombola Castainho</title> 
 </head>
@@ -81,7 +76,7 @@
             
                     <div class="col-md-3">
                       <label for="date" class="form-label">Data de Nascimento</label>
-                      <input type="date" class="form-control" id="date" th:value="*{dataNascimento}"
+                      <input type="date" class="form-control" id="date" name="dataNascimento" th:value="*{dataNascimento}"
                              placeholder="dd/mm/aaaa">
                     </div>
                     <div class="col-md-3">
@@ -90,13 +85,13 @@
                                placeholder="(00)00000-0000">
                       </div>
                     <div class="col-md-3">
-                        <label for="inputTelefone" class="form-label">Telefone 2</label>
-                        <input type="text" class="form-control phone" id="inputTelefone" 
+                        <label for="inputTelefone2" class="form-label">Telefone 2</label>
+                        <input type="text" class="form-control phone" th:field="*{celular2}" id="inputTelefone2" 
                               placeholder="(00)00000-0000">
                     </div>
                     <div class="col-md-3">
                       <label for="date" class="form-label">Sócio Desde</label>
-                      <input type="date" class="form-control" id="date" th:value="*{socioDesde}"
+                      <input type="date" class="form-control" id="date" name="socioDesde" th:value="*{socioDesde}"
                             placeholder="dd/mm/aaaa">
                     </div>
                   <!--linha 4 -->
@@ -126,9 +121,5 @@
   </div> <!-- container end-->
 </div> </main>
 </section>
-    <script src="/js/bootstrap.bundle.min.js"></script>
-    <script src="/js/jquery.mask.min.js"></script>
-    <script src="/js/jquery.mask.js"></script>
-    
   </body>
 </html>

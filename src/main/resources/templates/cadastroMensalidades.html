@@ -2,12 +2,7 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{index}">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    
-    <!----======== CSS ======== -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
     
     <title>Gestão da Associação Quilombola Castainho</title> 
 </head>
@@ -34,7 +29,7 @@
           <i class="fa-solid fa-hashtag"></i>
           <span class="text-dark fw-bold" th:text="${a.id}"></span>
           <span class="text-dark fw-bold" th:text="' - ' + ${a.nome}"></span>
-          <span class="text-warning fw-bold " th:text="' - Status: ' + ${a.status}"></span>
+          <span class="fw-bold" style="color: #38B43A;" th:text="' - Status: ' + ${a.status}"></span>
           <span class="text-dark fw-bold float-end" th:text="'Sócio Desde: ' + ${{a.socioDesde}}"></span>
         </h6>
     </div>   
@@ -128,7 +123,10 @@
                     <td><span th:text="${mensalidade.parcela}"></span></td>
                     <td class="text-right" th:text="|R$ ${{mensalidade.valor}}|"></td>
                     <td class="text-center"  th:text="${{mensalidade.dataVencimento}}"></td>
-                    <td th:text="${mensalidade.situacao}"></td>                    
+                    <td class="text-center">
+                      <span class="badge" th:text="${mensalidade.situacao.descricao}"
+                      th:classappend="${#strings.toString(mensalidade.situacao) == 'Pendente' ? 'bg-warning' : 'bg-success'}"></span>
+                    </td>                 
                     <td>
                         <a class="delete" title="Excluir" data-toggle="tooltip"
                         th:href="@{/mensalidades/{mensalidadeId}/(mensalidadeId = ${mensalidade.id})}">
@@ -148,14 +146,11 @@
        
     </div>
     </div>
-  
 
-      
                
  <!-- container end-->       
 </div> </main>
 </section>
-    <script src="/js/bootstrap.bundle.min.js"></script>
     
 </body>
 </html>

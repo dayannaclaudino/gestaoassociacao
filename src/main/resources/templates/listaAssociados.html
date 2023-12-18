@@ -2,14 +2,7 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{index}">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   
-    <!----======== CSS ======== -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
 
-    
     <title>Gestão da Associação Quilombola Castainho</title> 
 </head>
 
@@ -65,7 +58,8 @@
                 <tbody>
                     <tr th:each="associado: ${associados.content}">
                         <td class="text-center" th:text="${associado.id}">1</td>
-                        <td><a th:href="@{/dependentes/detalheAssociado/{codigo}(codigo=${associado.id})}" class="text-decoration-none">
+                        <td><a th:href="@{/dependentes/detalheAssociado/{codigo}(codigo=${associado.id})}"         
+                                class="text-decoration-none" style="color: #38B43A;">
                             <span th:text="${associado.nome}"></span></a></td>
                         <td th:text="${associado.apelido}"></td>
                         <td class="text-center" th:text="${{associado.dataNascimento}}"></td>
@@ -77,10 +71,6 @@
                             th:classappend="${#strings.toString(associado.status) == 'Ativo' ? 'bg-success' : 'bg-danger'}"></span>
                         </td>
                         <td>
-                            <a type="button"  title="Ver Associado" data-toggle="tooltip"
-                                data-bs-toggle="modal" data-bs-target="#modalDetalhes">
-                               <i class="fa-solid fa-address-book" style="color: #792a84;"></i> 
-                            </a>
                             <a href="#" class="view" title="Incluir Mensalidades" data-toggle="tooltip"
                                th:href="@{/mensalidades/detalheAssociado/{codigo}(codigo=${associado.id})}">
                                <i class="fa-solid fa-hand-holding-dollar" style="color: #38B43A;"></i> 
@@ -136,27 +126,8 @@
       </div>
   </div> <!-- container end-->
    
- <!-- Modal -->
-<div class="modal fade" id="modalDetalhes" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" 
-     aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="staticBackdropLabel">Informações Associado</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-success">Fechar</button>
-        </div>
-      </div>
-    </div>
-  </div>
 </div> </main>
 </section>
-    <script src="/js/bootstrap.bundle.min.js"></script>
-    <script src="/js/jquery.min.js"></script>
+
 </body>
 </html>

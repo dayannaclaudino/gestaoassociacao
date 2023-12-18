@@ -34,6 +34,8 @@ public class AssociadoController {
     @RequestMapping("/novo")
     public ModelAndView novo(Associado associado) {
         ModelAndView mv = new ModelAndView(VIEW);
+        mv.addObject(associado);
+        mv.addObject("todosStatus", StatusAssociado.values());
  
         return mv;
     }
@@ -47,7 +49,7 @@ public class AssociadoController {
         }
         try {
             associadoService.salvar(associado);
-            attributes.addFlashAttribute("mensagemSucesso", "Associado "+ associado.getNome() + " salvo com sucesso.");
+            attributes.addFlashAttribute("mensagemSucesso", "Associado '"+ associado.getNome() + "' salvo com sucesso.");
             return new ModelAndView("redirect:/associados/novo");
             
         } catch (NegocioException e) {
@@ -95,7 +97,8 @@ public class AssociadoController {
 	public ModelAndView excluir(@PathVariable Long id, RedirectAttributes attributes, Model model) {
         try{
             associadoService.remover(id);
-		return new ModelAndView ("redirect:/associados/listar");
+            attributes.addFlashAttribute("mensagemSucesso", "Associado excluído com sucesso.");
+		    return new ModelAndView ("redirect:/associados/listar");
 
         }catch (NegocioException e){
             attributes.addFlashAttribute("mensagemErro", e.getMessage());
@@ -110,6 +113,11 @@ public class AssociadoController {
         mv.addObject(associado);
         mv.addObject("todosStatus", StatusAssociado.values());
         return mv;
+    }
+
+    @ModelAttribute("todosStatus")
+    public List<StatusAssociado> getStatusAssociados(){
+        return Arrays.asList(StatusAssociado.values());
     }
 
 }

@@ -3,8 +3,6 @@ package com.api.gestaoassociacao.service;
 
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +10,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.api.gestaoassociacao.Exception.NegocioException;
-import com.api.gestaoassociacao.model.Associado;
 import com.api.gestaoassociacao.model.Mensalidade;
-import com.api.gestaoassociacao.model.enums.SituacaoMensalidade;
 import com.api.gestaoassociacao.repository.MensalidadeRepository;
 
 import jakarta.transaction.Transactional;
@@ -40,11 +36,12 @@ public class MensalidadeService {
 
 			if (mensalidade.getDataPagamento() == null) {
 				mensalidadeRepository.deleteById(id);
-				throw new NegocioException("A mensalidade não pode ser removido, pois contém mensalidades vinculadas!");
-			}
+			}else{
+                throw new NegocioException("Mensalidade não pode ser removida, pois contém mensalidades pagas!");
+            }
 
 		} catch (DataIntegrityViolationException e) {
-			throw new NegocioException("Associado não pode ser removido, pois contém mensalidades vinculadas!");
+			throw new NegocioException("Mensalidade não pode ser removida, pois contém mensalidades pagas!");
 		}
 			
 	}

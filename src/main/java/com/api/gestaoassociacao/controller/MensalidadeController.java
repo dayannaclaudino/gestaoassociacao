@@ -104,16 +104,20 @@ public class MensalidadeController {
 	public String excluir(@PathVariable Long mensalidadeId, RedirectAttributes attributes) {
         
         Associado associado = mensalidadeRepository.findById(mensalidadeId).get().getAssociado();
-            
-        mensalidadeService.remover(mensalidadeId);
-        ModelAndView mv = new ModelAndView(VIEW);
-        mv.addObject("associado", associado);
-        mv.addObject("mensalidades", mensalidadeRepository.getMensalidades(associado.getId()));
-        mv.addObject("todosTipos", Tipo.values());
-        mv.addObject("todasSituacoes", SituacaoMensalidade.values());
-        attributes.addFlashAttribute("mensagemSucesso",  "Mensalidade excluída com sucesso!");
-        return "redirect:/mensalidades/detalheAssociado/"+ associado.getId();
-		
+        try{    
+            mensalidadeService.remover(mensalidadeId);
+            ModelAndView mv = new ModelAndView(VIEW);
+            mv.addObject("associado", associado);
+            mv.addObject("mensalidades", mensalidadeRepository.getMensalidades(associado.getId()));
+            mv.addObject("todosTipos", Tipo.values());
+            mv.addObject("todasSituacoes", SituacaoMensalidade.values());
+            attributes.addFlashAttribute("mensagemSucesso",  "Mensalidade excluída com sucesso!");
+             return "redirect:/mensalidades/detalheAssociado/"+ associado.getId();
+        }catch(NegocioException e){
+            attributes.addFlashAttribute("mensagemErro", e.getMessage());
+            System.out.println(e.getMessage());
+            return "redirect:/mensalidades/detalheAssociado/"+ associado.getId();   
+        }	
 	} 
 
    @GetMapping("/editarMensalidade")
@@ -130,10 +134,14 @@ public class MensalidadeController {
     }
 
     @PostMapping("/salvarMensalidade")
-    public String salvar(@ModelAttribute Mensalidade mensalidade){                                                                        
-           
-        mensalidadeService.salvar(mensalidade);                                     
-        return "redirect:/mensalidades/listar";
+    public ModelAndView salvar(@Valid @ModelAttribute Mensalidade mensalidade, BindingResult result, RedirectAttributes attributes){                                                                        
+             Associado associado = mensalidadeRepository.findById(mensalidade.getId()).get().getAssociado();
+        if (result.hasErrors()) {
+          return editarMensalidade(mensalidade.getId());
+        }
+        mensalidadeService.salvar(mensalidade);
+        attributes.addFlashAttribute("mensagemSucesso", "Mensalidade alterada com sucesso.");                                     
+        return new ModelAndView ("redirect:/mensalidades/detalheAssociado/"+ associado.getId());
     }
    
         

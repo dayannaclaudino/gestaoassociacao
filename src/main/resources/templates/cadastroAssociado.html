@@ -2,12 +2,6 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{index}">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   
-    <!----======== CSS ======== -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
     
     <title>Gestão da Associação Quilombola Castainho</title> 
 </head>
@@ -35,6 +29,7 @@
       
             <div class="card-body">
               <input type="hidden" th:field="*{id}"/> 
+              
               <div class="row g-2">
                   <div class="col-md-8">
                     <label for="inputNome" class="form-label">Nome do Associado</label>
@@ -73,13 +68,13 @@
                   <!--linha 3 -->
             
                     <div class="col-md-3">
-                      <label for="date" class="form-label">Data de Nascimento</label>
-                      <input type="date" class="form-control" id="date" th:field="*{dataNascimento}"
+                      <label for="dateNascimento" class="form-label">Data de Nascimento</label>
+                      <input type="date" class="form-control" id="dateNascimento" name="dataNascimento" th:value="*{dataNascimento}"
                              placeholder="dd/mm/aaaa">
                     </div>
                     <div class="col-md-3">
                         <label for="inputTelefone" class="form-label">Telefone 1</label>
-                        <input type="text" class="form-control" id="inputTelefone" th:field="*{celular}"
+                        <input type="text" class="form-control" id="inputTelefone"  th:field="*{celular}"
                                placeholder="(00)00000-0000">
                       </div>
                     <div class="col-md-3">
@@ -88,8 +83,8 @@
                                 placeholder="(00)00000-0000">
                     </div>
                     <div class="col-md-3">
-                      <label for="date" class="form-label">Sócio Desde</label>
-                      <input type="date" class="form-control" id="date" th:field="*{socioDesde}"
+                      <label for="dateSocioDesde" class="form-label">Sócio Desde</label>
+                      <input type="date" class="form-control" id="dateSocioDesde" name="socioDesde" th:field="*{socioDesde}"
                             placeholder="dd/mm/aaaa">
                     </div>
                   <!--linha 4 -->
@@ -119,8 +114,6 @@
   </div> <!-- container end-->
 </div> </main>
 </section>
-    <script src="/js/bootstrap.bundle.min.js"></script>
-    <script src="/js/jquery.min.js"></script>
     
   </body>
 </html>
