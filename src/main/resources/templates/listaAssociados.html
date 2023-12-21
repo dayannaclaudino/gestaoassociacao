@@ -3,7 +3,7 @@
       layout:decorate="~{index}">
 <head>
 
-    <title>Gestão da Associação Quilombola Castainho</title> 
+    <title>Associação Quilombola Castainho</title> 
 </head>
 
 <body>
@@ -27,7 +27,7 @@
             <div class="form-group">
                 <div class="col-sm-6">
                     <div class="input-group">
-                        <input class="form-control" placeholder="Digite aqui o nome do associado para buscar..."
+                        <input class="form-control" placeholder="Buscar pelo nome do associado..."
                                autofocus="autofocus" th:field="*{nome}"></input>
                         <span class="input-group-btn">
                             <button class="btn btn-success" type="submit">Buscar
@@ -41,7 +41,7 @@
         <br>
       <div class="table-wrapper">  
           <div class="table-responsive">
-            <table class="table table-sm table-striped table-hover table-bordered">
+            <table class="table table-sm table-hover table-bordered">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -58,32 +58,35 @@
                 <tbody>
                     <tr th:each="associado: ${associados.content}">
                         <td class="text-center" th:text="${associado.id}">1</td>
-                        <td><a th:href="@{/dependentes/detalheAssociado/{codigo}(codigo=${associado.id})}"         
-                                class="text-decoration-none" style="color: #38B43A;">
-                            <span th:text="${associado.nome}"></span></a></td>
+                        <td>
+                            <a th:href="@{/dependentes/detalheAssociado/{codigo}(codigo=${associado.id})}"         
+                               class="d-inline-block text-truncate text-decoration-none" style="color: #38B43A; max-width: 250px;">
+                            <span th:text="${associado.nome}"></span>
+                            </a>
+                        </td>
                         <td th:text="${associado.apelido}"></td>
                         <td class="text-center" th:text="${{associado.dataNascimento}}"></td>
                         <td th:text="${associado.cpf}"></td>
-                        <td th:text="${associado.celular}"></td>
+                        <td class="text-decoration-none" th:text="${associado.celular}"></td>
                         <td class="text-center" th:text="${{associado.socioDesde}}"></td>
                         <td class="text-center">
                             <span class="badge" th:text="${associado.status.descricao}"
                             th:classappend="${#strings.toString(associado.status) == 'Ativo' ? 'bg-success' : 'bg-danger'}"></span>
                         </td>
-                        <td>
-                            <a href="#" class="view" title="Incluir Mensalidades" data-toggle="tooltip"
+                        <td class="td-actions">
+                            <a class="btn-actions" title="Incluir Mensalidades" data-toggle="tooltip"
                                th:href="@{/mensalidades/detalheAssociado/{codigo}(codigo=${associado.id})}">
                                <i class="fa-solid fa-hand-holding-dollar" style="color: #38B43A;"></i> 
                             </a>
-                            <a href="#" class="view" title="Incluir Dependentes" data-toggle="tooltip"
+                            <a class="btn-actions" title="Incluir Dependentes" data-toggle="tooltip"
                                th:href="@{/dependentes/detalheAssociado/{codigo}(codigo=${associado.id})}">
                                <i class="fa-solid fa-users" style="color: #03a9f4;"></i>
                             </a>
-                            <a class="edit" title="Editar" data-toggle="tooltip"
+                            <a class="btn-actions" title="Editar" data-toggle="tooltip"
                                th:href="@{/associados/editar/{codigo}(codigo=${associado.id})}">
                                 <i class="fa-regular fa-pen-to-square" style="color: #ffc104;"></i>
                             </a>
-                            <a class="delete" title="Excluir" data-toggle="tooltip"
+                            <a class="btn-actions " title="Excluir" data-toggle="tooltip"
                                th:href="@{/associados/{associadoId}/delete(associadoId = ${associado.id})}">
                                 <i class="fa-solid fa-trash-can" style="color: #fa0000;"></i>
                             </a>
