@@ -19,5 +19,11 @@ public enum StatusAssociado {
         this.descricao = descricao;
     }
 
+    public boolean equalsIgnoreCase(String string) {
+        if (string == null) {
+            return false;
+        }
+        return this.descricao.equalsIgnoreCase(string);
+    }
     
 }

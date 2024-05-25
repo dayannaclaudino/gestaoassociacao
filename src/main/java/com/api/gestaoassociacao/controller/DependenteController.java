@@ -92,5 +92,16 @@ public class DependenteController {
 		
 	}
 
+    @RequestMapping("/detalheAssociadoListar/{codigo}")
+    public ModelAndView dependenteAssociadoListar(@PathVariable("codigo") Long id) {
+        
+         Optional<Associado> associado = associadoRepository.findById(id);
+
+        ModelAndView mv = new ModelAndView("listaDependentes");
+        mv.addObject("associado", associado.get());
+        mv.addObject("dependentes", dependenteRepository.getDependentes(id));
+        return mv;
+    }
+
     
 }

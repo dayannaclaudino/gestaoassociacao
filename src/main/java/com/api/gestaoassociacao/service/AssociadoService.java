@@ -12,8 +12,10 @@ import org.springframework.stereotype.Service;
 
 import com.api.gestaoassociacao.Exception.NegocioException;
 import com.api.gestaoassociacao.model.Associado;
+import com.api.gestaoassociacao.model.Mensalidade;
 import com.api.gestaoassociacao.model.enums.StatusAssociado;
 import com.api.gestaoassociacao.repository.AssociadoRepository;
+import com.api.gestaoassociacao.repository.MensalidadeRepository;
 import com.api.gestaoassociacao.repository.filter.Filter;
 
 import jakarta.transaction.Transactional;
@@ -24,11 +26,13 @@ public class AssociadoService {
     @Autowired
     private AssociadoRepository associadoRepository;
 
+    @Autowired
+    private MensalidadeRepository mensalidadeRepository;
+
     
     @Transactional
     public void salvar(Associado associado){
         Optional<Associado> buscaPorCpf = associadoRepository.findByCpf(associado.getCpf());
-        Optional<Associado> buscaStatus = associadoRepository.findByStatus(associado.getStatus());
 
         if (buscaPorCpf.isPresent()) {
             throw new NegocioException("O CPF já está cadastrado no sistema.");
@@ -39,14 +43,15 @@ public class AssociadoService {
             associado.setStatus(StatusAssociado.valueOf("Ativo"));
             associadoRepository.save(associado);
         } catch (DataIntegrityViolationException e) {
-            throw new NegocioException("Não foi possível concluir o cadastro.");
+            throw new NegocioException("Não foi possível concluir o cadastro. Informe Ao administrador do sistema!");
         }
     }
 
     @Transactional
     public void editar(Associado associado){
-       // Optional<Associado> buscaPorStatus = associadoRepository.findByStatus(associado.getStatus());
-             associadoRepository.save(associado);
+
+        associadoRepository.save(associado);
+       
     }
 
     public void remover(Long id){
@@ -55,11 +60,11 @@ public class AssociadoService {
             if (associado.getDependentes().isEmpty() && associado.getMensalidades().isEmpty()) {
                 associadoRepository.delete(associado);
             }else{
-                throw new NegocioException("Associado não pode ser removido, pois contém dependentes vinculados!");
+                throw new NegocioException("Associado não pode ser removido, pois contém dependentes ou mensalidades vinculados!");
             }
             
          }catch (DataIntegrityViolationException e){
-            throw new NegocioException("Associado não pode ser removido, pois contém dependentes vinculados!");
+            throw new NegocioException("Associado não pode ser removido, pois contém dependentes ou mensalidades vinculados!");
         }
     }
 

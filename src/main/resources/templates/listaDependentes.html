@@ -9,19 +9,17 @@
 
 <body>
 <section layout:fragment="content">
-
-<div th:replace="~{fragments/alert}"></div> 
-
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h3 class="h3">Incluir Dependentes</h3>
+        <h3 class="h3">Dependentes</h3>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
             <a class="btn btn-orange btn-sm me-md-2 fw-bold" role="button" type="button" href="/associados/novo">Adicionar
               Associado</a>
             <a class="btn btn-orange btn-sm fw-bold" role="button" type="button" href="/associados/listar">Listar Associados</a>
         </div>
    </div>
-     
+<div th:replace="~{fragments/alert}"></div>     
+  
 <div class="container"> 
   <div class="bg-body-tertiary" th:each="a : ${associado}">
     <div class="card-header fw-bold">     
@@ -62,7 +60,8 @@
     </div>-->
     
 
-</br>   <!-- depedente --> 
+<!-- Form depedente --> 
+  </br>   
   <form  method="POST" th:action="@{/dependentes/addDepenAssociado/{codigo}(codigo=${associado.id})}">
     <div class="card">
             <div class="card-header fw-bold">     
@@ -87,6 +86,7 @@
             </div>
           </div>
     </form>
+    
 
     <!-- table -->
     <div class="table-wrapper">  
@@ -102,8 +102,8 @@
             <tbody>
                 <tr th:each="dependente: ${dependentes}">
                     <td class="text-center"><span th:text="${dependente.nome}"></span></td>
-                    <td class="text-center"  th:text="${dependente.parentesco}"></td>
-                    <td  class="text-center">
+                    <td class="text-center" th:text="${dependente.parentesco}"></td>
+                    <td class="text-center">
                         <a class="delete" title="Excluir" data-toggle="tooltip"
                         th:href="@{/dependentes/{dependenteId}/excluir(dependenteId = ${dependente.id})}">
                             <i class="fa-solid fa-trash-can" style="color: #fa0000;"></i>
@@ -111,7 +111,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="8" th:if="${#lists.isEmpty(dependentes)}">Nenhum dependente encontrado.</td>
+                    <td colspan="8" th:if="${#lists.isEmpty(dependentes)}">Nenhum dependente foi encontrado.</td>
                 </tr>
             </tbody>
         </table>

@@ -50,7 +50,7 @@ public class AssociadoController {
         try {
             associadoService.salvar(associado);
             attributes.addFlashAttribute("mensagemSucesso", "Associado '"+ associado.getNome() + "' salvo com sucesso.");
-            return new ModelAndView("redirect:/associados/novo");
+            return new ModelAndView("redirect:/dependentes/detalheAssociado/"+ associado.getId());
             
         } catch (NegocioException e) {
              model.addAttribute("mensagemErro", e.getMessage());
@@ -87,10 +87,15 @@ public class AssociadoController {
         if (result.hasErrors()) {
             return editarView(associado);
         }
-      
-        associadoService.editar(associado);
-        attributes.addFlashAttribute("mensagemSucesso", "Associado "+ associado.getNome() + " alterado com sucesso.");
-        return new ModelAndView("redirect:/associados/novo");
+        try {
+            associadoService.editar(associado);
+            attributes.addFlashAttribute("mensagemSucesso", "Associado "+ associado.getNome() + " alterado com sucesso.");
+            return new ModelAndView("redirect:/associados/novo");
+        } catch (NegocioException e) {
+            model.addAttribute("mensagemErro", e.getMessage());
+           System.out.println(e.getMessage());
+           return new ModelAndView("redirect:/associados/novo");
+       } 
     }
 
     @GetMapping(value="/{id}/delete")

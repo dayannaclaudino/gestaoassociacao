@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -32,7 +33,8 @@ public class Associado implements Serializable{
 
 
     @NotBlank(message="Esse campo é obrigatório!")
-    @CPF(message = "Cpf inválido, tente um cpf válido.")
+    @CPF(message = "Cpf inválido! Tente um cpf válido, somente números.")
+    @Length(min = 1, max = 11, message = "Cpf inválido! Tente um cpf válido, somente com números.")
     private String cpf;
 
     private String rg;

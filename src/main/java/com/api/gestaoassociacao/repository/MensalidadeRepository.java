@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.api.gestaoassociacao.model.Associado;
 import com.api.gestaoassociacao.model.Mensalidade;
 
 
@@ -20,4 +21,6 @@ public interface MensalidadeRepository extends JpaRepository<Mensalidade, Long>{
     public List<Mensalidade> getMensalidades(Long associadoId);
 
     public Optional<Mensalidade> findById(Long id);
+
+     List<Mensalidade> findByAssociadoAndSituacao(Associado associado, String situacao);
 }
