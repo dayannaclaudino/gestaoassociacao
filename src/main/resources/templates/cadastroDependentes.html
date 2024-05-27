@@ -9,7 +9,7 @@
 
 <body>
 <section layout:fragment="content">
-<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+<main class="col-md-9 ms-sm-auto col-lg-12 px-md-4">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">    
           <h3 class="h3">Incluir Dependentes</h3>
           <div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -23,18 +23,6 @@
 <div th:replace="~{fragments/alert}"></div>     
   
 <div class="container">  
-
-  <div class="bg-body-tertiary" th:each="a : ${associado}">
-    <div class="card-header fw-bold">     
-        <h6 class="card-title">
-          <i class="fa-solid fa-hashtag"></i>
-          <span class="text-dark fw-bold" th:text="${a.id}"></span>
-          <span class="text-dark fw-bold" th:text="' - ' + ${a.nome}"></span>
-          <span class="fw-bold" style="color: #38B43A;" th:text="' - Status: ' + ${a.status}"></span>
-          <span class="text-dark fw-bold float-end" th:text="'Sócio Desde: ' + ${{a.socioDesde}}"></span>
-        </h6>
-    </div>   
-
  <!--   <div class="row grid-divider">
       <div class="col-sm-4">
         <div class="col-padding">
@@ -65,8 +53,14 @@
 </br>   <!-- depedente --> 
   <form  method="POST" th:action="@{/dependentes/addDepenAssociado/{codigo}(codigo=${associado.id})}">
     <div class="card">
-            <div class="card-header fw-bold">     
-                <h6 class="card-title">Incluir Dependentes ao Associado</h6>
+            <div class="card-header fw-bold" th:each="a : ${associado}">     
+              <h6 class="card-title">
+                <i class="fa-solid fa-hashtag"></i>
+                <span class="text-dark fw-bold" th:text="${a.id}"></span>
+                <span class="text-dark fw-bold" th:text="' - ' + ${a.nome}"></span>
+                <span class="fw-bold" style="color: #38B43A;" th:text="' - Status: ' + ${a.status}"></span>
+                <span class="text-dark fw-bold float-end" th:text="'Sócio Desde: ' + ${{a.socioDesde}}"></span>
+              </h6>
             </div>        
             <div class="card-body">
               <div class="row">
@@ -94,16 +88,16 @@
         <table class="table table-sm table-hover table-bordered">
             <thead class="table-light">
                 <tr>
-                    <th>Nome</th>
-                    <th>Parentesco</th>
-                    <th>Acões</th>
+                    <th class="text-center">Nome</th>
+                    <th class="text-center">Parentesco</th>
+                    <th class="text-center">Acões</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="dependente: ${dependentes}">
-                    <td><span th:text="${dependente.nome}"></span></td>
-                    <td th:text="${dependente.parentesco}"></td>
-                    <td>
+                    <td class="text-center"><span th:text="${dependente.nome}"></span></td>
+                    <td class="text-center" th:text="${dependente.parentesco}"></td>
+                    <td class="text-center">
                         <a class="delete" title="Excluir" data-toggle="tooltip"
                         th:href="@{/dependentes/{dependenteId}/excluir(dependenteId = ${dependente.id})}">
                             <i class="fa-solid fa-trash-can" style="color: #fa0000;"></i>

@@ -8,14 +8,12 @@
 
 <body>
   <section layout:fragment="content">
-  <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+  <main class="col-md-9 ms-sm-auto col-lg-12 px-md-4">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">    
     <h3 class="h3">Lista de Associados</h3>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <a class="btn btn-orange btn-sm me-md-2 fw-bold"
-                role="button" type="button" href="/associados/novo">Adicionar Associado</a>
-        <a class="btn btn-orange btn-sm fw-bold"   
-                role="button" type="button" href="/associados/listar">Listar</a>
+            role="button" type="button" href="/associados/novo">Adicionar Associado</a>
     </div>
   </div>
 
@@ -30,7 +28,7 @@
                         <input class="form-control" placeholder="Buscar pelo nome do associado..."
                                autofocus="autofocus" th:field="*{nome}"></input>
                         <span class="input-group-btn">
-                            <button class="btn btn-success" type="submit">Buscar
+                            <button class="btn btn-success" type="submit"> Buscar
                                 <i class="fa-solid fa-magnifying-glass"></i>
                             </button>
                         </span>
@@ -49,6 +47,8 @@
                         <th>Apelido</th>
                         <th>Data Nascimento</th>
                         <th>Cpf</th>
+                        <th>RG</th>
+                        <th>NIS</th>
                         <th>Celular</th>
                         <th>Sócio Desde</th>
                         <th>Status</th>
@@ -66,7 +66,9 @@
                         </td>
                         <td th:text="${associado.apelido}"></td>
                         <td class="text-center" th:text="${{associado.dataNascimento}}"></td>
-                        <td th:text="${associado.cpf}"></td>
+                        <td class="text-center" th:text="${associado.cpf}"></td>
+                        <td class="text-center" th:text="${associado.rg}"></td>
+                        <td class="text-center" th:text="${associado.nis}"></td>
                         <td class="text-decoration-none" th:text="${associado.celular}"></td>
                         <td class="text-center" th:text="${{associado.socioDesde}}"></td>
                         <td class="text-center">
