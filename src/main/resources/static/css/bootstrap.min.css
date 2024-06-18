@@ -3804,6 +3804,12 @@ fieldset:disabled .btn {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
+
+/*titulo do header */
+.navbar span {
+  font-size: 1.0em;
+}
+
 .navbar > .container,
 .navbar > .container-fluid,
 .navbar > .container-lg,

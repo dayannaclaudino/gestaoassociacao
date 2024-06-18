@@ -6,39 +6,142 @@
  <!-- Bootstrap core CSS -->
  <link th:href="@{/css/bootstrap.min.css}" type="text/css" rel="stylesheet">
  <!-- Custom styles for this template -->
- <link th:href="@{/css/dashboard.css}" type="text/css" rel="stylesheet">  
+ <link th:href="@{/css/dashboard.css}" type="text/css" rel="stylesheet">
+  <!-- Calendar -->
+  <link th:href="@{/css/style-calendar.css}" type="text/css" rel="stylesheet">    
     
     <title>Associação Quilombola Castainho</title> 
 </head>
 
 <body>
 <section layout:fragment="content">
-
-  <main class="col-md-9 ms-sm-auto col-lg-12 px-md-4">
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">    
-      <h3 class="h3">Página Inicial</h3>
-      <!--<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <a class="btn btn-orange btn-sm fw-bold"   
-                  role="button" type="button" href="/associados/listar">Text</a>
-      </div>-->
+<main class="col-md-12  ms-sm-auto col-lg-12 px-md-4">
+    
+    <div class="pt-3 pb-2 mb-3 border-bottom" >    
+      <h3 class="card-title fw-bold">Seja bem vindo ao sistema da Associação</h3>
+      <p class="card-text">Aqui você vai gerenciar de forma simples e prática.</p>
     </div>
 
-
-    <div class="card mx-auto col-sm-7" >
-      <div class="row no-gutters">
-          <div class="col-sm-7">
-              <div class="card-body">
-                <h2 class="card-title fw-bold">Seja bem vindo ao sistema da Associação</h2>
-                <p class="card-text">Aqui você vai gerenciar de forma simples e prática.</p>
-              </div>
+  <div class="row d-flex">
+      <div class="col-sm-3 mb-3 mb-sm-0 ms-5">
+        <div class="card border-bottom-success" style="border-bottom: 4px solid #38B43A">
+          <div class="card-body ps-4">
+            <h5 class="card-title fw-bold fs-3"><i class="fa-solid fa-users" style="color: #38B43A;"></i> 250</h5>
+            <p class="card-text card-total-associados fw-semibold fs-6">Total de Associados</p>
+           
           </div>
-          <div class="col-sm-5">
-            <img class="card-img" src="/img/vetor_welcome.png" alt="welcome">
+        </div>
+      </div>
+      <div class="col-sm-3 mb-3 mb-sm-0">
+        <div class="card border-bottom-success" style="border-bottom: 4px solid #38B43A">
+          <div class="card-body ps-4">
+            <h5 class="card-title fw-bold fs-3"><i class="fa-solid fa-dollar" style="color: #38B43A;"></i>  1500,00</h5>
+            <p class="card-text card-total-parcelas fw-semibold fs-6">Total Parcelas em Aberto</p>
+            
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-sm-3 mb-2 mb-sm-0 ms-auto">
+        <div class="card">
+          <div class="card-body">
+            <!-- Inicio Calendar -->
+            <div class="row">
+              <div class="col-md-12">
+                <div class="elegant-calencar d-md-flex">
+                  <div class="wrap-header d-flex align-items-center">
+                    <p id="reset">voltar</p>
+                    <div id="header" class="p-0">
+                      <div class="pre-button d-flex align-items-center justify-content-center"><i class="fa fa-chevron-left"></i></div>
+                      <div class="head-info">
+                          <div class="head-day"></div>
+                          <div class="head-month"></div>
+                      </div>
+                      <div class="next-button d-flex align-items-center justify-content-center"><i class="fa fa-chevron-right"></i></div>
+                    </div>
+                  </div>
+                  <div class="calendar-wrap">
+                    <table id="calendar">
+                      <thead>
+                          <tr>
+                              <th>Dom</th>
+                              <th>Seg</th>
+                              <th>Ter</th>
+                              <th>Qua</th>
+                              <th>Qui</th>
+                              <th>Sex</th>
+                              <th>Sáb</th>
+                          </tr>
+                      </thead>
+                      <tbody >
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div> <!-- Fim Calendar -->
+          </div>
         </div>
       </div>
     </div>
 
   </main>   
 </section>
+
+
 </body>
 </html>
