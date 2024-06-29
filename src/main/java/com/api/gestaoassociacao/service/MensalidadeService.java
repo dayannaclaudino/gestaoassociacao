@@ -2,6 +2,7 @@ package com.api.gestaoassociacao.service;
 
 
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -42,31 +43,26 @@ public class MensalidadeService {
 
 		} catch (DataIntegrityViolationException e) {
 			throw new NegocioException("Mensalidade não pode ser removida, pois contém mensalidades pagas!");
-		}
-			
+		}		
 	}
 
 	public Mensalidade getMensalidadeById(Long id){
 		return mensalidadeRepository.findById(id).get();
 	}
-
+	 
 	public List<Mensalidade> getMensalidades(){
 		return mensalidadeRepository.findAll();
 	}
+	//Exibe a soma do valor de mensalidades em aberto na página home
+	public BigDecimal getTotalMensalidadesEmAberto() {
+        return mensalidadeRepository.sumMensalidadesEmAberto();
+    }
 
 	 //public Page<Mensalidade> filtrar(Filter filtro, Pageable pageable){
        // String nomeAssociado = filtro.getNome() == null ? "%" : filtro.getNome();
 	//	return mensalidadeRepository.buscaAssociadoMensalidade(nomeAssociado, pageable);
 	//}
 
-	
 
-/*	public String receber(Long id) {
-		Mensalidade mensalidade = mensalidadeRepository.findById(id).get();
-		mensalidade.setSituacao(SituacaoMensalidade.Pago);
-		mensalidadeRepository.save(mensalidade);
-		
-		return SituacaoMensalidade.Pago.getDescricao();
-	} */
 
 }

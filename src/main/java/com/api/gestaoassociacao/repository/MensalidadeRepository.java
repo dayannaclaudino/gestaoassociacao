@@ -1,5 +1,6 @@
 package com.api.gestaoassociacao.repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,4 +21,7 @@ public interface MensalidadeRepository extends JpaRepository<Mensalidade, Long>{
     public List<Mensalidade> getMensalidades(Long associadoId);
 
     public Optional<Mensalidade> findById(Long id);
+
+    @Query("SELECT SUM(m.valor) FROM Mensalidade m WHERE m.situacao = 'Pendente'")
+    public BigDecimal sumMensalidadesEmAberto();
 }

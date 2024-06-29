@@ -77,5 +77,8 @@ public class AssociadoService {
         return associado;
     }
 
+    public long getTotalAssociadosCadastrados() {
+        return associadoRepository.count(); // Conta o número total de associados página home
+    }
 
 }
