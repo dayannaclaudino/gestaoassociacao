@@ -1,5 +1,7 @@
 package com.api.gestaoassociacao.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,9 +15,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.api.gestaoassociacao.Exception.NegocioException;
 import com.api.gestaoassociacao.model.Associado;
+import com.api.gestaoassociacao.model.Dependente;
+import com.api.gestaoassociacao.model.Mensalidade;
+import com.api.gestaoassociacao.model.enums.SituacaoMensalidade;
 import com.api.gestaoassociacao.model.enums.StatusAssociado;
+import com.api.gestaoassociacao.model.enums.Tipo;
+import com.api.gestaoassociacao.repository.DependenteRepository;
+import com.api.gestaoassociacao.repository.MensalidadeRepository;
 import com.api.gestaoassociacao.repository.filter.Filter;
 import com.api.gestaoassociacao.service.AssociadoService;
+import com.api.gestaoassociacao.service.DependenteService;
+import com.api.gestaoassociacao.service.MensalidadeService;
 
 import jakarta.validation.Valid;
 
@@ -27,6 +37,10 @@ public class AssociadoController {
 
     @Autowired
     private AssociadoService associadoService;
+    @Autowired
+    private DependenteRepository  dependenteRepository;
+    @Autowired
+    private MensalidadeRepository mensalidadeRepository;
 
     @RequestMapping("/novo")
     public ModelAndView novo(Associado associado) {
@@ -103,14 +117,23 @@ public class AssociadoController {
             return new ModelAndView ("redirect:/associados/listar");
         }
 	}
-    
-    @RequestMapping("/detalharAssociado/{id}")
-    public ModelAndView detalharAssociado(@PathVariable("id") Associado associado) {
-        ModelAndView mv = new ModelAndView("alterarAssociado");
-        mv.addObject(associado);
-        mv.addObject("todosStatus", StatusAssociado.values());
+
+    //Visualiza o cadastro do associado + dep + mens 
+    @RequestMapping("/visualizaAssociado/{codigo}")
+    public ModelAndView visualizaCadastroAssociado(@PathVariable("codigo") Long id, 
+                                                    Dependente dependente, Mensalidade mensalidade) {
+        
+        Optional<Associado> associado = associadoService.findById(id);
+
+        ModelAndView mv = new ModelAndView("visualizarAssociado");
+        mv.addObject("associados", associado.get());
+        mv.addObject("mensalidades", mensalidadeRepository.getMensalidades(id));
+        mv.addObject("dependentes", dependenteRepository.getDependentes(id));
+        mv.addObject("todosTipos", Tipo.values());
+        mv.addObject("todasSituacoes", SituacaoMensalidade.values());
         return mv;
     }
 
+   
 
 }

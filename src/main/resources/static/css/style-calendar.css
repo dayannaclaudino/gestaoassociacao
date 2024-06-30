@@ -67,8 +67,9 @@
 #calendar {
   width: 100%; }
 
+  /*espaço entre as linhas*/
 #calendar tr {
-  height: 3em; }
+  height: 2.6em; }
 
 thead tr {
   color: #000;

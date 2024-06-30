@@ -25,11 +25,11 @@
             <div class="form-group">
                 <div class="col-sm-6">
                     <div class="input-group">
-                        <input class="form-control" placeholder="Buscar pelo nome do associado..."
+                        <input class="form-control" placeholder="Digite aqui e clique no botão ou enter para buscar..."
                                autofocus="autofocus" th:field="*{nome}"></input>
                         <span class="input-group-btn">
-                            <button class="btn btn-success" type="submit"> Buscar
-                                <i class="fa-solid fa-magnifying-glass"></i>
+                            <button class="btn btn-success" type="submit"> 
+                                <i class="fa-solid fa-magnifying-glass"></i> Buscar
                             </button>
                         </span>
                     </div>
@@ -43,23 +43,23 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Nome</th>
-                        <th>Apelido</th>
-                        <th>Data Nascimento</th>
-                        <th>Cpf</th>
-                        <th>RG</th>
-                        <th>NIS</th>
-                        <th>Celular</th>
-                        <th>Sócio Desde</th>
-                        <th>Status</th>
-                        <th>Acões</th>
+                        <th class="text-center">Nome</th>
+                        <th class="text-center">Apelido</th>
+                        <th class="text-center">Data Nascimento</th>
+                        <th class="text-center">Cpf</th>
+                        <th class="text-center">RG</th>
+                        <th class="text-center">NIS</th>
+                        <th class="text-center">Celular</th>
+                        <th class="text-center">Sócio Desde</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Acões</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:each="associado: ${associados.content}">
                         <td class="text-center" th:text="${associado.id}">1</td>
                         <td>
-                            <a th:href="@{/dependentes/detalheAssociado/{codigo}(codigo=${associado.id})}"         
+                            <a th:href="@{/associados/visualizaAssociado/{codigo}(codigo=${associado.id})}"         
                                class="d-inline-block text-truncate text-decoration-none" style="color: #38B43A; max-width: 250px;">
                             <span th:text="${associado.nome}"></span>
                             </a>
@@ -75,7 +75,7 @@
                             <span class="badge" th:text="${associado.status.descricao}"
                             th:classappend="${#strings.toString(associado.status) == 'Ativo' ? 'bg-success' : 'bg-danger'}"></span>
                         </td>
-                        <td class="td-actions">
+                        <td class="td-actions text-center">
                             <a class="btn-actions" title="Incluir Mensalidades" data-toggle="tooltip"
                                th:href="@{/mensalidades/detalheAssociado/{codigo}(codigo=${associado.id})}">
                                <i class="fa-solid fa-hand-holding-dollar" style="color: #38B43A;"></i> 

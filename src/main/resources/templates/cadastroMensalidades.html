@@ -11,7 +11,7 @@
 <section layout:fragment="content">
 <main class="col-md-9 ms-sm-auto col-lg-12 px-md-4">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">    
-          <h3 class="h3">Cadastro de Mensalidades</h3>
+          <h3 class="h3">Cadastrar de Mensalidades</h3>
           <div class="d-grid gap-2 d-md-flex justify-content-md-end">
             <a class="btn btn-orange btn-sm me-md-2 fw-bold"
                       role="button" type="button" href="/associados/novo">Adicionar Associado</a>
@@ -121,13 +121,13 @@
                       <span class="badge" th:text="${mensalidade.situacao.descricao}"
                       th:classappend="${#strings.toString(mensalidade.situacao) == 'Pendente' ? 'bg-warning' : 'bg-success'}"></span>
                     </td>                 
-                    <td  class="text-center">
+                    <td class="text-center">
                         <a class="delete" title="Excluir" data-toggle="tooltip"
-                        th:href="@{/mensalidades/{mensalidadeId}/(mensalidadeId = ${mensalidade.id})}">
-                            <i class="fa-solid fa-trash-can" style="color: #fa0000;"></i>
+                          th:href="@{/mensalidades/{mensalidadeId}/(mensalidadeId = ${mensalidade.id})}">
+                            <i class="fa-solid fa-trash-can mx-1" style="color: #fa0000;"></i>
                         </a>
                         <a class="editar" title="Editar" data-toggle="tooltip"
-                        th:href="@{'/mensalidades/editarMensalidade?id=' + ${mensalidade.id}}">
+                          th:href="@{'/mensalidades/editarMensalidade?id=' + ${mensalidade.id}}">
                             <i class="fa-regular fa-pen-to-square" style="color: #ffc104;"></i>
                         </a>
                     </td>
