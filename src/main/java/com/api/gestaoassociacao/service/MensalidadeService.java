@@ -58,6 +58,11 @@ public class MensalidadeService {
         return mensalidadeRepository.sumMensalidadesEmAberto();
     }
 
+	//lista de mensalidades pendentes (para tabela de cad de mensalidades)
+	public List<Mensalidade> getMensalidadesPendentes(Long associadoId){
+		return mensalidadeRepository.getMensalidadesPendentes(associadoId);
+	}
+	
 	 //public Page<Mensalidade> filtrar(Filter filtro, Pageable pageable){
        // String nomeAssociado = filtro.getNome() == null ? "%" : filtro.getNome();
 	//	return mensalidadeRepository.buscaAssociadoMensalidade(nomeAssociado, pageable);

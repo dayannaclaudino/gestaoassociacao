@@ -128,7 +128,11 @@
                         </a>
                         <a class="editar" title="Editar" data-toggle="tooltip"
                           th:href="@{'/mensalidades/editarMensalidade?id=' + ${mensalidade.id}}">
-                            <i class="fa-regular fa-pen-to-square" style="color: #ffc104;"></i>
+                            <i class="fa-regular fa-pen-to-square mx-1" style="color: #ffc104;"></i>
+                        </a>
+                        <a class="visualizar" title="Histórico Mensalidades" data-toggle="tooltip"
+                               th:href="@{/mensalidades/listar}">
+                            <i class="fa-solid fa-file-invoice-dollar" style="color: #38B43A;"></i> 
                         </a>
                     </td>
                 </tr>

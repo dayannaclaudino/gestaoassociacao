@@ -44,11 +44,11 @@ public class MensalidadeController {
     @Autowired
     private AssociadoService associadoService;
   
-       
+    //Lista todas as mensalidades do associado   
     @GetMapping("/listar")
     public ModelAndView getMensalidades() {
 
-        ModelAndView mv = new ModelAndView("listaMensalidades");
+        ModelAndView mv = new ModelAndView("historicoMensalidades");
 
         mv.addObject("mensalidade", new Mensalidade());
         mv.addObject("mensalidades", mensalidadeService.getMensalidades());
@@ -58,7 +58,7 @@ public class MensalidadeController {
         
         return mv;
     }
-
+    //View Cadastro
     @RequestMapping("/detalheAssociado/{codigo}")
     public ModelAndView mensalidadeAssociado(@PathVariable("codigo") Long id, Mensalidade mensalidade) {
         
@@ -66,7 +66,7 @@ public class MensalidadeController {
 
         ModelAndView mv = new ModelAndView("cadastroMensalidades");
         mv.addObject("associado", associado.get());
-        mv.addObject("mensalidades", mensalidadeRepository.getMensalidades(id));
+        mv.addObject("mensalidades", mensalidadeRepository.getMensalidadesPendentes(id));
         mv.addObject("todosTipos", Tipo.values());
         mv.addObject("todasSituacoes", SituacaoMensalidade.values());
         return mv;
