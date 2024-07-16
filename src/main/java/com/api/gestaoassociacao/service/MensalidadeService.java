@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.api.gestaoassociacao.Exception.NegocioException;
 import com.api.gestaoassociacao.model.Mensalidade;
+import com.api.gestaoassociacao.model.enums.SituacaoMensalidade;
 import com.api.gestaoassociacao.repository.MensalidadeRepository;
 
 import jakarta.transaction.Transactional;
@@ -27,8 +28,7 @@ public class MensalidadeService {
 	public void salvar(Mensalidade mensalidade) {
 		
 		mensalidade.setDataEmissao(LocalDate.now());
-		mensalidadeRepository.save(mensalidade);
-		
+		mensalidadeRepository.save(mensalidade);	
 	}
 
 	public void remover(Long id) {
@@ -40,7 +40,6 @@ public class MensalidadeService {
 			}else{
                 throw new NegocioException("Mensalidade não pode ser removida, pois contém mensalidades pagas!");
             }
-
 		} catch (DataIntegrityViolationException e) {
 			throw new NegocioException("Mensalidade não pode ser removida, pois contém mensalidades pagas!");
 		}		
@@ -58,11 +57,25 @@ public class MensalidadeService {
         return mensalidadeRepository.sumMensalidadesEmAberto();
     }
 
-	//lista de mensalidades pendentes (para tabela de cad de mensalidades)
+	//lista de mensalidades pendentes (para tabela de cad de mensalidades em aberto)
 	public List<Mensalidade> getMensalidadesPendentes(Long associadoId){
 		return mensalidadeRepository.getMensalidadesPendentes(associadoId);
 	}
 	
+	
+    public BigDecimal getTotalMensalidadesEmAtraso() {
+        List<Mensalidade> mensalidades = mensalidadeRepository.findAll();
+		// Processar a lista de mensalidades utilizando a API de Streams
+        return mensalidades.stream()
+		// Filtrar mensalidades que estão em atraso e são pendentes
+                .filter(m -> m.getDiasAtraso() > 0 && m.getSituacao() == SituacaoMensalidade.Pendente)
+				// Mapear cada mensalidade para seu valor (BigDecimal)
+                .map(Mensalidade::getValor)
+				 // Somar todos os valores utilizando a operação de redução, O valor inicial da redução, que é zero.
+				//BigDecimal::add: A operação de acumulação que soma dois valores de BigDecimal.
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
 	 //public Page<Mensalidade> filtrar(Filter filtro, Pageable pageable){
        // String nomeAssociado = filtro.getNome() == null ? "%" : filtro.getNome();
 	//	return mensalidadeRepository.buscaAssociadoMensalidade(nomeAssociado, pageable);

@@ -50,6 +50,7 @@
                         <th class="text-center">Data Emissão</th>
                         <th class="text-center">Parcela</th>
                         <th class="text-center">Data Vencimento</th>
+                        <th class="text-center">Dias de Atraso</th>
                         <th class="text-center">Valor</th>
                         <th class="text-center">Situação</th>
                      <!-- <th>Acões</th> -->
@@ -63,6 +64,7 @@
                         <td class="text-center" th:text="${{mensalidade.dataEmissao}}"></td>
                         <td class="text-center" th:text="${mensalidade.parcela}"></td>
                         <td class="text-center" th:text="${{mensalidade.dataVencimento}}"></td>
+                        <td class="text-center" th:text="${{mensalidade.diasAtraso}}"></td>
                         <td th:text="|R$ ${{mensalidade.valor}}|"></td>
                         <td class="text-center">
                             <span class="badge" th:text="${mensalidade.situacao.descricao}"

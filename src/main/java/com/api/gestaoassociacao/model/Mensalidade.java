@@ -3,6 +3,7 @@ package com.api.gestaoassociacao.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
@@ -63,4 +64,17 @@ public class Mensalidade implements Serializable{
         return SituacaoMensalidade.Pendente.equals(this.situacao);
     }
 
+    public long getDiasAtraso() {
+        if (dataVencimento == null) {
+            return 0;
+        }
+        
+        LocalDate dataReferencia = dataPagamento != null ? dataPagamento : LocalDate.now();
+        
+        if (dataReferencia.isBefore(dataVencimento)) {
+            return 0;
+        }
+        
+        return ChronoUnit.DAYS.between(dataVencimento, dataReferencia);
+    }
 }

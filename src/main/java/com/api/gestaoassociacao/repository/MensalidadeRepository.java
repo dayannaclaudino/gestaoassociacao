@@ -29,4 +29,6 @@ public interface MensalidadeRepository extends JpaRepository<Mensalidade, Long>{
     //Total soma das mensalidades em aberto
     @Query("SELECT SUM(m.valor) FROM Mensalidade m WHERE m.situacao = 'Pendente'")
     public BigDecimal sumMensalidadesEmAberto();
+
+  
 }

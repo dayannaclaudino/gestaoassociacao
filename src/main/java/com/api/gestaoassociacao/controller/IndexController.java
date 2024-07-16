@@ -1,11 +1,8 @@
 package com.api.gestaoassociacao.controller;
 
-import java.math.BigDecimal;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.api.gestaoassociacao.service.AssociadoService;
@@ -25,6 +22,7 @@ public class IndexController {
         ModelAndView mv = new ModelAndView("home");
         mv.addObject("totalCadastrados", associadoService.getTotalAssociadosCadastrados());
         mv.addObject("sumMensalidadesEmAberto", mensalidadeService.getTotalMensalidadesEmAberto());
+        mv.addObject("totalMensalidadesEmAtraso", mensalidadeService.getTotalMensalidadesEmAtraso());
         return mv;
     }
     

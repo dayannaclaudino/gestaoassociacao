@@ -108,6 +108,7 @@
                     <th class="text-center">Parcela</th>
                     <th class="text-center">Valor</th>
                     <th class="text-center">Data do Vencimento</th>
+                    <th class="text-center">Dias de Atraso</th>
                     <th class="text-center">Situação</th>
                     <th class="text-center">Acões</th>
                 </tr>
@@ -117,6 +118,7 @@
                     <td class="text-center"><span th:text="${mensalidade.parcela}"></span></td>
                     <td class="text-center" th:text="|R$ ${{mensalidade.valor}}|"></td>
                     <td class="text-center"  th:text="${{mensalidade.dataVencimento}}"></td>
+                    <td class="text-center" th:text="${{mensalidade.diasAtraso}}"></td>
                     <td class="text-center">
                       <span class="badge" th:text="${mensalidade.situacao.descricao}"
                       th:classappend="${#strings.toString(mensalidade.situacao) == 'Pendente' ? 'bg-warning' : 'bg-success'}"></span>

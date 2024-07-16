@@ -24,8 +24,6 @@ import com.api.gestaoassociacao.repository.DependenteRepository;
 import com.api.gestaoassociacao.repository.MensalidadeRepository;
 import com.api.gestaoassociacao.repository.filter.Filter;
 import com.api.gestaoassociacao.service.AssociadoService;
-import com.api.gestaoassociacao.service.DependenteService;
-import com.api.gestaoassociacao.service.MensalidadeService;
 
 import jakarta.validation.Valid;
 
@@ -133,7 +131,4 @@ public class AssociadoController {
         mv.addObject("todasSituacoes", SituacaoMensalidade.values());
         return mv;
     }
-
-   
-
 }
