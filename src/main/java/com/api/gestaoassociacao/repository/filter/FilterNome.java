@@ -1,6 +1,6 @@
 package com.api.gestaoassociacao.repository.filter;
 
-public class Filter {
+public class FilterNome {
 
     private String nome;
 

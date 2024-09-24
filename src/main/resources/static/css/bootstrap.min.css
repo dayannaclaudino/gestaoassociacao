@@ -1884,9 +1884,9 @@ progress {
 .form-control:focus {
   color: #212529;
   background-color: #fff;
-  border-color: #86fe96;
+  border-color: #c5f8cc;
   outline: 0;
-  box-shadow: 0 0 0 0.25rem rgba(43, 241, 103, 0.178);
+  box-shadow: 0 0 0 0.25rem rgba(168, 241, 190, 0.178);
 }
 .form-control::-webkit-date-and-time-value {
   height: 1.5em;
@@ -2060,9 +2060,9 @@ textarea.form-control-lg {
   }
 }
 .form-select:focus {
-  border-color: #38b43a;
+  border-color: #b2e4b3;
   outline: 0;
-  box-shadow: 0 0 0 0.25rem rgba(13, 253, 113, 0.25);
+  box-shadow: 0 0 0 0.25rem rgba(144, 243, 185, 0.25);
 }
 .form-select[multiple],
 .form-select[size]:not([size="1"]) {

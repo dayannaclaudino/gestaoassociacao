@@ -8,12 +8,16 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.api.gestaoassociacao.Exception.NegocioException;
 import com.api.gestaoassociacao.model.Mensalidade;
 import com.api.gestaoassociacao.model.enums.SituacaoMensalidade;
 import com.api.gestaoassociacao.repository.MensalidadeRepository;
+import com.api.gestaoassociacao.repository.filter.FilterMensalidade;
+import com.api.gestaoassociacao.repository.filter.FilterNome;
 
 import jakarta.transaction.Transactional;
 
@@ -25,8 +29,7 @@ public class MensalidadeService {
     private MensalidadeRepository mensalidadeRepository;
 
 	@Transactional
-	public void salvar(Mensalidade mensalidade) {
-		
+	public void salvar(Mensalidade mensalidade) {	
 		mensalidade.setDataEmissao(LocalDate.now());
 		mensalidadeRepository.save(mensalidade);	
 	}
@@ -57,7 +60,7 @@ public class MensalidadeService {
         return mensalidadeRepository.sumMensalidadesEmAberto();
     }
 
-	//lista de mensalidades pendentes (para tabela de cad de mensalidades em aberto)
+	//lista de mensalidades pendentes (para tabela de cadastro de mensalidades em aberto)
 	public List<Mensalidade> getMensalidadesPendentes(Long associadoId){
 		return mensalidadeRepository.getMensalidadesPendentes(associadoId);
 	}
@@ -76,11 +79,19 @@ public class MensalidadeService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-	 //public Page<Mensalidade> filtrar(Filter filtro, Pageable pageable){
-       // String nomeAssociado = filtro.getNome() == null ? "%" : filtro.getNome();
-	//	return mensalidadeRepository.buscaAssociadoMensalidade(nomeAssociado, pageable);
-	//}
+    public BigDecimal calcularTotalParcelas(List<Mensalidade> mensalidades) {
+        return mensalidades.stream()
+                .map(Mensalidade::getValor)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
 
-
-
+	public Page<Mensalidade> filtrar(FilterMensalidade filtro, Pageable pageable) {
+		String nomeAssociado = (filtro.getNomeAssociado() != null && !filtro.getNomeAssociado().isEmpty()) ? filtro.getNomeAssociado() : null;
+		SituacaoMensalidade situacao = filtro.getSituacao();
+		LocalDate dataDe = filtro.getDataDe();
+		LocalDate dataAte = filtro.getDataAte();
+		
+		return mensalidadeRepository.findByAssociadoNomeContainingAndSituacaoAndDataEmissaoBetween(nomeAssociado, situacao, dataDe, dataAte, pageable);
+	}
+	
 }

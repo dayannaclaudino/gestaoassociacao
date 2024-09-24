@@ -14,7 +14,7 @@ import com.api.gestaoassociacao.Exception.NegocioException;
 import com.api.gestaoassociacao.model.Associado;
 import com.api.gestaoassociacao.model.enums.StatusAssociado;
 import com.api.gestaoassociacao.repository.AssociadoRepository;
-import com.api.gestaoassociacao.repository.filter.Filter;
+import com.api.gestaoassociacao.repository.filter.FilterNome;
 
 import jakarta.transaction.Transactional;
 
@@ -67,7 +67,7 @@ public class AssociadoService {
         return associadoRepository.findAll();
     }
     
-    public Page<Associado> filtrar(Filter filtro, Pageable pageable){
+    public Page<Associado> filtrar(FilterNome filtro, Pageable pageable){
         String nomeAssociado = filtro.getNome() == null ? "%" : filtro.getNome();
 		return associadoRepository.findByNomeContaining(nomeAssociado, pageable);
 	}

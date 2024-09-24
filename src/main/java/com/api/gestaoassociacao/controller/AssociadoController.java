@@ -22,7 +22,7 @@ import com.api.gestaoassociacao.model.enums.StatusAssociado;
 import com.api.gestaoassociacao.model.enums.Tipo;
 import com.api.gestaoassociacao.repository.DependenteRepository;
 import com.api.gestaoassociacao.repository.MensalidadeRepository;
-import com.api.gestaoassociacao.repository.filter.Filter;
+import com.api.gestaoassociacao.repository.filter.FilterNome;
 import com.api.gestaoassociacao.service.AssociadoService;
 
 import jakarta.validation.Valid;
@@ -69,7 +69,7 @@ public class AssociadoController {
     }
 
     @RequestMapping("/listar")
-    public ModelAndView listar(@ModelAttribute("filtro") Filter filtro, 
+    public ModelAndView listar(@ModelAttribute("filtro") FilterNome filtro, 
                                @PageableDefault(size = 9) Pageable pageable) {
 
         Page<Associado> todosAssociados = associadoService.filtrar(filtro, pageable);

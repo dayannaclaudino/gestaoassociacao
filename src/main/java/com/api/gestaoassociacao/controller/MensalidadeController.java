@@ -1,8 +1,13 @@
 package com.api.gestaoassociacao.controller;
 
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +25,7 @@ import com.api.gestaoassociacao.model.Mensalidade;
 import com.api.gestaoassociacao.model.enums.SituacaoMensalidade;
 import com.api.gestaoassociacao.model.enums.Tipo;
 import com.api.gestaoassociacao.repository.MensalidadeRepository;
+import com.api.gestaoassociacao.repository.filter.FilterMensalidade;
 import com.api.gestaoassociacao.repository.AssociadoRepository;
 import com.api.gestaoassociacao.service.AssociadoService;
 import com.api.gestaoassociacao.service.MensalidadeService;
@@ -44,20 +50,27 @@ public class MensalidadeController {
     @Autowired
     private AssociadoService associadoService;
   
-    //Lista todas as mensalidades do associado   
-    @GetMapping("/listar")
-    public ModelAndView getMensalidades() {
+    //Lista todas as mensalidades do associado 'historicoMensalidades'
+    @RequestMapping("/listar")
+    public ModelAndView getMensalidades(@ModelAttribute("filtro") FilterMensalidade filtro, 
+                               @PageableDefault(size = 9) Pageable pageable) {
 
+        Page<Mensalidade> TodasMensalidades = mensalidadeService.filtrar(filtro, pageable);
+        //Acho que isso está fazendo contar somente o que mostra
+        List<Mensalidade> listaMensalidades = TodasMensalidades.getContent(); 
+        BigDecimal totalParcelas = mensalidadeService.calcularTotalParcelas(listaMensalidades);
+        
         ModelAndView mv = new ModelAndView("historicoMensalidades");
 
         mv.addObject("mensalidade", new Mensalidade());
-        mv.addObject("mensalidades", mensalidadeService.getMensalidades());
+        mv.addObject("mensalidades", TodasMensalidades);
         mv.addObject("associados", associadoService.getAssociados());
         mv.addObject("todosTipos", Tipo.values());
         mv.addObject("todasSituacoes", SituacaoMensalidade.values());
-        
+        mv.addObject("totalParcelas", totalParcelas);
         return mv;
     }
+
     //View Cadastro
     @RequestMapping("/detalheAssociado/{codigo}")
     public ModelAndView mensalidadeAssociado(@PathVariable("codigo") Long id, Mensalidade mensalidade) {
