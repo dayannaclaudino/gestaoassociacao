@@ -116,7 +116,7 @@ public class AssociadoController {
         }
 	}
 
-    //Visualiza o cadastro do associado + dep + mens 
+    //Visualiza o cadastro por associado + dep + mens 
     @RequestMapping("/visualizaAssociado/{codigo}")
     public ModelAndView visualizaCadastroAssociado(@PathVariable("codigo") Long id, 
                                                     Dependente dependente, Mensalidade mensalidade) {

@@ -102,37 +102,16 @@ public class MensalidadeController {
             mv.addObject("todosTipos", Tipo.values());
             mv.addObject("todasSituacoes", SituacaoMensalidade.values());    
             attributes.addFlashAttribute("mensagemSucesso", "Mensalidade salva com sucesso.");
-        return new ModelAndView("redirect:/mensalidades/detalheAssociado/"+ associado.getId());
+            return new ModelAndView("redirect:/mensalidades/detalheAssociado/"+ associado.getId());
 
         } catch (NegocioException e) {
-            attributes.addFlashAttribute("mensagemErro", e.getMessage());
             System.out.println(e.getMessage());
-            return mensalidadeAssociado(id, mensalidade);
+            attributes.addFlashAttribute("mensagemErro", e.getMessage());
+            //return mensalidadeAssociado(id, mensalidade);
+            return new ModelAndView("redirect:/mensalidades/detalheAssociado/"+ associado.getId());
         }
-    }
-
-   
-
-    @GetMapping(value="/{mensalidadeId}/")
-	public String excluir(@PathVariable Long mensalidadeId, RedirectAttributes attributes) {
-        
-        Associado associado = mensalidadeRepository.findById(mensalidadeId).get().getAssociado();
-        try{    
-            mensalidadeService.remover(mensalidadeId);
-            ModelAndView mv = new ModelAndView(VIEW);
-            mv.addObject("associado", associado);
-            mv.addObject("mensalidades", mensalidadeRepository.getMensalidades(associado.getId()));
-            mv.addObject("todosTipos", Tipo.values());
-            mv.addObject("todasSituacoes", SituacaoMensalidade.values());
-            attributes.addFlashAttribute("mensagemSucesso",  "Mensalidade excluída com sucesso!");
-             return "redirect:/mensalidades/detalheAssociado/"+ associado.getId();
-        }catch(NegocioException e){
-            attributes.addFlashAttribute("mensagemErro", e.getMessage());
-            System.out.println(e.getMessage());
-            return "redirect:/mensalidades/detalheAssociado/"+ associado.getId();   
-        }	
-	} 
-
+    }  
+    //VIEW
    @GetMapping("/editarMensalidade")
     public ModelAndView editarMensalidade(@RequestParam Long  id) {
 
@@ -148,7 +127,8 @@ public class MensalidadeController {
 
     @PostMapping("/salvarMensalidade")
     public ModelAndView salvar(@Valid @ModelAttribute Mensalidade mensalidade, BindingResult result, RedirectAttributes attributes){                                                                        
-             Associado associado = mensalidadeRepository.findById(mensalidade.getId()).get().getAssociado();
+        
+        Associado associado = mensalidadeRepository.findById(mensalidade.getId()).get().getAssociado();
         if (result.hasErrors()) {
           return editarMensalidade(mensalidade.getId());
         }
@@ -157,6 +137,38 @@ public class MensalidadeController {
         return new ModelAndView ("redirect:/mensalidades/detalheAssociado/"+ associado.getId());
     }
    
+
+    @GetMapping(value="/{mensalidadeId}/")
+	public String excluir(@PathVariable Long mensalidadeId, RedirectAttributes attributes) {
         
+        Associado associado = mensalidadeRepository.findById(mensalidadeId).get().getAssociado();
+        try{    
+            mensalidadeService.remover(mensalidadeId);
+            ModelAndView mv = new ModelAndView(VIEW);
+            mv.addObject("associado", associado);
+            mv.addObject("mensalidades", mensalidadeRepository.getMensalidades(associado.getId()));
+            mv.addObject("todosTipos", Tipo.values());
+            mv.addObject("todasSituacoes", SituacaoMensalidade.values());
+            attributes.addFlashAttribute("mensagemSucesso",  "Mensalidade excluída com sucesso!");
+            return "redirect:/mensalidades/detalheAssociado/"+ associado.getId();
+
+        }catch(NegocioException e){
+            attributes.addFlashAttribute("mensagemErro", e.getMessage());
+            System.out.println(e.getMessage());
+            return "redirect:/mensalidades/detalheAssociado/"+ associado.getId();   
+        }	
+	} 
+
+  public double calcularMensalidadesEmAberto(){
+        
+        List<Mensalidade> mensalidades = mensalidadeRepository.findAll();
+        double soma = 0.0;
+
+        for (Mensalidade mensalidade : mensalidades) {
+            if (mensalidade.isPendente()) {
+            }
+        }
+        return soma;
+    }        
     
 }
