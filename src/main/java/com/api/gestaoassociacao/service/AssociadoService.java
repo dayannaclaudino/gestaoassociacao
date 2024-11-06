@@ -24,7 +24,7 @@ public class AssociadoService {
     @Autowired
     private AssociadoRepository associadoRepository;
 
-
+    
     @Transactional
     public void salvar(Associado associado){
         Optional<Associado> buscaPorCpf = associadoRepository.findByCpf(associado.getCpf());

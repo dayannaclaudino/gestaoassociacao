@@ -1,13 +1,18 @@
 package com.api.gestaoassociacao.controller;
 
+import java.io.ByteArrayInputStream;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,10 +34,7 @@ import com.api.gestaoassociacao.repository.filter.FilterMensalidade;
 import com.api.gestaoassociacao.repository.AssociadoRepository;
 import com.api.gestaoassociacao.service.AssociadoService;
 import com.api.gestaoassociacao.service.MensalidadeService;
-
 import jakarta.validation.Valid;
-
-
 
 
 @Controller
@@ -169,6 +171,7 @@ public class MensalidadeController {
             }
         }
         return soma;
-    }        
-    
+    }     
+
+ 
 }
