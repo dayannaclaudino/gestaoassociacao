@@ -1,7 +1,7 @@
 package com.api.gestaoassociacao.service;
 
-
-
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -17,7 +17,13 @@ import com.api.gestaoassociacao.model.Mensalidade;
 import com.api.gestaoassociacao.model.enums.SituacaoMensalidade;
 import com.api.gestaoassociacao.repository.MensalidadeRepository;
 import com.api.gestaoassociacao.repository.filter.FilterMensalidade;
-import com.api.gestaoassociacao.repository.filter.FilterNome;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import jakarta.transaction.Transactional;
 
@@ -92,6 +98,6 @@ public class MensalidadeService {
 		LocalDate dataAte = filtro.getDataAte();
 		
 		return mensalidadeRepository.findByAssociadoNomeContainingAndSituacaoAndDataEmissaoBetween(nomeAssociado, situacao, dataDe, dataAte, pageable);
-	}
+	} 
 	
 }

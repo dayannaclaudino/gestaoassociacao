@@ -2,10 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+   
 
 <header class="navbar navbar-dark sticky-top flex-md-nowrap p-1 shadow" style="background-color: #546D29;">   
-    <h6 class="text-white fw-bold col-md-4 col-lg-4 mx-2" 
-            ><img src="/img/logo.png" class="img-fluid" height="45" width="45" alt="logo">
+    <h6 class="text-white fw-bold col-md-4 col-lg-4 mx-3" 
+            ><img src="/img/logo.png" class="img-fluid" height="50" width="50" alt="logo">
             <span class="badge text-bg-light" > Associação Quilombola do Castainho </span></h6>
            
 
@@ -25,19 +26,21 @@
         <a href="/associados/listar" class="nav-link"><i class="fa-regular fa-rectangle-list"></i> Listar Associados</a>
       </li>
       <li class="nav-item">
-        <a href="" class="nav-link"><i class="fa-solid fa-user"></i> Usuário</a>
+        <a href="/mensalidades/listar" class="nav-link"><i class="fa-solid fa-dollar"></i> Mensalidades</a>
       </li>
     </ul>
-
-     <div class="nav nav-pills align-items-center">
-       <div class="nav-item px-3">
-           <span class="text-white">Usuário: Admin</span>
-       </div>
-       <div class="nav-item">
-         <a class="btn btn-sm btn-outline-light px-2 mx-2" th:href="@{/logout}">Sair 
-           <i class="fa-solid fa-right-from-bracket"></i>
-         </a>
-       </div>
-     </div>   
+    <div class="dropdown ">
+      <button class="btn btn-secondary dropdown-toggle bg-light fw-bold mx-3" type="button" id="dropdownMenuButton" 
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #546D29;">
+        <i class="fa-solid fa-circle-user px-2"></i>
+        Admin
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item text-secondary" href="#"><i class="fa-solid fa-user px-2"></i> Usuário</a>
+        <a class="dropdown-item text-secondary" href="#"><i class="fa-solid fa-gear px-2"></i>Configuração</a>
+        <a class="dropdown-item text-secondary" href="#"><i class="fa-solid fa-right-from-bracket px-2"></i>Sair</a>
+      </div>
+    </div>
  </header>
 </html>
+

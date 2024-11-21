@@ -2,8 +2,9 @@ package com.api.gestaoassociacao.model.enums;
 
 public enum SituacaoMensalidade {
     
-    Pendente("Pendente"),
-    Pago("Pago");
+    Pendente("PENDENTE"),
+    Atrasado("ATRASADO"),
+    Pago("PAGO");
 
     private String descricao;
 

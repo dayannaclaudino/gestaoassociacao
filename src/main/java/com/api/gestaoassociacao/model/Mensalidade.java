@@ -27,7 +27,6 @@ public class Mensalidade implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
   
     @JoinColumn(name="associado_id")
     @ManyToOne
@@ -63,18 +62,16 @@ public class Mensalidade implements Serializable{
     public boolean isPendente(){
         return SituacaoMensalidade.Pendente.equals(this.situacao);
     }
-
+    //Calcula os dias em atraso
     public long getDiasAtraso() {
         if (dataVencimento == null) {
             return 0;
         }
-        
         LocalDate dataReferencia = dataPagamento != null ? dataPagamento : LocalDate.now();
         
         if (dataReferencia.isBefore(dataVencimento)) {
             return 0;
         }
-        
         return ChronoUnit.DAYS.between(dataVencimento, dataReferencia);
     }
 }
