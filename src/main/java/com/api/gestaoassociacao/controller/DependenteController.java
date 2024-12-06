@@ -37,24 +37,20 @@ public class DependenteController {
     private AssociadoRepository associadoRepository;
 
 
-
-
     @GetMapping("/listar")
     public ModelAndView getDependentes(){
         
-       ModelAndView mv = new ModelAndView(VIEW);
-    
+        ModelAndView mv = new ModelAndView(VIEW);
         mv.addObject("dependente",  new Dependente());
         mv.addObject("dependentes", dependenteService.getDependentes());
-        mv.addObject("associados", associadoService.getAssociados());
-        
+        mv.addObject("associados", associadoService.getAssociados());     
         return mv;
     }
 
     @RequestMapping("/detalheAssociado/{codigo}")
     public ModelAndView dependenteAssociado(@PathVariable("codigo") Long id) {
         
-         Optional<Associado> associado = associadoRepository.findById(id);
+        Optional<Associado> associado = associadoRepository.findById(id);
 
         ModelAndView mv = new ModelAndView("cadastroDependentes");
         mv.addObject("associado", associado.get());
