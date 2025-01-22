@@ -8,7 +8,7 @@
 
 <body>
   <section layout:fragment="content">
-  <main class="col-md-9 ms-sm-auto col-lg-12 px-md-4">
+  <main class="col-md-12 ms-sm-auto col-lg-12 px-md-4">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">    
     <h3 class="h3">Histórico de Mensalidades</h3>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -63,6 +63,7 @@
                         <th class="text-center">Parcela</th>
                         <th class="text-center">Data Vencimento</th>
                         <th class="text-center">Dias de Atraso</th>
+                        <th class="text-center">Data Pagamento</th>
                         <th class="text-center">Valor</th>
                         <th class="text-center">Situação</th>
                     </tr>
@@ -76,11 +77,11 @@
                         <td class="text-center" th:text="${mensalidade.parcela}"></td>
                         <td class="text-center" th:text="${{mensalidade.dataVencimento}}"></td>
                         <td class="text-center" th:text="${{mensalidade.diasAtraso}}"></td>
-                        <td class="text-end" th:text="|R$ ${{mensalidade.valor}}|"></td>
+                        <td class="text-center" th:text="${{mensalidade.dataPagamento}}"></td>
+                        <td class="text-end" th:text="|R$ ${{mensalidade.valor}}|"></td>                       
                         <td class="text-center">
                             <span class="badge" th:text="${mensalidade.situacao.descricao}"
-                            th:classappend="${mensalidade.situacao == T(com.api.gestaoassociacao.model.enums.SituacaoMensalidade).Pendente ? 'bg-warning' :
-                         (mensalidade.situacao == T(com.api.gestaoassociacao.model.enums.SituacaoMensalidade).Atrasado ? 'bg-danger' : 'bg-success')}">
+                            th:classappend="${#strings.toString(mensalidade.situacao) == 'Pendente' ? 'bg-warning' : (#strings.toString(mensalidade.situacao) == 'Atrasado' ? 'bg-danger' : 'bg-success')}">
                         </td>
                     </tr>
                     <tr>

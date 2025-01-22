@@ -86,7 +86,7 @@ public class MensalidadeController {
         mv.addObject("todasSituacoes", SituacaoMensalidade.values());
         return mv;
     }
-
+//Salvar mensalidade
     @PostMapping("/addMensalAssociado/{codigo}")
     public ModelAndView addMensalAssociado(@Valid Mensalidade mensalidade, BindingResult result, 
                                            @PathVariable("codigo") Long id, RedirectAttributes attributes){
@@ -112,10 +112,12 @@ public class MensalidadeController {
             //return mensalidadeAssociado(id, mensalidade);
             return new ModelAndView("redirect:/mensalidades/detalheAssociado/"+ associado.getId());
         }
-    }  
-    //VIEW
+    } 
+    
+    /* */
+    //VIEW editar 
    @GetMapping("/editarMensalidade")
-    public ModelAndView editarMensalidade(@RequestParam Long  id) {
+    public ModelAndView editarMensalidade(@RequestParam Long id) {
 
         ModelAndView mv = new ModelAndView("alterarMensalidade");
         
@@ -126,17 +128,24 @@ public class MensalidadeController {
         mv.addObject("todasSituacoes", SituacaoMensalidade.values());
         return mv;
     }
-
+//salvar editar 
     @PostMapping("/salvarMensalidade")
-    public ModelAndView salvar(@Valid @ModelAttribute Mensalidade mensalidade, BindingResult result, RedirectAttributes attributes){                                                                        
+    public ModelAndView alterar(@Valid @ModelAttribute Mensalidade mensalidade, BindingResult result, RedirectAttributes attributes){                                                                        
         
         Associado associado = mensalidadeRepository.findById(mensalidade.getId()).get().getAssociado();
+
         if (result.hasErrors()) {
           return editarMensalidade(mensalidade.getId());
         }
-        mensalidadeService.salvar(mensalidade);
-        attributes.addFlashAttribute("mensagemSucesso", "Mensalidade alterada com sucesso.");                                     
-        return new ModelAndView ("redirect:/mensalidades/detalheAssociado/"+ associado.getId());
+        try {
+            mensalidadeService.salvar(mensalidade);
+            attributes.addFlashAttribute("mensagemSucesso", "Mensalidade alterada com sucesso.");                                     
+            return new ModelAndView ("redirect:/mensalidades/detalheAssociado/"+ associado.getId());
+        } catch (NegocioException e) {
+            ModelAndView mv = editarMensalidade(mensalidade.getId());
+            mv.addObject("mensagemErro", e.getMessage());
+            return mv;
+        }
     }
    
 

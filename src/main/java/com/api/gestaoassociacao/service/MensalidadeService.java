@@ -1,7 +1,5 @@
 package com.api.gestaoassociacao.service;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -29,6 +27,9 @@ public class MensalidadeService {
 
 	@Transactional
 	public void salvar(Mensalidade mensalidade) {	
+		if (mensalidade.getSituacao() == SituacaoMensalidade.Pago && mensalidade.getDataPagamento() == null) {
+			throw new NegocioException("A data de pagamento deve ser preenchida ao selecionar a situação 'PAGO'.");
+		}
 		mensalidade.setDataEmissao(LocalDate.now());
 		mensalidadeRepository.save(mensalidade);	
 	}
@@ -63,7 +64,6 @@ public class MensalidadeService {
 	public List<Mensalidade> getMensalidadesPendentes(Long associadoId){
 		return mensalidadeRepository.getMensalidadesPendentes(associadoId);
 	}
-	
 	
     public BigDecimal getTotalMensalidadesEmAtraso() {
         List<Mensalidade> mensalidades = mensalidadeRepository.findAll();
