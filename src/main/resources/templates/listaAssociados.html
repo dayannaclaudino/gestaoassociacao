@@ -8,7 +8,7 @@
 
 <body>
   <section layout:fragment="content">
-  <main class="col-md-9 ms-sm-auto col-lg-12 px-md-4">
+  <main class="col-md-12 ms-sm-auto col-lg-12 px-md-4">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">    
     <h3 class="h3">Lista de Associados</h3>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -80,7 +80,7 @@
                         <td class="td-actions text-center">
                             <a class="btn-actions" title="Incluir Mensalidades" data-toggle="tooltip"
                                th:href="@{/mensalidades/detalheAssociado/{codigo}(codigo=${associado.id})}">
-                               <i class="fa-solid fa-hand-holding-dollar" style="color: #38B43A;"></i> 
+                               <i class="fa-solid fa-dollar" style="color: #38B43A;"></i> 
                             </a>
                             <a class="btn-actions" title="Incluir Dependentes" data-toggle="tooltip"
                                th:href="@{/dependentes/detalheAssociado/{codigo}(codigo=${associado.id})}">

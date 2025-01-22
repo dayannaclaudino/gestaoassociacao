@@ -27,8 +27,12 @@ public class AssociadoService {
     
     @Transactional
     public void salvar(Associado associado){
-        Optional<Associado> buscaPorCpf = associadoRepository.findByCpf(associado.getCpf());
+         // Validar CPF para garantir que não contenha pontos ou traços
+        if (!associado.getCpf().matches("\\d{11}")) { // Apenas 11 dígitos numéricos
+            throw new NegocioException("CPF inválido! Insira apenas números, sem pontos ou traços.");
+        }
 
+        Optional<Associado> buscaPorCpf = associadoRepository.findByCpf(associado.getCpf());
         if (buscaPorCpf.isPresent()) {
             throw new NegocioException("O CPF já está cadastrado no sistema.");
         }
