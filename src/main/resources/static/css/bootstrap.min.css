@@ -3702,7 +3702,7 @@ fieldset:disabled .btn {
 }
 
 /*Esconde o menu para o sidebar aparecer*/
-@media (max-width: 768px) {
+@media (max-width: 700px) {
   .nav-header {
     display: none;
   }

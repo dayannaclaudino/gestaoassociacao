@@ -5,7 +5,7 @@
    
 
 <header class="navbar navbar-dark sticky-top flex-md-nowrap p-1 shadow" style="background-color: #546D29;">   
-    <h6 class="text-white fw-bold col-md-4 col-lg-4 mx-3" 
+    <h6 class="text-white fw-bold col-md-5 col-lg-4 mx-3"   
             ><img src="/img/logo.png" class="img-fluid" height="50" width="50" alt="logo">
             <span class="badge text-bg-light" > Associação Quilombola do Castainho </span></h6>
            
@@ -33,12 +33,12 @@
       <button class="btn btn-secondary dropdown-toggle bg-light fw-bold mx-3" type="button" id="dropdownMenuButton" 
               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #546D29;">
         <i class="fa-solid fa-circle-user px-2"></i>
-        Admin
+        <span th:text="${userName}"></span>
       </button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <a class="dropdown-item text-secondary" href="/users/novo"><i class="fa-solid fa-user px-2"></i> Usuário</a>
         <a class="dropdown-item text-secondary" href="#"><i class="fa-solid fa-gear px-2"></i>Configuração</a>
-        <a class="dropdown-item text-secondary" href="#"><i class="fa-solid fa-right-from-bracket px-2"></i>Sair</a>
+        <a class="dropdown-item text-secondary" th:href="@{/logout}"><i class="fa-solid fa-right-from-bracket px-2"></i>Sair</a>
       </div>
     </div>
  </header>
