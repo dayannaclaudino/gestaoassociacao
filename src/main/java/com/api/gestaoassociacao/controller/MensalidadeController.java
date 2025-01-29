@@ -1,12 +1,10 @@
 package com.api.gestaoassociacao.controller;
 
-import java.io.ByteArrayInputStream;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -34,6 +32,8 @@ import com.api.gestaoassociacao.repository.filter.FilterMensalidade;
 import com.api.gestaoassociacao.repository.AssociadoRepository;
 import com.api.gestaoassociacao.service.AssociadoService;
 import com.api.gestaoassociacao.service.MensalidadeService;
+import com.api.gestaoassociacao.service.Pdf.MensalidadePDFExporter;
+
 import jakarta.validation.Valid;
 
 
@@ -51,16 +51,19 @@ public class MensalidadeController {
     private MensalidadeRepository mensalidadeRepository;
     @Autowired
     private AssociadoService associadoService;
+    @Autowired
+    private MensalidadePDFExporter mensalidadePDFExporter;
   
-    //Lista todas as mensalidades do associado 'historicoMensalidades'
+    //historicoMensalidades
     @RequestMapping("/listar")
     public ModelAndView getMensalidades(@ModelAttribute("filtro") FilterMensalidade filtro, 
                                @PageableDefault(size = 9) Pageable pageable) {
 
         Page<Mensalidade> TodasMensalidades = mensalidadeService.filtrar(filtro, pageable);
-        //Acho que isso está fazendo contar somente o que mostra
-        List<Mensalidade> listaMensalidades = TodasMensalidades.getContent(); 
-        BigDecimal totalParcelas = mensalidadeService.calcularTotalParcelas(listaMensalidades);
+        
+        // Obter todas as mensalidades sem paginação
+        List<Mensalidade> todasMensalidades = mensalidadeService.todasMensalidadesSemPaginacao(filtro);
+        BigDecimal totalParcelas = mensalidadeService.calcularTotalParcelas(todasMensalidades);
         
         ModelAndView mv = new ModelAndView("historicoMensalidades");
 
@@ -170,8 +173,7 @@ public class MensalidadeController {
         }	
 	} 
 
-  public double calcularMensalidadesEmAberto(){
-        
+  public double calcularMensalidadesEmAberto(){    
         List<Mensalidade> mensalidades = mensalidadeRepository.findAll();
         double soma = 0.0;
 
@@ -183,4 +185,21 @@ public class MensalidadeController {
     }     
 
  
+    @GetMapping(value = "/pdf")
+    public ResponseEntity<byte[]> gerarPdfMensalidades(@ModelAttribute("filtro") FilterMensalidade filtro) {
+
+        List<Mensalidade> todasMensalidades = mensalidadeService.todasMensalidadesSemPaginacao(filtro);
+        BigDecimal totalParcelas = mensalidadeService.calcularTotalParcelas(todasMensalidades);
+
+        byte[] pdf = mensalidadePDFExporter.gerarRelatorioMensalidades(todasMensalidades, totalParcelas);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDispositionFormData("inline", "relatorio-mensalidades.pdf");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(pdf);
+    }
+
 }

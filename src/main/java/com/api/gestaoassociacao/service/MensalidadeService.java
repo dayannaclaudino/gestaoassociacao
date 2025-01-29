@@ -60,17 +60,17 @@ public class MensalidadeService {
         return mensalidadeRepository.sumMensalidadesEmAberto();
     }
 
-	//lista de mensalidades pendentes (para tabela de cadastro de mensalidades em aberto)
+	//Não listar Mensalidades pagas cadastromensalidade
 	public List<Mensalidade> getMensalidadesPendentes(Long associadoId){
 		return mensalidadeRepository.getMensalidadesPendentes(associadoId);
 	}
-	
+	//Exibe O total de mensalidades em Atraso
     public BigDecimal getTotalMensalidadesEmAtraso() {
         List<Mensalidade> mensalidades = mensalidadeRepository.findAll();
-		// Processar a lista de mensalidades utilizando a API de Streams
+		// Processa a lista de mensalidades utilizando a API de Streams
         return mensalidades.stream()
-		// Filtrar mensalidades que estão em atraso e são pendentes
-                .filter(m -> m.getDiasAtraso() > 0 && m.getSituacao() == SituacaoMensalidade.Pendente)
+		// Filtra mensalidades que estão em atraso 
+                .filter(m -> m.getDiasAtraso() > 0 && m.getSituacao() == SituacaoMensalidade.Atrasado)
 				// Mapear cada mensalidade para seu valor (BigDecimal)
                 .map(Mensalidade::getValor)
 				 // Somar todos os valores utilizando a operação de redução, O valor inicial da redução, que é zero.
@@ -93,4 +93,14 @@ public class MensalidadeService {
 		return mensalidadeRepository.findByAssociadoNomeContainingAndSituacaoAndDataEmissaoBetween(nomeAssociado, situacao, dataDe, dataAte, pageable);
 	} 
 	
+	//buscar todas as mensalidades sem a paginação
+    public List<Mensalidade> todasMensalidadesSemPaginacao(FilterMensalidade filtro) {
+        return mensalidadeRepository.buscarTodasMensalidades(
+            filtro.getNomeAssociado() != null ? filtro.getNomeAssociado() : null,
+            filtro.getSituacao(),
+            filtro.getDataDe(),
+            filtro.getDataAte()
+        );
+    }
+
 }

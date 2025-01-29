@@ -16,6 +16,8 @@
                 role="button" type="button" href="/associados/novo">Adicionar Associado</a>
         <a class="btn btn-orange btn-sm fw-bold"   
                 role="button" type="button" href="/associados/listar">Listar Associados</a>
+        <a class="btn btn-orange btn-sm fw-bold"   
+                role="button" type="button" href="/mensalidades/pdf" onclick="gerarPdf(); return false;">Exportar Pdf</a>
         
     </div>
   </div>
@@ -85,8 +87,8 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="7" class="text-end fw-bold">Total:</td>
-                        <td colspan="2" class="fw-bold" th:text="|R$ ${#numbers.formatDecimal(totalParcelas, 2, 2)}|"></td>
+                        <td colspan="8" class="text-end fw-bold">Total Parcelas:</td>
+                        <td colspan="3" class="fw-bold" th:text="|R$ ${#numbers.formatDecimal(totalParcelas, 2, 2)}|"></td>
                       </tr>
                     <tr>
                         <td colspan="9" th:if="${#lists.isEmpty(mensalidades)}">Nenhuma mensalidade foi encontrada.</td>
