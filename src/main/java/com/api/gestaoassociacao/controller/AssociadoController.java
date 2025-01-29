@@ -1,5 +1,10 @@
 package com.api.gestaoassociacao.controller;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +29,10 @@ import com.api.gestaoassociacao.repository.DependenteRepository;
 import com.api.gestaoassociacao.repository.MensalidadeRepository;
 import com.api.gestaoassociacao.repository.filter.FilterNome;
 import com.api.gestaoassociacao.service.AssociadoService;
+import com.api.gestaoassociacao.service.Pdf.AssociadoPDFExporter;
+import com.itextpdf.text.DocumentException;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 @Controller
@@ -131,4 +139,22 @@ public class AssociadoController {
         mv.addObject("todasSituacoes", SituacaoMensalidade.values());
         return mv;
     }
+
+    @GetMapping("/export/pdf")
+    public void exportToPDF(HttpServletResponse response) throws DocumentException, IOException {
+        response.setContentType("application/pdf");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+         
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=associados_" + currentDateTime + ".pdf";
+        response.setHeader(headerKey, headerValue);
+         
+        List<Associado> listAssociados = associadoService.getAssociados();
+         
+        AssociadoPDFExporter exporter = new AssociadoPDFExporter(listAssociados);
+        exporter.export(response);
+         
+    }
+
 }
