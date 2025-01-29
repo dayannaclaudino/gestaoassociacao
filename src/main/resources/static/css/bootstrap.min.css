@@ -4411,14 +4411,14 @@ fieldset:disabled .btn {
 /*Botao proximo Tabela */
 .page-link:hover {
   z-index: 2;
-  color: #38b43a;
+  color: #343a40;
   background-color: #e9ecef;
-  border-color: #38b43a;
+  border-color: #343a40;
 }
 .page-link:focus {
   z-index: 3;
-  color: #c5f8cc;
-  background-color: #38b43a;
+  color: #343a40;
+  background-color: #343a40;
   outline: 0;
   box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
@@ -4428,8 +4428,8 @@ fieldset:disabled .btn {
 .page-item.active .page-link {
   z-index: 3;
   color: #fff;
-  background-color: #38b43a;
-  border-color: #38b43a;
+  background-color: #343a40;
+  border-color: #343a40;
 }
 .page-item.disabled .page-link {
   color: #6c757d;
@@ -4438,6 +4438,7 @@ fieldset:disabled .btn {
   border-color: #dee2e6;
 }
 .page-link {
+  color: #343a40;
   padding: 0.375rem 0.75rem;
 }
 .page-item:first-child .page-link {
