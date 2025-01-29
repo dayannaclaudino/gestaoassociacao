@@ -9,7 +9,7 @@
 
 <body>
 <section layout:fragment="content">
-<main class="col-md-9 ms-sm-auto col-lg-12 px-md-4">
+<main class="col-md-12 ms-sm-auto col-lg-12 px-md-4">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">    
           <h3 class="h3">Cadastro de Mensalidades</h3>
           <div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -54,6 +54,8 @@
 </br>   
   <form  method="POST" th:action="@{/mensalidades/addMensalAssociado/{codigo}(codigo=${associado.id})}" 
                        th:object="${mensalidade}">
+                   <input type="hidden" th:field="*{id}" />
+                   <input type="hidden" th:field="*{associado.id}"/>
     <div class="card">
             <div class="card-header fw-bold" th:each="a : ${associado}">
                 <h6 class="card-title">
@@ -71,7 +73,7 @@
                    <input type="number" class="form-control" id="parcela"  th:field="*{parcela}">
                    <small class="form-text text-danger" th:if="${#fields.hasErrors('parcela')}" th:errors="*{parcela}"></small>
                  </div>
-                 <div class="col-md-3">
+                 <div class="col-md-2">
                    <label for="valor" class="form-label">Valor</label>
                      <input type="text" class="form-control" id="valor" th:field="*{valor}"
                                placeholder="R$ 0,00">
@@ -82,8 +84,13 @@
                      <input type="date" class="form-control" id="date" th:field="*{dataVencimento}"
                             placeholder="dd/mm/aaaa">
                   <small class="form-text text-danger" th:if="${#fields.hasErrors('dataVencimento')}" th:errors="*{dataVencimento}"></small>          
-                 </div>                    
+                 </div> 
                  <div class="col-md-3">
+                  <label for="date" class="form-label">Data do Pagamento</label>
+                    <input type="date" class="form-control" id="date" name="dataPagamento" th:value="*{dataPagamento}" 
+                          placeholder="dd/mm/aaaa" >
+                 </div>                   
+                 <div class="col-md-2">
                      <label class="form-label">Selecione a situação</label>
                        <select class="form-select" name="situacao" th:field="*{situacao}" aria-label="Default">
                          <option th:each="situacao : ${todasSituacoes}" th:value="${situacao}" 
@@ -92,8 +99,8 @@
                        <small class="form-text text-danger" th:if="${#fields.hasErrors('situacao')}" th:errors="*{situacao}"></small>     
                  </div>
                 
-                 <div class="col">
-                  <button type="submit" class="btn btn-success btn-block" style="margin-top: 15%;">Incluir</button>
+                 <div class="col-md-1">
+                  <button type="submit" class="btn btn-success btn-block mt-lg-4 mt-md-4" >Incluir</button>
                 </div>    
               
              </div>
@@ -123,7 +130,7 @@
                     <td class="text-center" th:text="${{mensalidade.diasAtraso}}"></td>
                     <td class="text-center">
                       <span class="badge" th:text="${mensalidade.situacao.descricao}"
-                      th:classappend="${#strings.toString(mensalidade.situacao) == 'Pendente' ? 'bg-warning' : 'bg-success'}"></span>
+                      th:classappend="${#strings.toString(mensalidade.situacao) == 'Pendente' ? 'bg-warning' : (#strings.toString(mensalidade.situacao) == 'Atrasado' ? 'bg-danger' : 'bg-success')}"></span>
                     </td>                 
                     <td class="text-center">
                         <a class="delete" title="Excluir" data-toggle="tooltip"

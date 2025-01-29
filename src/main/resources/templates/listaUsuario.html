@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{index}">
+<head>
+
+    <title>Associação Quilombola Castainho</title> 
+</head>
+
+<body>
+  <section layout:fragment="content">
+  <main class="col-md-12 ms-sm-auto col-lg-12 px-md-4">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">    
+    <h3 class="h3">Lista de Usuários</h3>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <a class="btn btn-orange btn-sm me-md-2 fw-bold"
+            role="button" type="button" href="/users/novo">Adicionar Usuário</a>
+        <a class="btn btn-orange btn-sm fw-bold"   
+            role="button" type="button" href="/users/listar">Listar Usuário</a> 
+    </div>
+  </div>
+
+<div th:replace="~{fragments/alert}"></div>    
+
+<div class="container">  
+      
+      <!-- table -->
+    <div class="table-wrapper">  
+      <div class="table-responsive">
+        <table class="table table table-hover table-bordered">
+            <thead class="table-light">
+                <tr>
+                    <th>#</th>
+                    <th class="text-center">Nome Completo</th>
+                    <th class="text-center">Email</th>
+                    <th class="text-center">Nome Usuário</th>
+                    <th class="text-center">Acões</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="user: ${users}">
+                    <td th:text="${user.id}">0</td>
+                    <td class="text-center"><span th:text="${user.name}"></span></td>
+                    <td class="text-center" th:text="${user.email}"></td>
+                    <td class="text-center" th:text="${user.username}"></td>               
+                    <td class="text-center">
+                        <a class="btn-actions" title="Editar" data-toggle="tooltip"
+                               th:href="@{/users/editar/{codigo}(codigo=${user.id})}">
+                                <i class="fa-regular fa-pen-to-square" style="color: #ffc104;"></i>
+                        </a>
+                        <a class="delete" title="Excluir" data-toggle="tooltip"
+                           th:href="@{/users/{userId}/excluir(userId = ${user.id})}">
+                            <i class="fa-solid fa-trash-can" style="color: #fa0000;"></i>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="8" th:if="${#lists.isEmpty(users)}">Nenhum usuário foi encontrado.</td>
+                </tr>
+            </tbody>
+        </table> 
+      </div>
+    </div>
+  </div> <!-- container end-->
+   
+</div> </main>
+</section>
+
+</body>
+</html>

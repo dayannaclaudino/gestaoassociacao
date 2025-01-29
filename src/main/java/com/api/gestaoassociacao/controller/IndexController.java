@@ -1,7 +1,10 @@
 package com.api.gestaoassociacao.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,9 +23,14 @@ public class IndexController {
     @GetMapping("/home")
     public ModelAndView home() {
         ModelAndView mv = new ModelAndView("home");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        
+        String userName = authentication.getName(); // Obtém o nome de usuário logado
+        mv.addObject("userName", userName);
         mv.addObject("totalCadastrados", associadoService.getTotalAssociadosCadastrados());
         mv.addObject("sumMensalidadesEmAberto", mensalidadeService.getTotalMensalidadesEmAberto());
         mv.addObject("totalMensalidadesEmAtraso", mensalidadeService.getTotalMensalidadesEmAtraso());
+        
         return mv;
     }
     

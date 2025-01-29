@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,10 +32,9 @@ import com.api.gestaoassociacao.repository.filter.FilterMensalidade;
 import com.api.gestaoassociacao.repository.AssociadoRepository;
 import com.api.gestaoassociacao.service.AssociadoService;
 import com.api.gestaoassociacao.service.MensalidadeService;
+import com.api.gestaoassociacao.service.Pdf.MensalidadePDFExporter;
 
 import jakarta.validation.Valid;
-
-
 
 
 @Controller
@@ -49,16 +51,19 @@ public class MensalidadeController {
     private MensalidadeRepository mensalidadeRepository;
     @Autowired
     private AssociadoService associadoService;
+    @Autowired
+    private MensalidadePDFExporter mensalidadePDFExporter;
   
-    //Lista todas as mensalidades do associado 'historicoMensalidades'
+    //historicoMensalidades
     @RequestMapping("/listar")
     public ModelAndView getMensalidades(@ModelAttribute("filtro") FilterMensalidade filtro, 
                                @PageableDefault(size = 9) Pageable pageable) {
 
         Page<Mensalidade> TodasMensalidades = mensalidadeService.filtrar(filtro, pageable);
-        //Acho que isso está fazendo contar somente o que mostra
-        List<Mensalidade> listaMensalidades = TodasMensalidades.getContent(); 
-        BigDecimal totalParcelas = mensalidadeService.calcularTotalParcelas(listaMensalidades);
+        
+        // Obter todas as mensalidades sem paginação
+        List<Mensalidade> todasMensalidades = mensalidadeService.todasMensalidadesSemPaginacao(filtro);
+        BigDecimal totalParcelas = mensalidadeService.calcularTotalParcelas(todasMensalidades);
         
         ModelAndView mv = new ModelAndView("historicoMensalidades");
 
@@ -84,7 +89,7 @@ public class MensalidadeController {
         mv.addObject("todasSituacoes", SituacaoMensalidade.values());
         return mv;
     }
-
+//Salvar mensalidade
     @PostMapping("/addMensalAssociado/{codigo}")
     public ModelAndView addMensalAssociado(@Valid Mensalidade mensalidade, BindingResult result, 
                                            @PathVariable("codigo") Long id, RedirectAttributes attributes){
@@ -110,10 +115,12 @@ public class MensalidadeController {
             //return mensalidadeAssociado(id, mensalidade);
             return new ModelAndView("redirect:/mensalidades/detalheAssociado/"+ associado.getId());
         }
-    }  
-    //VIEW
+    } 
+    
+    /* */
+    //VIEW editar 
    @GetMapping("/editarMensalidade")
-    public ModelAndView editarMensalidade(@RequestParam Long  id) {
+    public ModelAndView editarMensalidade(@RequestParam Long id) {
 
         ModelAndView mv = new ModelAndView("alterarMensalidade");
         
@@ -124,17 +131,24 @@ public class MensalidadeController {
         mv.addObject("todasSituacoes", SituacaoMensalidade.values());
         return mv;
     }
-
+//salvar editar 
     @PostMapping("/salvarMensalidade")
-    public ModelAndView salvar(@Valid @ModelAttribute Mensalidade mensalidade, BindingResult result, RedirectAttributes attributes){                                                                        
+    public ModelAndView alterar(@Valid @ModelAttribute Mensalidade mensalidade, BindingResult result, RedirectAttributes attributes){                                                                        
         
         Associado associado = mensalidadeRepository.findById(mensalidade.getId()).get().getAssociado();
+
         if (result.hasErrors()) {
           return editarMensalidade(mensalidade.getId());
         }
-        mensalidadeService.salvar(mensalidade);
-        attributes.addFlashAttribute("mensagemSucesso", "Mensalidade alterada com sucesso.");                                     
-        return new ModelAndView ("redirect:/mensalidades/detalheAssociado/"+ associado.getId());
+        try {
+            mensalidadeService.salvar(mensalidade);
+            attributes.addFlashAttribute("mensagemSucesso", "Mensalidade alterada com sucesso.");                                     
+            return new ModelAndView ("redirect:/mensalidades/detalheAssociado/"+ associado.getId());
+        } catch (NegocioException e) {
+            ModelAndView mv = editarMensalidade(mensalidade.getId());
+            mv.addObject("mensagemErro", e.getMessage());
+            return mv;
+        }
     }
    
 
@@ -159,8 +173,7 @@ public class MensalidadeController {
         }	
 	} 
 
-  public double calcularMensalidadesEmAberto(){
-        
+  public double calcularMensalidadesEmAberto(){    
         List<Mensalidade> mensalidades = mensalidadeRepository.findAll();
         double soma = 0.0;
 
@@ -169,6 +182,24 @@ public class MensalidadeController {
             }
         }
         return soma;
-    }        
-    
+    }     
+
+ 
+    @GetMapping(value = "/pdf")
+    public ResponseEntity<byte[]> gerarPdfMensalidades(@ModelAttribute("filtro") FilterMensalidade filtro) {
+
+        List<Mensalidade> todasMensalidades = mensalidadeService.todasMensalidadesSemPaginacao(filtro);
+        BigDecimal totalParcelas = mensalidadeService.calcularTotalParcelas(todasMensalidades);
+
+        byte[] pdf = mensalidadePDFExporter.gerarRelatorioMensalidades(todasMensalidades, totalParcelas);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDispositionFormData("inline", "relatorio-mensalidades.pdf");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(pdf);
+    }
+
 }
