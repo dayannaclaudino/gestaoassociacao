@@ -13,7 +13,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.api.gestaoassociacao.model.Associado;
 import com.api.gestaoassociacao.model.Mensalidade;
 import com.api.gestaoassociacao.model.enums.SituacaoMensalidade;
 
@@ -23,20 +22,21 @@ import com.api.gestaoassociacao.model.enums.SituacaoMensalidade;
 @Transactional
 public interface MensalidadeRepository extends JpaRepository<Mensalidade, Long>{
  
-    //pesquisa em qualquer parte da palavra e ordena a lista (listaMensalidades)
+    //pesquisa em qualquer parte da palavra e ordena a lista
     @Query("select m from Mensalidade m where m.associado.id = ?1 order by m.parcela asc")	
     public List<Mensalidade> getMensalidades(Long associadoId);
 
     public Optional<Mensalidade> findById(Long id);
 
-    //Mensalidades em Pendentes
+    //Não listar Mensalidades pagas cadastromensalidade
     @Query("SELECT m FROM Mensalidade m WHERE m.associado.id = ?1 AND m.situacao != 'Pago' ORDER BY m.parcela ASC")
     List<Mensalidade> getMensalidadesPendentes(Long associadoId);
 
-    //Total soma das mensalidades em aberto
-    @Query("SELECT SUM(m.valor) FROM Mensalidade m WHERE m.situacao = 'Pendente'")
+    //Total soma das mensalidades em aberto (home)
+    @Query("SELECT SUM(m.valor) FROM Mensalidade m WHERE m.situacao != 'Pago'")
     public BigDecimal sumMensalidadesEmAberto();
 
+    //Filtro de todas as mensalidades com paginação
     @Query("SELECT m FROM Mensalidade m WHERE "
         + "(:nome IS NULL OR m.associado.nome LIKE %:nome%) "
         + "AND (:situacao IS NULL OR m.situacao = :situacao) "
@@ -48,5 +48,15 @@ public interface MensalidadeRepository extends JpaRepository<Mensalidade, Long>{
         @Param("dataDe") LocalDate dataDe, 
         @Param("dataAte") LocalDate dataAte, 
         Pageable pageable);
+
+    //Filtro de todas as mensalidades sem paginação
+     @Query("SELECT m FROM Mensalidade m " +
+        "WHERE (:nomeAssociado IS NULL OR m.associado.nome LIKE %:nomeAssociado%) " +
+        "AND (:situacao IS NULL OR m.situacao = :situacao) " +
+        "AND (:inicio IS NULL OR :fim IS NULL OR m.dataEmissao BETWEEN :inicio AND :fim)")
+    List<Mensalidade> buscarTodasMensalidades(@Param("nomeAssociado") String nomeAssociado,
+                                           @Param("situacao") SituacaoMensalidade situacao,
+                                           @Param("inicio") LocalDate inicio,
+                                           @Param("fim") LocalDate fim);    
 
 }

@@ -12,8 +12,10 @@ import org.springframework.stereotype.Service;
 
 import com.api.gestaoassociacao.Exception.NegocioException;
 import com.api.gestaoassociacao.model.Associado;
+import com.api.gestaoassociacao.model.Mensalidade;
 import com.api.gestaoassociacao.model.enums.StatusAssociado;
 import com.api.gestaoassociacao.repository.AssociadoRepository;
+import com.api.gestaoassociacao.repository.filter.FilterMensalidade;
 import com.api.gestaoassociacao.repository.filter.FilterNome;
 
 import jakarta.transaction.Transactional;
@@ -24,11 +26,15 @@ public class AssociadoService {
     @Autowired
     private AssociadoRepository associadoRepository;
 
-
+    
     @Transactional
     public void salvar(Associado associado){
-        Optional<Associado> buscaPorCpf = associadoRepository.findByCpf(associado.getCpf());
+         // Validar CPF para garantir que não contenha pontos ou traços
+        if (!associado.getCpf().matches("\\d{11}")) { // Apenas 11 dígitos numéricos
+            throw new NegocioException("CPF inválido! Insira apenas números, sem pontos ou traços.");
+        }
 
+        Optional<Associado> buscaPorCpf = associadoRepository.findByCpf(associado.getCpf());
         if (buscaPorCpf.isPresent()) {
             throw new NegocioException("O CPF já está cadastrado no sistema.");
         }
@@ -44,9 +50,7 @@ public class AssociadoService {
 
     @Transactional
     public void editar(Associado associado){
-
         associadoRepository.save(associado);
-       
     }
 
     public void remover(Long id){
@@ -77,8 +81,9 @@ public class AssociadoService {
         return associado;
     }
 
+    // Conta o número total de associados página home
     public long getTotalAssociadosCadastrados() {
-        return associadoRepository.count(); // Conta o número total de associados página home
+        return associadoRepository.count(); 
     }
 
 }

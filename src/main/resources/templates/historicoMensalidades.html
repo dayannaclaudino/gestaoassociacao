@@ -8,7 +8,7 @@
 
 <body>
   <section layout:fragment="content">
-  <main class="col-md-9 ms-sm-auto col-lg-12 px-md-4">
+  <main class="col-md-12 ms-sm-auto col-lg-12 px-md-4">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">    
     <h3 class="h3">Histórico de Mensalidades</h3>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -16,6 +16,9 @@
                 role="button" type="button" href="/associados/novo">Adicionar Associado</a>
         <a class="btn btn-orange btn-sm fw-bold"   
                 role="button" type="button" href="/associados/listar">Listar Associados</a>
+        <a class="btn btn-orange btn-sm fw-bold"   
+                role="button" type="button" href="/mensalidades/pdf" onclick="gerarPdf(); return false;">Exportar Pdf</a>
+        
     </div>
   </div>
     
@@ -62,6 +65,7 @@
                         <th class="text-center">Parcela</th>
                         <th class="text-center">Data Vencimento</th>
                         <th class="text-center">Dias de Atraso</th>
+                        <th class="text-center">Data Pagamento</th>
                         <th class="text-center">Valor</th>
                         <th class="text-center">Situação</th>
                     </tr>
@@ -75,15 +79,16 @@
                         <td class="text-center" th:text="${mensalidade.parcela}"></td>
                         <td class="text-center" th:text="${{mensalidade.dataVencimento}}"></td>
                         <td class="text-center" th:text="${{mensalidade.diasAtraso}}"></td>
-                        <td class="text-end" th:text="|R$ ${{mensalidade.valor}}|"></td>
+                        <td class="text-center" th:text="${{mensalidade.dataPagamento}}"></td>
+                        <td class="text-end" th:text="|R$ ${{mensalidade.valor}}|"></td>                       
                         <td class="text-center">
                             <span class="badge" th:text="${mensalidade.situacao.descricao}"
-                            th:classappend="${#strings.toString(mensalidade.situacao) == 'Pendente' ? 'bg-warning' : 'bg-success'}"></span>
+                            th:classappend="${#strings.toString(mensalidade.situacao) == 'Pendente' ? 'bg-warning' : (#strings.toString(mensalidade.situacao) == 'Atrasado' ? 'bg-danger' : 'bg-success')}">
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="7" class="text-end fw-bold">Total:</td>
-                        <td colspan="2" class="fw-bold" th:text="|R$ ${#numbers.formatDecimal(totalParcelas, 2, 2)}|"></td>
+                        <td colspan="8" class="text-end fw-bold">Total Parcelas:</td>
+                        <td colspan="3" class="fw-bold" th:text="|R$ ${#numbers.formatDecimal(totalParcelas, 2, 2)}|"></td>
                       </tr>
                     <tr>
                         <td colspan="9" th:if="${#lists.isEmpty(mensalidades)}">Nenhuma mensalidade foi encontrada.</td>
