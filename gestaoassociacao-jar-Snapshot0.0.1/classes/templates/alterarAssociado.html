@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{index}">
+<head>
+  
+    
+    <title>Associação Quilombola Castainho</title> 
+</head>
+
+<body>
+  
+<section layout:fragment="content">
+  <main class="col-md-12 ms-sm-auto col-lg-12 px-md-4">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">    
+    <h3 class="h3">Associado</h3>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+      <a class="btn btn-orange btn-sm fw-bold"   
+                role="button" type="button" href="/associados/listar">Listar Associados</a>
+    </div>
+  </div>
+
+<div th:replace="~{fragments/alert}"></div>
+  
+    
+  <form  method="POST"  th:action="@{/associados/editar}" th:object="${associado}">
+    <div class="card">
+      <div class="card-header fw-bold">     
+          <h6 class="card-title">Alterar Associado</h6>
+      </div>
+      
+            <div class="card-body">
+              <input type="hidden" th:field="*{id}"/> 
+              <div class="row g-2">
+                  <div class="col-md-7">
+                    <label for="inputNome" class="form-label">Nome do Associado</label>
+                    <input type="text" class="form-control" id="inputNome" th:field="*{nome}" 
+                           autofocus="autofocus" placeholder="Digite o nome do associado..." >
+                            <small class="form-text text-danger" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></small>
+                  </div>
+                  <div class="col-md-3">
+                    <label for="inputApelido" class="form-label">Apelido</label>
+                    <input type="text" class="form-control" id="inputApelido" th:field="*{apelido}"
+                          placeholder="Digite o apelido...">
+                  </div>
+                  <div class="col-md-2">
+                    <label for="status" class="form-label">Status</label>
+                    <select class="form-select" name="status" th:field="*{status}" aria-label="Default">
+                      <option th:each="status : ${todosStatus}" th:value="${status}" th:text="${status.descricao}"></option>
+                    </select>
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></small>
+                  </div>
+                  <div class="col-md-3">
+                      <label for="inputCPF" class="form-label">CPF</label>
+                      <input type="text" class="form-control" id="inputCPF"  th:field="*{cpf}"
+                             placeholder="Somente números">
+                            <small class="form-text text-danger" th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}"></small>
+                    </div>
+                    
+                  <div class="col-md-3">
+                        <label for="inputRG" class="form-label">RG</label>
+                        <input type="text" class="form-control" id="inputRG" th:field="*{rg}"
+                              placeholder="Digite o RG...">
+                  </div>
+                  <div class="col-md-3">
+                      <label for="inputNIS" class="form-label">NIS</label>
+                      <input type="text" class="form-control" id="inputNIS" th:field="*{nis}"
+                            placeholder="Digite o NIS...">
+                  </div>
+                  <div class="col-md-3">
+                      <label for="inputTitulo" class="form-label">Título do Eleitor</label>
+                      <input type="text" class="form-control" id="inputTitulo" th:field="*{tituloEleitor}"
+                              placeholder="Título do eleitor...">
+                  </div>
+                  
+                  <!--linha 3 -->
+            
+                    <div class="col-md-3">
+                      <label for="date" class="form-label">Data de Nascimento</label>
+                      <input type="date" class="form-control" id="date" name="dataNascimento" th:value="*{dataNascimento}"
+                             placeholder="dd/mm/aaaa">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="inputTelefone" class="form-label">Telefone 1</label>
+                        <input type="text" class="form-control" id="inputTelefone" th:field="*{celular}"
+                               placeholder="(00)00000-0000">
+                      </div>
+                    <div class="col-md-3">
+                        <label for="inputTelefone2" class="form-label">Telefone 2</label>
+                        <input type="text" class="form-control phone" th:field="*{celular2}" id="inputTelefone2" 
+                              placeholder="(00)00000-0000">
+                    </div>
+                    <div class="col-md-3">
+                      <label for="date" class="form-label">Sócio Desde</label>
+                      <input type="date" class="form-control" id="date" name="socioDesde" th:value="*{socioDesde}"
+                            placeholder="dd/mm/aaaa">
+                    </div>
+                  <!--linha 4 -->
+                  <div class="col-md-6">
+                    <label for="inputMae" class="form-label">Nome da Mãe</label>
+                    <input type="text" class="form-control" id="inputMae" th:field="*{nomeMae}"
+                            placeholder="Digite o nome da mãe...">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="inputPai" class="form-label">Nome da Pai</label>
+                    <input type="text" class="form-control" id="inputPai"   th:field="*{nomePai}"
+                            placeholder="Digite o nome do pai..."> 
+                  </div>
+                  <div class="col-12">
+                    <textarea class="form-control" th:field="*{observacao}"
+                            placeholder="Digite alguma observação aqui..." id="floatingTextarea2" ></textarea>
+                  </div>
+                
+                  <div class="col-12">
+                    <button type="submit" class="btn btn-success w-100 fw-semibold">Salvar</button>
+                  </div>
+               
+              </div>
+            </div>
+          </div>
+    </form>
+  </div> <!-- container end-->
+</div> </main>
+</section>
+  </body>
+</html>
