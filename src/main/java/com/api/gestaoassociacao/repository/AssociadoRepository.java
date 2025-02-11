@@ -1,6 +1,7 @@
 package com.api.gestaoassociacao.repository;
 
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -26,4 +27,7 @@ public interface AssociadoRepository extends JpaRepository<Associado, Long>{
     public Optional<Associado> findByCpf(String cpf);
     
     public Optional<Associado>  findByStatus(StatusAssociado status);
+
+    @Query("SELECT a FROM Associado a LEFT JOIN FETCH a.dependentes")
+    List<Associado> findAllWithDependentes();
 }

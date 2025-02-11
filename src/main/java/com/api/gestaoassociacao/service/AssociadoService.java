@@ -86,4 +86,8 @@ public class AssociadoService {
         return associadoRepository.count(); 
     }
 
+    public List<Associado> getAssociadosWithDependentes() {
+        return associadoRepository.findAllWithDependentes();
+    }
+
 }

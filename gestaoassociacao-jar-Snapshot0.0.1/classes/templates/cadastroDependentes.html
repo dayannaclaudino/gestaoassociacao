@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{index}">
+<head>
+  
+    
+    <title>Associação Quilombola Castainho</title> 
+</head>
+
+<body>
+<section layout:fragment="content">
+<main class="col-md-12 ms-sm-auto col-lg-12 px-md-4">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">    
+          <h3 class="h3">Incluir Dependentes</h3>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a class="btn btn-orange btn-sm me-md-2 fw-bold"
+                      role="button" type="button" href="/associados/novo">Adicionar Associado</a>
+            <a class="btn btn-orange btn-sm fw-bold"   
+                      role="button" type="button" href="/associados/listar">Listar Associados</a>
+          </div>
+        </div>
+    
+<div th:replace="~{fragments/alert}"></div>     
+  
+<div class="container">  
+ <!--   <div class="row grid-divider">
+      <div class="col-sm-4">
+        <div class="col-padding">
+          <p><small th:text="'Apelido: ' + ${a.apelido}" ></small></p>
+          <p><small th:text="'Cpf: ' + ${a.cpf}" ></small></p>
+          <p><small th:text="'RG: ' + ${a.rg}" ></small></p>
+          <p><small th:text="'Data de Nascimento: ' + ${{a.dataNascimento}}" ></small></p>
+          <p><small th:text="'Observações: ' + ${a.observacao}" ></small></p>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="col-padding">
+          <p><small th:text="'RG: ' + ${a.rg}" ></small></p>
+          <p><small th:text="'NIS: ' + ${a.nis}" ></small></p>
+          <p><small th:text="'Título do Eleitor: ' + ${a.tituloEleitor}" ></small></p>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="col-padding">
+          <p><small th:text="'Telefone : ' + ${a.celular}" ></small></p>
+          <p><small th:text="'Nome da Mãe: ' + ${a.nomeMae}" ></small></p>
+          <p><small th:text="'Nome da Pai: ' + ${a.nomePai}" ></small></p>
+        </div>
+      </div>
+    </div>-->
+    
+
+</br>   <!-- depedente --> 
+  <form  method="POST" th:action="@{/dependentes/addDepenAssociado/{codigo}(codigo=${associado.id})}">
+    <div class="card">
+            <div class="card-header fw-bold" th:each="a : ${associado}">     
+              <h6 class="card-title">
+                <i class="fa-solid fa-hashtag"></i>
+                <span class="text-dark fw-bold" th:text="${a.id}"></span>
+                <span class="text-dark fw-bold" th:text="' - ' + ${a.nome}"></span>
+                <span class="fw-bold" style="color: #38B43A;" th:text="' - Status: ' + ${a.status}"></span>
+                <span class="text-dark fw-bold float-end" th:text="'Sócio Desde: ' + ${{a.socioDesde}}"></span>
+              </h6>
+            </div>        
+            <div class="card-body">
+              <div class="row">
+                  <div class="col-md-6">
+                    <label class="visually-hidden" for="inline-form-nome">Nome do Dependente</label>
+                    <input type="text" class="form-control" autofocus="autofocus" name="nome"
+                            placeholder="Digite o nome do associado..." required>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="visually-hidden" for="inline-form-parentesco">Parentesco</label>
+                    <input type="text" class="form-control" name="parentesco"
+                           placeholder="Digite o parentesco...">
+                  </div>
+                  <div class="col">
+                    <button type="submit" class="btn btn-success btn-block">Incluir</button>
+                  </div>             
+              </div>
+            </div>
+          </div>
+    </form>
+
+    <!-- table -->
+    <div class="table-wrapper">  
+      <div class="table-responsive">
+        <table class="table table-sm table-hover table-bordered">
+            <thead class="table-light">
+                <tr>
+                    <th class="text-center">Nome</th>
+                    <th class="text-center">Parentesco</th>
+                    <th class="text-center">Acões</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="dependente: ${dependentes}">
+                    <td class="text-center"><span th:text="${dependente.nome}"></span></td>
+                    <td class="text-center" th:text="${dependente.parentesco}"></td>
+                    <td class="text-center">
+                        <a class="delete" title="Excluir" data-toggle="tooltip"
+                        th:href="@{/dependentes/{dependenteId}/excluir(dependenteId = ${dependente.id})}">
+                            <i class="fa-solid fa-trash-can" style="color: #fa0000;"></i>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="8" th:if="${#lists.isEmpty(dependentes)}">Nenhum dependente foi encontrado.</td>
+                </tr>
+            </tbody>
+        </table> 
+      </div>
+    </div>
+          
+ <!-- container end-->       
+</div> </main>
+</section>
+</body>
+</html>

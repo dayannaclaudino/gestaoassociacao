@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{index}">
+<head>
+   
+    
+    <title>Associação Quilombola Castainho</title> 
+</head>
+
+<body>
+<section layout:fragment="content">
+<main class="col-md-9 ms-sm-auto col-lg-12 px-md-4">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">    
+          <h3 class="h3">Visualiza Associado</h3>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a class="btn btn-orange btn-sm me-md-2 fw-bold"
+                      role="button" type="button" href="/associados/novo">Adicionar Associado</a>
+            <a class="btn btn-orange btn-sm fw-bold"   
+                      role="button" type="button" href="/associados/listar">Listar Associados</a>
+            <a class="btn btn-orange btn-sm fw-bold"   
+                      role="button" type="button" href="/mensalidades/listar">Listar Mensalidades</a>
+          </div>
+        </div>
+
+<div th:replace="~{fragments/alert}"></div>
+<!-- mensalidade --> 
+  
+  <form  method="POST" th:action="@{/associados/visualizaAssociado/{codigo}(codigo=${associados.id})}" 
+                       th:object="${associados}">
+    <div class="card">
+            <div class="card-header fw-bold" th:each="a : ${associados}">
+                <h6 class="card-title">
+                  <i class="fa-solid fa-hashtag"></i>
+                  <span class="text-dark fw-bold" th:text="${a.id}"></span>
+                  <span class="text-dark fw-bold" th:text="' - ' + ${a.nome}"></span>
+                  <span class="fw-bold" style="color: #38B43A;" th:text="' - Status: ' + ${a.status}"></span>
+                  <span class="text-dark fw-bold float-end" th:text="'Sócio Desde: ' + ${{a.socioDesde}}"></span>
+                </h6>
+            </div>        
+    </form>
+
+
+ <!-- table dependentes-->
+  <div class="row">
+    <div class="col-sm-6 mb-3 mb-sm-0">
+      <div class="card-header">
+        Dependentes
+      </div>
+          <!-- inicio table -->
+          <div class="table-wrapper">  
+            <div class="table-responsive">
+              <table class="table table-sm ">
+                  <thead class="table-light">
+                      <tr>
+                          <th class="text-center">Nome</th>
+                          <th class="text-center">Parentesco</th>
+                          <th class="text-center">Acões</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr th:each="dependente: ${dependentes}">
+                          <td class="text-center"><span th:text="${dependente.nome}"></span></td>
+                          <td class="text-center" th:text="${dependente.parentesco}"></td>
+                          <td class="text-center">
+                              <a class="delete" title="Excluir" data-toggle="tooltip"
+                              th:href="@{/dependentes/{dependenteId}/excluir(dependenteId = ${dependente.id})}">
+                                  <i class="fa-solid fa-trash-can" style="color: #fa0000;"></i>
+                              </a>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td colspan="8" th:if="${#lists.isEmpty(dependentes)}">Nenhum dependente foi encontrado.</td>
+                      </tr>
+                  </tbody>
+              </table> 
+            </div>
+      </div>
+    </div>
+    <!-- table Mensalidades-->
+    <div class="col-sm-6">
+      <div class="card-header">
+        Mensalidades
+      </div>
+      <!-- inicio table -->
+        <div class="table-wrapper">  
+          <div class="table-responsive">
+            <table class="table table-sm ">
+                <thead class="table-light">
+                    <tr>
+                        <th class="text-center">Parcela</th>
+                        <th class="text-center">Valor</th>
+                        <th class="text-center">Data do Vencimento</th>
+                        <th class="text-center">Dias de Atraso</th>
+                        <th class="text-center">Situação</th>
+                        <th class="text-center">Acões</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="mensalidade: ${mensalidades}">
+                        <td class="text-center"><span th:text="${mensalidade.parcela}"></span></td>
+                        <td class="text-center" th:text="|R$ ${{mensalidade.valor}}|"></td>
+                        <td class="text-center"  th:text="${{mensalidade.dataVencimento}}"></td>
+                        <td class="text-center" th:text="${{mensalidade.diasAtraso}}"></td>
+                        <td class="text-center">
+                          <span class="badge" th:text="${mensalidade.situacao.descricao}"
+                          th:classappend="${#strings.toString(mensalidade.situacao) == 'Pendente' ? 'bg-warning' : 'bg-success'}"></span>
+                        </td>                 
+                        <td class="text-center">
+                            <a class="delete" title="Excluir" data-toggle="tooltip"
+                              th:href="@{/mensalidades/{mensalidadeId}/(mensalidadeId = ${mensalidade.id})}">
+                                <i class="fa-solid fa-trash-can mx-1" style="color: #fa0000;"></i>
+                            </a>
+                            <a class="editar" title="Editar" data-toggle="tooltip"
+                              th:href="@{'/mensalidades/editarMensalidade?id=' + ${mensalidade.id}}">
+                                <i class="fa-regular fa-pen-to-square" style="color: #ffc104;"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="8" th:if="${#lists.isEmpty(mensalidades)}">Nenhum mensalidade foi encontrada.</td>
+                    </tr>
+                </tbody>
+            </table>
+      </div>
+    </div>
+  </div>
+    
+               
+ <!-- container end-->       
+</div> </main>
+</section>
+    
+</body>
+</html>

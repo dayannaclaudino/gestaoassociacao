@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{index}">
+<head> 
+ 
+    <title>Associação Quilombola Castainho</title> 
+</head>
+
+<body>
+  <section layout:fragment="content">
+  <main class="col-md-12 ms-sm-auto col-lg-12 px-md-4">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">    
+    <h3 class="h3">Histórico de Mensalidades</h3>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <a class="btn btn-orange btn-sm me-md-2 fw-bold"
+                role="button" type="button" href="/associados/novo">Adicionar Associado</a>
+        <a class="btn btn-orange btn-sm fw-bold"   
+                role="button" type="button" href="/associados/listar">Listar Associados</a>
+        <a class="btn btn-orange btn-sm fw-bold"   
+                role="button" type="button" href="/mensalidades/pdf" onclick="gerarPdf(); return false;">Exportar Pdf</a>
+        
+    </div>
+  </div>
+    
+<div class="container">    
+        <form method="GET" th:action="@{/mensalidades/listar}" th:object="${filtro}">
+            <div class="row">
+              <div class="col-md-4">
+                <input type="text" class="form-control" placeholder="Nome do Associado" 
+                       th:field="*{nomeAssociado}" autofocus="autofocus" >
+              </div>
+              <div class="col-md-2">
+                <select class="form-select" th:field="*{situacao}">
+                  <option value="">--Selecione--</option>
+                  <option th:each="situacao : ${todasSituacoes}" 
+                          th:value="${situacao}" 
+                          th:text="${situacao.descricao}"></option>
+                </select>
+                <label for="floatingSelect">Situação da Mensalidade</label>
+              </div>
+              <div class="col-md-2">
+                <input type="date" class="form-control" th:field="*{dataDe}">
+                <label for="floatingSelect">Data de emissão</label>
+              </div>
+              <div class="col-md-2">
+                <input type="date" class="form-control" th:field="*{dataAte}">
+                <label for="floatingSelect">Data de emissão</label>
+              </div>
+              <div class="col-md-2">
+                <button type="submit" class="btn btn-success">Buscar</button>
+              </div>
+            </div>
+        </form>
+      
+      <br>
+      <div class="table-wrapper">  
+          <div class="table-responsive">
+            <table class="table table-sm table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th class="text-center">Cód Assoc</th>
+                        <th class="text-center">Nome Associado</th>
+                        <th class="text-center">Data Emissão</th>
+                        <th class="text-center">Parcela</th>
+                        <th class="text-center">Data Vencimento</th>
+                        <th class="text-center">Dias de Atraso</th>
+                        <th class="text-center">Data Pagamento</th>
+                        <th class="text-center">Valor</th>
+                        <th class="text-center">Situação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="mensalidade: ${mensalidades}">
+                        <td class="text-center" th:text="${mensalidade.id}">1</td>
+                        <td class="text-center" th:text="${mensalidade.associado.id}">1</td>
+                        <td th:text="${mensalidade.associado.nome}"></td>
+                        <td class="text-center" th:text="${{mensalidade.dataEmissao}}"></td>
+                        <td class="text-center" th:text="${mensalidade.parcela}"></td>
+                        <td class="text-center" th:text="${{mensalidade.dataVencimento}}"></td>
+                        <td class="text-center" th:text="${{mensalidade.diasAtraso}}"></td>
+                        <td class="text-center" th:text="${{mensalidade.dataPagamento}}"></td>
+                        <td class="text-end" th:text="|R$ ${{mensalidade.valor}}|"></td>                       
+                        <td class="text-center">
+                            <span class="badge" th:text="${mensalidade.situacao.descricao}"
+                            th:classappend="${#strings.toString(mensalidade.situacao) == 'Pendente' ? 'bg-warning' : (#strings.toString(mensalidade.situacao) == 'Atrasado' ? 'bg-danger' : 'bg-success')}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="8" class="text-end fw-bold">Total Parcelas:</td>
+                        <td colspan="3" class="fw-bold" th:text="|R$ ${#numbers.formatDecimal(totalParcelas, 2, 2)}|"></td>
+                      </tr>
+                    <tr>
+                        <td colspan="9" th:if="${#lists.isEmpty(mensalidades)}">Nenhuma mensalidade foi encontrada.</td>
+                    </tr>
+                </tbody>
+            </table>
+         <!--  pagination -->
+            <nav aria-label="Page navigation example">
+              <ul class="pagination pagination-sm justify-content-center font-weight-bold">
+  
+                  <li class="page-item">
+                      <span th:if="${mensalidades.hasPrevious()}">
+                          <a class="page-link" th:href="@{/mensalidades/listar(page=${mensalidades.number-1},size=${mensalidades.size})}">Anterior</a>
+                      </span>
+                  </li>
+                  <th:block th:each="i: ${#numbers.sequence(0, mensalidades.totalPages - 1)}">
+                      <li class="page-item active">    
+                          <span th:if="${mensalidades.number == i}" class="page-link selected">[[${i}+1]]</span>
+                      </li>
+                      <li class="page-item">
+                          <span th:unless="${mensalidades.number == i}">
+                              <a class="page-link" th:href="@{/mensalidades/listar(page=${i},size=${mensalidades.size})}">[[${i}+1]]</a>
+                          </span>
+                      </li>
+                  </th:block>
+  
+                  <li class="page-item">
+                      <span th:if="${mensalidades.hasNext()}">
+                        <a class="page-link" th:href="@{/mensalidades/listar(page=${mensalidades.number+1},size=${mensalidades.size})}">Próximo</a>
+                      </span>
+                  </li>
+              </ul>
+            </nav>
+        </div>
+    
+      </div>
+  </div> 
+  
+</div> </main>
+</section>
+
+    </script>
+</body>
+</html>

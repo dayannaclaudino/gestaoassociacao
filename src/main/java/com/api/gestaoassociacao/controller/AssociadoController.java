@@ -150,7 +150,7 @@ public class AssociadoController {
         String headerValue = "attachment; filename=associados_" + currentDateTime + ".pdf";
         response.setHeader(headerKey, headerValue);
          
-        List<Associado> listAssociados = associadoService.getAssociados();
+        List<Associado> listAssociados = associadoService.getAssociadosWithDependentes();
          
         AssociadoPDFExporter exporter = new AssociadoPDFExporter(listAssociados);
         exporter.export(response);
