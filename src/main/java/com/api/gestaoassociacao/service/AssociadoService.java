@@ -10,7 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.api.gestaoassociacao.Exception.NegocioException;
+import com.api.gestaoassociacao.controller.Exception.NegocioException;
 import com.api.gestaoassociacao.model.Associado;
 import com.api.gestaoassociacao.model.Mensalidade;
 import com.api.gestaoassociacao.model.enums.StatusAssociado;

@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.api.gestaoassociacao.Exception.NegocioException;
+import com.api.gestaoassociacao.controller.Exception.NegocioException;
 import com.api.gestaoassociacao.model.Associado;
 import com.api.gestaoassociacao.model.Mensalidade;
 import com.api.gestaoassociacao.model.enums.SituacaoMensalidade;
