@@ -2736,19 +2736,6 @@ fieldset:disabled .btn {
   background-color: #6c757d;
   border-color: #6c757d;
 }
-/*MINHA ALTERAÇÃO btn-sm btn-orange */
-.btn-orange {
-  color: #fff;
-  background-color: #e67c1f;
-  border-color: #e67c1f;
- 
-}
-.btn-orange:hover {
-  color: #fff;
-  background-color: #F2994A;
-  border-color: #F2994A;
-}
-/*END btn-orange */
 
 .btn-success {
   color: #fff;
