@@ -33,12 +33,6 @@ public class IndexController {
         return mv;
     }
 
-     @GetMapping("/")
-    public String home(Model model, Principal principal) {
-        model.addAttribute("userName", principal.getName());
-        return "home";
-    }
-    
     @GetMapping("/login")
     public String login() {
         return "login";
