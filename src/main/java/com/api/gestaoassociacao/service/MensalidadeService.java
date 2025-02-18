@@ -10,7 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.api.gestaoassociacao.Exception.NegocioException;
+import com.api.gestaoassociacao.controller.Exception.NegocioException;
 import com.api.gestaoassociacao.model.Mensalidade;
 import com.api.gestaoassociacao.model.enums.SituacaoMensalidade;
 import com.api.gestaoassociacao.repository.MensalidadeRepository;
@@ -38,13 +38,13 @@ public class MensalidadeService {
 		try {
 			Mensalidade mensalidade = mensalidadeRepository.findById(id).get();
 
-			if (mensalidade.getDataPagamento() == null) {
-				mensalidadeRepository.deleteById(id);
+			if (mensalidade.getSituacao() == SituacaoMensalidade.Pago) {
+				throw new NegocioException("Mensalidade está paga e não pode ser removida, clique no botão de editar caso queira alterar!");
 			}else{
-                throw new NegocioException("Mensalidade não pode ser removida, pois contém mensalidades pagas!");
+                mensalidadeRepository.deleteById(id);
             }
 		} catch (DataIntegrityViolationException e) {
-			throw new NegocioException("Mensalidade não pode ser removida, pois contém mensalidades pagas!");
+			throw new NegocioException("Mensalidade está paga e não pode ser removida, clique no botão de editar caso queira alterar!");
 		}		
 	}
 

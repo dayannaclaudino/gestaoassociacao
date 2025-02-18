@@ -3,46 +3,40 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
-    <nav id="sidebarMenu" class="col-md-3 col-lg-2 sidebar collapse" style="background-color: #546D29;">
+    <nav id="sidebarMenu" class="col-sm-3 col-md-3 col-lg-2 sidebar collapse" style="background-color: #546D29;">
         <div class="position-sticky pt-5">
         <ul class="nav flex-column">
             <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/home">
+            <a class="nav-link btn btn-outline-light" aria-current="page" href="/home">
                 <i class="fa-solid fa-house"></i>
                 Página Inicial
             </a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="/associados/novo">
+            <a class="nav-link btn btn-outline-light" href="/associados/novo">
                 <i class="fa-solid fa-image-portrait"></i> 
-                Associado
+                Novo Associado
             </a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="/associados/listar">
+            <a class="nav-link btn btn-outline-light" href="/associados/listar">
                 <i class="fa-regular fa-rectangle-list"></i> 
-                Listar Associados
+                Associados
             </a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link btn btn-outline-light" href="#">
                 <i class="fa-solid fa-user"></i>
                 Usuário
             </a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" th:href="@{/logout}">
+            <a class="nav-link btn btn-outline-light" th:href="@{/logout}">
                 <i class="fa-solid fa-right-from-bracket"></i>
                 Sair
             </a>
             </li>
-            <li class="nav-item">
-                <img src="/img/logo.png" class="img-fluid" alt="logo" >
-            </li>
         </ul>  
-        </div>
-        
-       
+        </div> 
   </nav>
-
 </html>

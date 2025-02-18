@@ -13,11 +13,11 @@
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">    
           <h3 class="h3">Visualiza Associado</h3>
           <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <a class="btn btn-orange btn-sm me-md-2 fw-bold"
+            <a class="btn btn-success btn-sm me-md-2 fw-bold"
                       role="button" type="button" href="/associados/novo">Adicionar Associado</a>
-            <a class="btn btn-orange btn-sm fw-bold"   
+            <a class="btn btn-success btn-sm fw-bold"   
                       role="button" type="button" href="/associados/listar">Listar Associados</a>
-            <a class="btn btn-orange btn-sm fw-bold"   
+            <a class="btn btn-success btn-sm fw-bold"   
                       role="button" type="button" href="/mensalidades/listar">Listar Mensalidades</a>
           </div>
         </div>
@@ -103,8 +103,8 @@
                         <td class="text-center" th:text="${{mensalidade.diasAtraso}}"></td>
                         <td class="text-center">
                           <span class="badge" th:text="${mensalidade.situacao.descricao}"
-                          th:classappend="${#strings.toString(mensalidade.situacao) == 'Pendente' ? 'bg-warning' : 'bg-success'}"></span>
-                        </td>                 
+                          th:classappend="${#strings.toString(mensalidade.situacao) == 'Pendente' ? 'bg-warning' : (#strings.toString(mensalidade.situacao) == 'Atrasado' ? 'bg-danger' : 'bg-success')}">
+                        </td>                
                         <td class="text-center">
                             <a class="delete" title="Excluir" data-toggle="tooltip"
                               th:href="@{/mensalidades/{mensalidadeId}/(mensalidadeId = ${mensalidade.id})}">

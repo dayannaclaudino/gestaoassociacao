@@ -1,5 +1,7 @@
 package com.api.gestaoassociacao.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,17 +25,14 @@ public class IndexController {
     @GetMapping("/home")
     public ModelAndView home() {
         ModelAndView mv = new ModelAndView("home");
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        
-        String userName = authentication.getName(); // Obtém o nome de usuário logado
-        mv.addObject("userName", userName);
+       
         mv.addObject("totalCadastrados", associadoService.getTotalAssociadosCadastrados());
         mv.addObject("sumMensalidadesEmAberto", mensalidadeService.getTotalMensalidadesEmAberto());
         mv.addObject("totalMensalidadesEmAtraso", mensalidadeService.getTotalMensalidadesEmAtraso());
         
         return mv;
     }
-    
+
     @GetMapping("/login")
     public String login() {
         return "login";
