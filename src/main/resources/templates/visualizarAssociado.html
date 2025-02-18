@@ -103,8 +103,8 @@
                         <td class="text-center" th:text="${{mensalidade.diasAtraso}}"></td>
                         <td class="text-center">
                           <span class="badge" th:text="${mensalidade.situacao.descricao}"
-                          th:classappend="${#strings.toString(mensalidade.situacao) == 'Pendente' ? 'bg-warning' : 'bg-success'}"></span>
-                        </td>                 
+                          th:classappend="${#strings.toString(mensalidade.situacao) == 'Pendente' ? 'bg-warning' : (#strings.toString(mensalidade.situacao) == 'Atrasado' ? 'bg-danger' : 'bg-success')}">
+                        </td>                
                         <td class="text-center">
                             <a class="delete" title="Excluir" data-toggle="tooltip"
                               th:href="@{/mensalidades/{mensalidadeId}/(mensalidadeId = ${mensalidade.id})}">

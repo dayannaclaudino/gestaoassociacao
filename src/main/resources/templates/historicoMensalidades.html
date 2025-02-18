@@ -69,6 +69,7 @@
                         <th class="text-center">Data Pagamento</th>
                         <th class="text-center">Valor</th>
                         <th class="text-center">Situação</th>
+                        <th class="text-center">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -85,6 +86,12 @@
                         <td class="text-center">
                             <span class="badge" th:text="${mensalidade.situacao.descricao}"
                             th:classappend="${#strings.toString(mensalidade.situacao) == 'Pendente' ? 'bg-warning' : (#strings.toString(mensalidade.situacao) == 'Atrasado' ? 'bg-danger' : 'bg-success')}">
+                        </td>
+                        <td class="text-center">
+                          <a class="editar" title="Editar" data-toggle="tooltip"
+                                th:href="@{'/mensalidades/editarMensalidade?id=' + ${mensalidade.id}}">
+                                  <i class="fa-regular fa-pen-to-square" style="color: #ffc104;"></i>
+                          </a>
                         </td>
                     </tr>
                     <tr>
