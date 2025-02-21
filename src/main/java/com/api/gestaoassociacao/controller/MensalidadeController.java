@@ -1,6 +1,8 @@
 package com.api.gestaoassociacao.controller;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,10 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -54,28 +58,7 @@ public class MensalidadeController {
     @Autowired
     private MensalidadePDFExporter mensalidadePDFExporter;
   
-    //historicoMensalidades
-    @RequestMapping("/listar")
-    public ModelAndView getMensalidades(@ModelAttribute("filtro") FilterMensalidade filtro, 
-                               @PageableDefault(size = 9) Pageable pageable) {
-
-        Page<Mensalidade> TodasMensalidades = mensalidadeService.filtrar(filtro, pageable);
-        
-        // Obter todas as mensalidades sem paginação
-        List<Mensalidade> todasMensalidades = mensalidadeService.todasMensalidadesSemPaginacao(filtro);
-        BigDecimal totalParcelas = mensalidadeService.calcularTotalParcelas(todasMensalidades);
-        
-        ModelAndView mv = new ModelAndView("historicoMensalidades");
-
-        mv.addObject("mensalidade", new Mensalidade());
-        mv.addObject("mensalidades", TodasMensalidades);
-        mv.addObject("associados", associadoService.getAssociados());
-        mv.addObject("todosTipos", Tipo.values());
-        mv.addObject("todasSituacoes", SituacaoMensalidade.values());
-        mv.addObject("totalParcelas", totalParcelas);
-        return mv;
-    }
-
+    
     //View Cadastro
     @RequestMapping("/detalheAssociado/{codigo}")
     public ModelAndView mensalidadeAssociado(@PathVariable("codigo") Long id, Mensalidade mensalidade) {
@@ -89,6 +72,7 @@ public class MensalidadeController {
         mv.addObject("todasSituacoes", SituacaoMensalidade.values());
         return mv;
     }
+
 //Salvar mensalidade
     @PostMapping("/addMensalAssociado/{codigo}")
     public ModelAndView addMensalAssociado(@Valid Mensalidade mensalidade, BindingResult result, 
@@ -100,7 +84,12 @@ public class MensalidadeController {
         }                                                                         
         try {
             ModelAndView mv = new ModelAndView(VIEW);
-            mensalidade.setAssociado(associado);                                        
+            // Gerando um código único para o lote de mensalidades
+            String codigoLote = gerarCodigoLote();
+
+            mensalidade.setAssociado(associado); 
+            mensalidade.setCodigoMensalidade(codigoLote); // Código único para o lote    
+            mensalidade.setParcela(1);                                   
             mensalidadeService.salvar(mensalidade); 
             mv.addObject("associado", associado);
             mv.addObject("mensalidades", mensalidadeRepository.getMensalidades(id));
@@ -118,9 +107,8 @@ public class MensalidadeController {
     } 
     
     /* */
-    //VIEW editar 
    @GetMapping("/editarMensalidade")
-    public ModelAndView editarMensalidade(@RequestParam Long id) {
+    public ModelAndView editarFormulario(@RequestParam Long id) {
 
         ModelAndView mv = new ModelAndView("alterarMensalidade");
         
@@ -131,6 +119,7 @@ public class MensalidadeController {
         mv.addObject("todasSituacoes", SituacaoMensalidade.values());
         return mv;
     }
+
 //salvar editar 
     @PostMapping("/salvarMensalidade")
     public ModelAndView alterar(@Valid @ModelAttribute Mensalidade mensalidade, BindingResult result, RedirectAttributes attributes){                                                                        
@@ -138,14 +127,14 @@ public class MensalidadeController {
         Associado associado = mensalidadeRepository.findById(mensalidade.getId()).get().getAssociado();
 
         if (result.hasErrors()) {
-          return editarMensalidade(mensalidade.getId());
+          return editarFormulario(mensalidade.getId());
         }
         try {
             mensalidadeService.salvar(mensalidade);
             attributes.addFlashAttribute("mensagemSucesso", "Mensalidade alterada com sucesso.");                                     
             return new ModelAndView ("redirect:/mensalidades/detalheAssociado/"+ associado.getId());
         } catch (NegocioException e) {
-            ModelAndView mv = editarMensalidade(mensalidade.getId());
+            ModelAndView mv = editarFormulario(mensalidade.getId());
             mv.addObject("mensagemErro", e.getMessage());
             return mv;
         }
@@ -172,6 +161,28 @@ public class MensalidadeController {
             return "redirect:/mensalidades/detalheAssociado/"+ associado.getId();   
         }	
 	} 
+
+    //historicoMensalidades
+    @RequestMapping("/listar")
+    public ModelAndView getMensalidades(@ModelAttribute("filtro") FilterMensalidade filtro, 
+                               @PageableDefault(size = 9) Pageable pageable) {
+
+        Page<Mensalidade> TodasMensalidades = mensalidadeService.filtrar(filtro, pageable);
+        
+        // Obter todas as mensalidades sem paginação
+        List<Mensalidade> todasMensalidades = mensalidadeService.todasMensalidadesSemPaginacao(filtro);
+        BigDecimal totalParcelas = mensalidadeService.calcularTotalParcelas(todasMensalidades);
+        
+        ModelAndView mv = new ModelAndView("historicoMensalidades");
+
+        mv.addObject("mensalidade", new Mensalidade());
+        mv.addObject("mensalidades", TodasMensalidades);
+        mv.addObject("associados", associadoService.getAssociados());
+        mv.addObject("todosTipos", Tipo.values());
+        mv.addObject("todasSituacoes", SituacaoMensalidade.values());
+        mv.addObject("totalParcelas", totalParcelas);
+        return mv;
+    }
 
   public double calcularMensalidadesEmAberto(){    
         List<Mensalidade> mensalidades = mensalidadeRepository.findAll();
@@ -200,6 +211,62 @@ public class MensalidadeController {
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(pdf);
+    }
+
+    //OPÇÃO DE GERAR MENSALIDADE AUTOMÁTICA
+    @GetMapping("/novo")
+    public ModelAndView exibirFormulario() {
+        ModelAndView mv = new ModelAndView("novaMensalidade"); 
+        mv.addObject("associados", associadoRepository.findAll());
+        mv.addObject("mensalidades", mensalidadeRepository.findByOrderByDataEmissaoDesc());
+        return mv;
+    }
+
+    @PostMapping("/gerar")
+    public String gerarMensalidades(
+            @RequestParam Long associadoId,
+            @RequestParam BigDecimal valorTotal,
+            @RequestParam int quantidadeParcelas,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate primeiraDataVencimento, 
+            Model model, RedirectAttributes attributes) {
+    
+        Associado associado = associadoRepository.findById(associadoId)
+                .orElseThrow(() -> new IllegalArgumentException("Associado não encontrado"));
+
+        // Gerando um código único para o lote de mensalidades
+        String codigoLote = gerarCodigoLote();
+    
+        BigDecimal valorParcela = valorTotal.divide(BigDecimal.valueOf(quantidadeParcelas), RoundingMode.HALF_UP);
+    
+        for (int i = 0; i < quantidadeParcelas; i++) {
+            Mensalidade mensalidade = new Mensalidade();
+            mensalidade.setAssociado(associado);
+            mensalidade.setDataEmissao(LocalDate.now()); // Data da criação da mensalidade
+            mensalidade.setDataVencimento(primeiraDataVencimento.plusMonths(i));
+            mensalidade.setValor(valorParcela);
+            mensalidade.setParcela(i + 1);
+            mensalidade.setTotalParcelas(quantidadeParcelas);
+            mensalidade.setSituacao(SituacaoMensalidade.Em_Aberto);
+            mensalidade.setCodigoMensalidade(codigoLote); // Código único para o lote
+    
+            mensalidadeRepository.save(mensalidade);
+            attributes.addFlashAttribute("mensagemSucesso", "Mensalidade salva com sucesso.");
+            return "redirect:/mensalidades/novo";
+            
+        }
+        ModelAndView mv = new ModelAndView("novaMensalidade"); 
+        mv.addObject("associado", associado);
+        mv.addObject("mensalidades", mensalidadeRepository.findByOrderByDataEmissaoDesc());
+        mv.addObject("todosTipos", Tipo.values());
+        mv.addObject("todasSituacoes", SituacaoMensalidade.values());    
+        attributes.addFlashAttribute("mensagemSucesso", "Mensalidade salva com sucesso.");
+        return "novaMensalidade";
+    }
+    
+
+
+    private String gerarCodigoLote() {
+        return "M" + System.currentTimeMillis() % 1000 + "-" + (int) (Math.random() * 100);
     }
 
 }

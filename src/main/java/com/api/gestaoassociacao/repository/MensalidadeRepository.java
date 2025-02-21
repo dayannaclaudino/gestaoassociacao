@@ -23,13 +23,13 @@ import com.api.gestaoassociacao.model.enums.SituacaoMensalidade;
 public interface MensalidadeRepository extends JpaRepository<Mensalidade, Long>{
  
     //pesquisa em qualquer parte da palavra e ordena a lista
-    @Query("select m from Mensalidade m where m.associado.id = ?1 order by m.parcela asc")	
+    @Query("select m from Mensalidade m where m.associado.id = ?1 order by m.parcela DESC")	
     public List<Mensalidade> getMensalidades(Long associadoId);
 
     public Optional<Mensalidade> findById(Long id);
 
     //Não listar Mensalidades pagas cadastromensalidade
-    @Query("SELECT m FROM Mensalidade m WHERE m.associado.id = ?1 AND m.situacao != 'Pago' ORDER BY m.parcela ASC")
+    @Query("SELECT m FROM Mensalidade m WHERE m.associado.id = ?1 AND m.situacao != 'Pago' ORDER BY m.dataEmissao DESC")
     List<Mensalidade> getMensalidadesPendentes(Long associadoId);
 
     //Total soma das mensalidades em aberto (home)
@@ -58,5 +58,7 @@ public interface MensalidadeRepository extends JpaRepository<Mensalidade, Long>{
                                            @Param("situacao") SituacaoMensalidade situacao,
                                            @Param("inicio") LocalDate inicio,
                                            @Param("fim") LocalDate fim);    
+
+    List<Mensalidade> findByOrderByDataEmissaoDesc();
 
 }

@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Random;
+import java.util.UUID;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
@@ -27,6 +29,9 @@ public class Mensalidade implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, unique = true)
+    private String codigoMensalidade;  // Código único para identificação
   
     @JoinColumn(name="associado_id")
     @ManyToOne
@@ -52,6 +57,8 @@ public class Mensalidade implements Serializable{
     @DecimalMin(value = "1", message = "Valor inválido.")
     private int parcela;
 
+    private Integer totalParcelas;
+
     @Enumerated(EnumType.STRING)
     private Tipo tipo;
 
@@ -60,8 +67,9 @@ public class Mensalidade implements Serializable{
     private SituacaoMensalidade situacao;
 
     public boolean isPendente(){
-        return SituacaoMensalidade.Pendente.equals(this.situacao);
+        return SituacaoMensalidade.Em_Aberto.equals(this.situacao);
     }
+
     //Calcula os dias em atraso
     public long getDiasAtraso() {
         if (dataVencimento == null) {

@@ -60,7 +60,7 @@ public class MensalidadeService {
         return mensalidadeRepository.sumMensalidadesEmAberto();
     }
 
-	//Não listar Mensalidades pagas cadastromensalidade
+	//Listar somente mensalidades em Aberta e atrasadas cadastromensalidade
 	public List<Mensalidade> getMensalidadesPendentes(Long associadoId){
 		return mensalidadeRepository.getMensalidadesPendentes(associadoId);
 	}
