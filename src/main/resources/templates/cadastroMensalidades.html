@@ -27,6 +27,7 @@
                        th:object="${mensalidade}">
                    <input type="hidden" th:field="*{id}" />
                    <input type="hidden" th:field="*{associado.id}"/>
+
     <div class="card">
             <div class="card-header fw-bold" th:each="a : ${associado}">
                 <h6 class="card-title">
@@ -39,6 +40,11 @@
             </div>        
             <div class="card-body">
               <div class="row">
+                <div class="col-md-1">
+                    <label for="parcela" class="form-label">Parcela</label>
+                    <input type="number" class="form-control" id="parcela"  th:field="*{parcela}" max="1">
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('parcela')}" th:errors="*{parcela}"></small>
+                </div>
                  <div class="col-md-2">
                    <label for="valor" class="form-label">Valor</label>
                      <input type="text" class="form-control" id="valor" th:field="*{valor}"
@@ -80,18 +86,20 @@
         <table class="table table-sm table-hover table-bordered">
             <thead class="table-light">
                 <tr>
+                    <th class="text-center">Associado</th>
                     <th class="text-center">Parcela</th>
                     <th class="text-center">Data de Emissão</th>
                     <th class="text-center">Data do Vencimento</th>
                     <th class="text-center">Dias de Atraso</th>
                     <th class="text-center">Valor</th>
                     <th class="text-center">Situação</th>
-                    <th class="text-center">Acões</th>
+                    <th class="text-center">Ações</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="mensalidade: ${mensalidades}">
-                    <td class="text-center"><span th:text="${mensalidade.parcela}"></span></td>
+                    <td class="text-center"  th:text="${mensalidade.associado.nome}"></td>
+                    <td class="text-center" th:text="${mensalidade.parcela} + '/' + ${mensalidade.totalParcelas}"></td>
                     <td class="text-center"  th:text="${{mensalidade.dataEmissao}}"></td>
                     <td class="text-center"  th:text="${{mensalidade.dataVencimento}}"></td>
                     <td class="text-center" th:text="${{mensalidade.diasAtraso}}"></td>                  

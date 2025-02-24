@@ -89,7 +89,7 @@ public class MensalidadeController {
 
             mensalidade.setAssociado(associado); 
             mensalidade.setCodigoMensalidade(codigoLote); // Código único para o lote    
-            mensalidade.setParcela(1);                                   
+            mensalidade.setTotalParcelas(1); //sempre vai ser uma parcela                                   
             mensalidadeService.salvar(mensalidade); 
             mv.addObject("associado", associado);
             mv.addObject("mensalidades", mensalidadeRepository.getMensalidades(id));
