@@ -89,7 +89,7 @@ public class MensalidadeController {
 
             mensalidade.setAssociado(associado); 
             mensalidade.setCodigoMensalidade(codigoLote); // Código único para o lote    
-            mensalidade.setTotalParcelas(1); //sempre vai ser uma parcela                                   
+            mensalidade.setParcela(1);                                   
             mensalidadeService.salvar(mensalidade); 
             mv.addObject("associado", associado);
             mv.addObject("mensalidades", mensalidadeRepository.getMensalidades(id));
@@ -216,7 +216,7 @@ public class MensalidadeController {
     //OPÇÃO DE GERAR MENSALIDADE AUTOMÁTICA
     @GetMapping("/novo")
     public ModelAndView exibirFormulario() {
-        ModelAndView mv = new ModelAndView("novaMensalidade"); 
+        ModelAndView mv = new ModelAndView("geraMensalidade"); 
         mv.addObject("associados", associadoRepository.findAll());
         mv.addObject("mensalidades", mensalidadeRepository.findByOrderByDataEmissaoDesc());
         return mv;
@@ -254,13 +254,13 @@ public class MensalidadeController {
             return "redirect:/mensalidades/novo";
             
         }
-        ModelAndView mv = new ModelAndView("novaMensalidade"); 
+        ModelAndView mv = new ModelAndView("geraMensalidade"); 
         mv.addObject("associado", associado);
         mv.addObject("mensalidades", mensalidadeRepository.findByOrderByDataEmissaoDesc());
         mv.addObject("todosTipos", Tipo.values());
         mv.addObject("todasSituacoes", SituacaoMensalidade.values());    
         attributes.addFlashAttribute("mensagemSucesso", "Mensalidade salva com sucesso.");
-        return "novaMensalidade";
+        return "geraMensalidade";
     }
     
 

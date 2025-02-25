@@ -39,11 +39,13 @@ public interface MensalidadeRepository extends JpaRepository<Mensalidade, Long>{
     //Filtro de todas as mensalidades com paginação
     @Query("SELECT m FROM Mensalidade m WHERE "
         + "(:nome IS NULL OR m.associado.nome LIKE %:nome%) "
+        + "AND (:codigoMensalidade IS NULL OR m.codigoMensalidade LIKE %:codigoMensalidade%) "
         + "AND (:situacao IS NULL OR m.situacao = :situacao) "
         + "AND (:dataDe IS NULL OR m.dataEmissao >= :dataDe) "
         + "AND (:dataAte IS NULL OR m.dataEmissao <= :dataAte)")
-   Page<Mensalidade> findByAssociadoNomeContainingAndSituacaoAndDataEmissaoBetween(
+   Page<Mensalidade> findByFilters(
         @Param("nome") String nome, 
+        @Param("codigoMensalidade") String codigoMensalidade,
         @Param("situacao") SituacaoMensalidade situacao, 
         @Param("dataDe") LocalDate dataDe, 
         @Param("dataAte") LocalDate dataAte, 
@@ -54,11 +56,13 @@ public interface MensalidadeRepository extends JpaRepository<Mensalidade, Long>{
         "WHERE (:nomeAssociado IS NULL OR m.associado.nome LIKE %:nomeAssociado%) " +
         "AND (:situacao IS NULL OR m.situacao = :situacao) " +
         "AND (:inicio IS NULL OR :fim IS NULL OR m.dataEmissao BETWEEN :inicio AND :fim)")
-    List<Mensalidade> buscarTodasMensalidades(@Param("nomeAssociado") String nomeAssociado,
+    List<Mensalidade> buscarTodasMensalidadesSemPaginacao(@Param("nomeAssociado") String nomeAssociado,
                                            @Param("situacao") SituacaoMensalidade situacao,
                                            @Param("inicio") LocalDate inicio,
                                            @Param("fim") LocalDate fim);    
 
+
+    //geraMensalidade
     List<Mensalidade> findByOrderByDataEmissaoDesc();
 
 }

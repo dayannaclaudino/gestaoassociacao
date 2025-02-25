@@ -22,7 +22,7 @@
 <div th:replace="~{fragments/alert}"></div>
 <!-- mensalidade --> 
 
-</br>   
+<div class="container">  
   <form  method="POST" th:action="@{/mensalidades/addMensalAssociado/{codigo}(codigo=${associado.id})}" 
                        th:object="${mensalidade}">
                    <input type="hidden" th:field="*{id}" />
@@ -98,7 +98,7 @@
             </thead>
             <tbody>
                 <tr th:each="mensalidade: ${mensalidades}">
-                    <td class="text-center"  th:text="${mensalidade.associado.nome}"></td>
+                    <td th:text="${mensalidade.associado.nome}"></td>
                     <td class="text-center" th:text="${mensalidade.parcela} + '/' + ${mensalidade.totalParcelas}"></td>
                     <td class="text-center"  th:text="${{mensalidade.dataEmissao}}"></td>
                     <td class="text-center"  th:text="${{mensalidade.dataVencimento}}"></td>
