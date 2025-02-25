@@ -24,7 +24,8 @@ A associação Quilombola do Castainho enfrenta desafios relacionados aos regist
 - **Gestão de Mensalidades:**  
   - Cadastro de mensalidades para associados.  
   - Registro de pagamentos de mensalidades.  
-  - Visualização de histórico completo de mensalidades.  
+  - Visualização de histórico de todas as mensalidades e filtros de pesquisa.
+  - Gerar mensalidades por lote. 
 
 ---
 
@@ -33,7 +34,8 @@ A associação Quilombola do Castainho enfrenta desafios relacionados aos regist
 1. **Proibido remover associado com mensalidades pagas.**  
 2. **Mensalidades pagas não podem ser removidas.**  
 3. **Mensalidades pagas podem ser editadas.**  
-4. **Não é permitido cadastrar mensalidades para associados inativos.**  
+4. **Não permitir cadastrar mensalidades para associados inativos.**
+5. **Não permitir pagar mensalidades sem colocar data de vencimento.**  
 
 ---
 
