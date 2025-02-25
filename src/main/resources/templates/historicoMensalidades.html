@@ -12,13 +12,8 @@
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">    
     <h3 class="h3">Histórico de Mensalidades</h3>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <a class="btn btn-success btn-sm me-md-2 fw-bold"
-                role="button" type="button" href="/associados/novo">Adicionar Associado</a>
         <a class="btn btn-success btn-sm fw-bold"   
-                role="button" type="button" href="/associados/listar">Listar Associados</a>
-        <a class="btn btn-success btn-sm fw-bold"   
-                role="button" type="button" href="/mensalidades/pdf" onclick="gerarPdf(); return false;">Exportar Pdf</a>
-        
+                role="button" type="button" href="/mensalidades/pdf" onclick="gerarPdf(); return false;">Exportar Pdf</a>     
     </div>
   </div>
     
@@ -30,13 +25,16 @@
                        th:field="*{nomeAssociado}" autofocus="autofocus" >
               </div>
               <div class="col-md-2">
+                <input type="text" class="form-control" placeholder="Código Mensalidade" 
+                       th:field="*{codigoMensalidade}" autofocus="autofocus" >
+              </div>
+              <div class="col-md-2">
                 <select class="form-select" th:field="*{situacao}">
-                  <option value="">--Selecione--</option>
+                  <option value="">Selecione Situação</option>
                   <option th:each="situacao : ${todasSituacoes}" 
                           th:value="${situacao}" 
                           th:text="${situacao.descricao}"></option>
                 </select>
-                <label for="floatingSelect">Situação da Mensalidade</label>
               </div>
               <div class="col-md-2">
                 <input type="date" class="form-control" th:field="*{dataDe}">
@@ -46,8 +44,8 @@
                 <input type="date" class="form-control" th:field="*{dataAte}">
                 <label for="floatingSelect">Data de emissão</label>
               </div>
-              <div class="col-md-2">
-                <button type="submit" class="btn btn-success">
+              <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-success w-25">
                   <i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
               </div>
             </div>
@@ -59,8 +57,7 @@
             <table class="table table-sm table-hover table-bordered">
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th class="text-center">Cód Assoc</th>
+                        <th class="text-center">#Código</th>
                         <th class="text-center">Nome Associado</th>
                         <th class="text-center">Data Emissão</th>
                         <th class="text-center">Parcela</th>
@@ -74,21 +71,20 @@
                 </thead>
                 <tbody>
                     <tr th:each="mensalidade: ${mensalidades}">
-                        <td class="text-center" th:text="${mensalidade.id}">1</td>
-                        <td class="text-center" th:text="${mensalidade.associado.id}">1</td>
-                        <td th:text="${mensalidade.associado.nome}"></td>
+                        <td class="text-center" th:text="${mensalidade.codigoMensalidade}"></td>
+                        <td  class="w-25" th:text="${mensalidade.associado.nome}"></td>
                         <td class="text-center" th:text="${{mensalidade.dataEmissao}}"></td>
-                        <td class="text-center" th:text="${mensalidade.parcela}"></td>
+                        <td class="text-center" th:text="${mensalidade.parcela} + '/' + ${mensalidade.totalParcelas}"></td>
                         <td class="text-center" th:text="${{mensalidade.dataVencimento}}"></td>
                         <td class="text-center" th:text="${{mensalidade.diasAtraso}}"></td>
                         <td class="text-center" th:text="${{mensalidade.dataPagamento}}"></td>
                         <td class="text-end" th:text="|R$ ${{mensalidade.valor}}|"></td>                       
                         <td class="text-center">
                             <span class="badge" th:text="${mensalidade.situacao.descricao}"
-                            th:classappend="${#strings.toString(mensalidade.situacao) == 'Pendente' ? 'bg-warning' : (#strings.toString(mensalidade.situacao) == 'Atrasado' ? 'bg-danger' : 'bg-success')}">
+                            th:classappend="${#strings.toString(mensalidade.situacao) == 'Em_Aberto' ? 'bg-warning' : (#strings.toString(mensalidade.situacao) == 'Atrasado' ? 'bg-danger' : 'bg-success')}">
                         </td>
                         <td class="text-center">
-                          <a class="editar" title="Editar" data-toggle="tooltip"
+                          <a class="editar" title="Editar e Pagar" data-toggle="tooltip"
                                 th:href="@{'/mensalidades/editarMensalidade?id=' + ${mensalidade.id}}">
                                   <i class="fa-regular fa-pen-to-square" style="color: #ffc104;"></i>
                           </a>

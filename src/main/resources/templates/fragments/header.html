@@ -24,7 +24,7 @@
         <a href="/associados/listar" class="nav-link btn btn-outline-light"><i class="fa-regular fa-rectangle-list"></i> Associados</a>
       </li>
       <li class="nav-item">
-        <a href="/mensalidades/listar" class="nav-link btn btn-outline-light"><i class="fa-solid fa-dollar"></i> Mensalidades</a>
+        <a href="/mensalidades/novo" class="nav-link btn btn-outline-light"><i class="fa-solid fa-dollar"></i> Gerar Mensalidades</a>
       </li>
     </ul>
     <div class="dropdown">
@@ -33,9 +33,9 @@
               <i class="fa-solid fa-circle-user"></i>
               <span th:text="${userName}"></span>
       </button>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item text-secondary" href="/users/novo"><i class="fa-solid fa-user px-2"></i> Usuário</a>
-        <a class="dropdown-item text-secondary" th:href="@{/logout}"><i class="fa-solid fa-right-from-bracket px-2"></i>Sair</a>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="left: -40px !important; ">
+        <a class="dropdown-item text-secondary" href="/users/novo"><i class="fa-solid fa-user "></i> Usuário</a>
+        <a class="dropdown-item text-secondary" th:href="@{/logout}"><i class="fa-solid fa-right-from-bracket"></i>Sair</a>
       </div>
     </div>
  </header>

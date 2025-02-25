@@ -60,7 +60,7 @@ public class MensalidadeService {
         return mensalidadeRepository.sumMensalidadesEmAberto();
     }
 
-	//Não listar Mensalidades pagas cadastromensalidade
+	//Listar somente mensalidades em Aberta e atrasadas cadastromensalidade
 	public List<Mensalidade> getMensalidadesPendentes(Long associadoId){
 		return mensalidadeRepository.getMensalidadesPendentes(associadoId);
 	}
@@ -86,16 +86,17 @@ public class MensalidadeService {
 
 	public Page<Mensalidade> filtrar(FilterMensalidade filtro, Pageable pageable) {
 		String nomeAssociado = (filtro.getNomeAssociado() != null && !filtro.getNomeAssociado().isEmpty()) ? filtro.getNomeAssociado() : null;
+		String codigoMensalidade = (filtro.getCodigoMensalidade() != null && !filtro.getCodigoMensalidade().isEmpty()) ? filtro.getCodigoMensalidade() : null;
 		SituacaoMensalidade situacao = filtro.getSituacao();
 		LocalDate dataDe = filtro.getDataDe();
 		LocalDate dataAte = filtro.getDataAte();
 		
-		return mensalidadeRepository.findByAssociadoNomeContainingAndSituacaoAndDataEmissaoBetween(nomeAssociado, situacao, dataDe, dataAte, pageable);
+		return mensalidadeRepository.findByFilters(nomeAssociado, codigoMensalidade, situacao, dataDe, dataAte, pageable);
 	} 
 	
 	//buscar todas as mensalidades sem a paginação
     public List<Mensalidade> todasMensalidadesSemPaginacao(FilterMensalidade filtro) {
-        return mensalidadeRepository.buscarTodasMensalidades(
+        return mensalidadeRepository.buscarTodasMensalidadesSemPaginacao(
             filtro.getNomeAssociado() != null ? filtro.getNomeAssociado() : null,
             filtro.getSituacao(),
             filtro.getDataDe(),

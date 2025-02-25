@@ -27,6 +27,9 @@ public class Mensalidade implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, unique = true)
+    private String codigoMensalidade;  // Código único para identificação
   
     @JoinColumn(name="associado_id")
     @ManyToOne
@@ -52,6 +55,8 @@ public class Mensalidade implements Serializable{
     @DecimalMin(value = "1", message = "Valor inválido.")
     private int parcela;
 
+    private Integer totalParcelas;
+
     @Enumerated(EnumType.STRING)
     private Tipo tipo;
 
@@ -60,8 +65,9 @@ public class Mensalidade implements Serializable{
     private SituacaoMensalidade situacao;
 
     public boolean isPendente(){
-        return SituacaoMensalidade.Pendente.equals(this.situacao);
+        return SituacaoMensalidade.Em_Aberto.equals(this.situacao);
     }
+
     //Calcula os dias em atraso
     public long getDiasAtraso() {
         if (dataVencimento == null) {

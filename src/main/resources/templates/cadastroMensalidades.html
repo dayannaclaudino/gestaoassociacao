@@ -13,49 +13,21 @@
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">    
           <h3 class="h3">Cadastro de Mensalidades</h3>
           <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <a class="btn btn-success btn-sm me-md-2 fw-bold"
-                      role="button" type="button" href="/associados/novo">Adicionar Associado</a>
-            <a class="btn btn-success btn-sm fw-bold"   
-                      role="button" type="button" href="/associados/listar">Listar Associados</a>
             <a class="btn btn-success btn-sm fw-bold"   
                       role="button" type="button" href="/mensalidades/listar">Listar Mensalidades</a>          
           </div>
         </div>
   
-  
-<div class="container">  
-   <!-- <div class="card-body">
-      <div class="row g-4 row-cols-1 row-cols-lg-3" style="line-height: 40%">           
-        <div class="feature col-4">
-          <p><small th:text="'Apelido: ' + ${a.apelido}" ></small></p>
-          <p><small th:text="'Cpf: ' + ${a.cpf}" ></small></p>
-          <p><small th:text="'RG: ' + ${a.rg}" ></small></p>
-          <p><small th:text="'Data de Nascimento: ' + ${{a.dataNascimento}}" ></small></p>
-          <p><small th:text="'Observações: ' + ${a.observacao}" ></small></p>
-        </div>
-        <div class="feature col-3">
-          <p><small th:text="'RG: ' + ${a.rg}" ></small></p>
-          <p><small th:text="'NIS: ' + ${a.nis}" ></small></p>
-          <p><small th:text="'Título do Eleitor: ' + ${a.tituloEleitor}" ></small></p>
-          
-        </div>
-        <div class="feature col-5">
-          <p><small th:text="'Telefone : ' + ${a.celular}" ></small></p>
-          <p><small th:text="'Nome da Mãe: ' + ${a.nomeMae}" ></small></p>
-          <p><small th:text="'Nome da Pai: ' + ${a.nomePai}" ></small></p>
-        </div>
-      </div>
-    </div>-->
-</div>
 
 <div th:replace="~{fragments/alert}"></div>
 <!-- mensalidade --> 
 
-</br>   
+<div class="container">  
   <form  method="POST" th:action="@{/mensalidades/addMensalAssociado/{codigo}(codigo=${associado.id})}" 
                        th:object="${mensalidade}">
                    <input type="hidden" th:field="*{id}" />
                    <input type="hidden" th:field="*{associado.id}"/>
+
     <div class="card">
             <div class="card-header fw-bold" th:each="a : ${associado}">
                 <h6 class="card-title">
@@ -68,11 +40,11 @@
             </div>        
             <div class="card-body">
               <div class="row">
-                 <div class="col-md-1">
-                   <label for="parcela" class="form-label">Parcela</label>
-                   <input type="number" class="form-control" id="parcela"  th:field="*{parcela}">
-                   <small class="form-text text-danger" th:if="${#fields.hasErrors('parcela')}" th:errors="*{parcela}"></small>
-                 </div>
+                <div class="col-md-1">
+                    <label for="parcela" class="form-label">Parcela</label>
+                    <input type="number" class="form-control" id="parcela"  th:field="*{parcela}" max="1">
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('parcela')}" th:errors="*{parcela}"></small>
+                </div>
                  <div class="col-md-2">
                    <label for="valor" class="form-label">Valor</label>
                      <input type="text" class="form-control" id="valor" th:field="*{valor}"
@@ -114,30 +86,34 @@
         <table class="table table-sm table-hover table-bordered">
             <thead class="table-light">
                 <tr>
+                    <th class="text-center">Associado</th>
                     <th class="text-center">Parcela</th>
-                    <th class="text-center">Valor</th>
+                    <th class="text-center">Data de Emissão</th>
                     <th class="text-center">Data do Vencimento</th>
                     <th class="text-center">Dias de Atraso</th>
+                    <th class="text-center">Valor</th>
                     <th class="text-center">Situação</th>
-                    <th class="text-center">Acões</th>
+                    <th class="text-center">Ações</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="mensalidade: ${mensalidades}">
-                    <td class="text-center"><span th:text="${mensalidade.parcela}"></span></td>
-                    <td class="text-center" th:text="|R$ ${{mensalidade.valor}}|"></td>
+                    <td th:text="${mensalidade.associado.nome}"></td>
+                    <td class="text-center" th:text="${mensalidade.parcela} + '/' + ${mensalidade.totalParcelas}"></td>
+                    <td class="text-center"  th:text="${{mensalidade.dataEmissao}}"></td>
                     <td class="text-center"  th:text="${{mensalidade.dataVencimento}}"></td>
-                    <td class="text-center" th:text="${{mensalidade.diasAtraso}}"></td>
+                    <td class="text-center" th:text="${{mensalidade.diasAtraso}}"></td>                  
+                    <td class="text-center" th:text="|R$ ${{mensalidade.valor}}|"></td>
                     <td class="text-center">
                       <span class="badge" th:text="${mensalidade.situacao.descricao}"
-                      th:classappend="${#strings.toString(mensalidade.situacao) == 'Pendente' ? 'bg-warning' : (#strings.toString(mensalidade.situacao) == 'Atrasado' ? 'bg-danger' : 'bg-success')}"></span>
+                      th:classappend="${#strings.toString(mensalidade.situacao) == 'Em_Aberto' ? 'bg-warning' : (#strings.toString(mensalidade.situacao) == 'Atrasado' ? 'bg-danger' : 'bg-success')}"></span>
                     </td>                 
                     <td class="text-center">
                         <a class="delete" title="Excluir" data-toggle="tooltip"
                           th:href="@{/mensalidades/{mensalidadeId}/(mensalidadeId = ${mensalidade.id})}">
                             <i class="fa-solid fa-trash-can mx-1" style="color: #fa0000;"></i>
                         </a>
-                        <a class="editar" title="Editar" data-toggle="tooltip"
+                        <a class="editar" title="Editar e Pagar" data-toggle="tooltip"
                           th:href="@{'/mensalidades/editarMensalidade?id=' + ${mensalidade.id}}">
                             <i class="fa-regular fa-pen-to-square mx-1" style="color: #ffc104;"></i>
                         </a>
