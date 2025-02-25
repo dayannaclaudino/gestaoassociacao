@@ -1,0 +1,36 @@
+name: Monitorar e Reiniciar Spring Boot
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'  # Executa a cada 10 minutos
+
+jobs:
+  check-server:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verificar disponibilidade do servidor
+        run: |
+          if curl -s --head --request GET http://seu-servidor.com/health | grep "200 OK" > /dev/null; then
+            echo "Servidor está online"
+          else
+            echo "Servidor está fora do ar"
+            exit 1
+          fi
+
+  restart-server:
+    needs: check-server
+    if: failure()  # Executa se o servidor estiver fora do ar
+    runs-on: ubuntu-latest
+    steps:
+      - name: Conectar via SSH e reiniciar o Spring Boot
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USUARIOCPANEL }}
+          password: ${{ secrets.SSH_PASSWORD }}  # Alternativamente, use SSH_KEY
+          port: 22
+          script: |
+            echo "Reiniciando aplicação..."
+            cd /caminho/para/o/seu/app
+            ./stop.sh  # Ou 'pkill -f java' caso não tenha um script
+            ./start.sh &  # Reiniciar o Spring Boot
