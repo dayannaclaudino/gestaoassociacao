@@ -22,11 +22,13 @@
             <div class="row">
               <div class="col-md-4">
                 <input type="text" class="form-control" placeholder="Nome do Associado" 
-                       th:field="*{nomeAssociado}" autofocus="autofocus" >
+                       th:field="*{nomeAssociado}" autofocus="autofocus">
+                       <label for="floatingSelect"></label><!--Só para dar espaço no mobile -->
               </div>
               <div class="col-md-2">
                 <input type="text" class="form-control" placeholder="Código Mensalidade" 
                        th:field="*{codigoMensalidade}" autofocus="autofocus" >
+                       <label for="floatingSelect"></label> 
               </div>
               <div class="col-md-2">
                 <select class="form-select" th:field="*{situacao}">
@@ -35,6 +37,7 @@
                           th:value="${situacao}" 
                           th:text="${situacao.descricao}"></option>
                 </select>
+                  <label for="floatingSelect"></label>
               </div>
               <div class="col-md-2">
                 <input type="date" class="form-control" th:field="*{dataDe}">
@@ -45,7 +48,7 @@
                 <label for="floatingSelect">Data de emissão</label>
               </div>
               <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-success w-25">
+                <button type="submit" class="btn btn-success fw-bold w-25">
                   <i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
               </div>
             </div>
