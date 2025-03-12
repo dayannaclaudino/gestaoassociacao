@@ -7,31 +7,43 @@
         <div class="position-sticky pt-5">
         <ul class="nav flex-column">
             <li class="nav-item">
-            <a class="nav-link btn btn-outline-light" aria-current="page" href="/home">
+            <a class="nav-link btn btn-outline-light d-flex align-items-center gap-2" aria-current="page" href="/home">
                 <i class="fa-solid fa-house"></i>
                 Página Inicial
             </a>
             </li>
             <li class="nav-item">
-            <a class="nav-link btn btn-outline-light" href="/associados/novo">
+            <a class="nav-link btn btn-outline-light d-flex align-items-center gap-2" href="/associados/novo">
                 <i class="fa-solid fa-image-portrait"></i> 
                 Novo Associado
             </a>
             </li>
             <li class="nav-item">
-            <a class="nav-link btn btn-outline-light" href="/associados/listar">
+            <a class="nav-link btn btn-outline-light d-flex align-items-center gap-2" href="/associados/listar">
                 <i class="fa-regular fa-rectangle-list"></i> 
                 Associados
             </a>
             </li>
             <li class="nav-item">
-            <a class="nav-link btn btn-outline-light" href="#">
+                <a class="nav-link btn btn-outline-light d-flex align-items-center gap-2" href="/mensalidades/novo">
+                    <i class="fa-regular fa-rectangle-list"></i> 
+                    Gerar Mensalidades
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link btn btn-outline-light d-flex align-items-center gap-2" href="/mensalidades/listar">
+                    <i class="fa-regular fa-rectangle-list"></i> 
+                    Mensalidades
+                </a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link btn btn-outline-light d-flex align-items-center gap-2" href="/users/novo">
                 <i class="fa-solid fa-user"></i>
                 Usuário
             </a>
             </li>
             <li class="nav-item">
-            <a class="nav-link btn btn-outline-light" th:href="@{/logout}">
+            <a class="nav-link btn btn-outline-light d-flex align-items-center gap-2" th:href="@{/logout}">
                 <i class="fa-solid fa-right-from-bracket"></i>
                 Sair
             </a>

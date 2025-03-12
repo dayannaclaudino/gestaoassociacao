@@ -12,10 +12,8 @@ import org.springframework.stereotype.Service;
 
 import com.api.gestaoassociacao.controller.Exception.NegocioException;
 import com.api.gestaoassociacao.model.Associado;
-import com.api.gestaoassociacao.model.Mensalidade;
 import com.api.gestaoassociacao.model.enums.StatusAssociado;
 import com.api.gestaoassociacao.repository.AssociadoRepository;
-import com.api.gestaoassociacao.repository.filter.FilterMensalidade;
 import com.api.gestaoassociacao.repository.filter.FilterNome;
 
 import jakarta.transaction.Transactional;

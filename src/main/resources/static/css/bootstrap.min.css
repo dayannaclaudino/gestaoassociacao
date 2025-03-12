@@ -603,7 +603,7 @@ progress {
   .container-md,
   .container-sm,
   .container-xl {
-    max-width: 1140px;
+    max-width: 1300px;
   }
 }
 @media (min-width: 1400px) {
@@ -1802,11 +1802,18 @@ progress {
   -webkit-overflow-scrolling: touch;
 }
 
-/* Barra de rolagem tabela */
+/* Barra de rolagem tabela VErtical*/
 .table-wrapper {
-  max-height: 300px; /* Defina a altura desejada */
+  max-height: 350px; /* Defina a altura desejada */
   overflow-y: auto; /* Permite rolagem vertical */
   border: 1px solid #ddd; /* Opcional, para melhorar a aparência */
+
+  /* Barra de rolagem horizontal */
+  max-width: 100%; /* Garante que a tabela não ultrapasse a largura do container */
+  overflow-x: auto; /* Adiciona a rolagem horizontal */
+  display: block; /* Permite que a barra de rolagem funcione */
+  white-space: nowrap; /* Impede que o texto quebre para novas linhas */
+
 } 
 
 
@@ -2665,7 +2672,7 @@ textarea.form-control.is-invalid {
 .btn-check:focus + .btn,
 .btn:focus {
   outline: 0;
-  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  box-shadow: 0 0 0 0.25rem rgba(96, 234, 113, 0.25);
 }
 .btn.disabled,
 .btn:disabled,
@@ -4427,10 +4434,10 @@ fieldset:disabled .btn {
 }
 .page-link:focus {
   z-index: 3;
-  color: #343a40;
+  color: #fff;
   background-color: #343a40;
   outline: 0;
-  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  box-shadow: 0 0 0 0.25rem rgba(96, 234, 113, 0.25);
 }
 .page-item:not(:first-child) .page-link {
   margin-left: -1px;
@@ -4998,7 +5005,7 @@ fieldset:disabled .btn {
 }
 .btn-close:focus {
   outline: 0;
-  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  box-shadow: 0 0 0 0.25rem rgba(96, 234, 113, 0.25);
   opacity: 1;
 }
 .btn-close.disabled,
@@ -5171,7 +5178,7 @@ fieldset:disabled .btn {
   margin: 0.25rem;
 }
 
-footer {
+.footer {
   position: absolute;
   /* 60px é a altura do próprio footer, por isso usando valor negativo ele fica para fora da página a própria altura */
   bottom: -10px;
